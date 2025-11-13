@@ -1,0 +1,276 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.third.li</groupId>
+  <artifactId>java-tutorials</artifactId>
+  <version>${revision}</version>
+  <packaging>pom</packaging>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.3.3</version>
+    <!-- lookup parent from repository -->
+    <relativePath/>
+  </parent>
+
+  <name>java-tutorials</name>
+  <url>https://maven.apache.org</url>
+  <modules>
+    <module>serialize</module>
+    <module>spring</module>
+      <module>servlet</module>
+      <module>jakarta</module>
+      <module>concurrent</module>
+      <module>log</module>
+      <module>mq</module>
+      <module>office</module>
+      <module>bpm</module>
+      <module>orm</module>
+      <module>ddd</module>
+      <module>web</module>
+      <module>jndi</module>
+      <module>rpc</module>
+      <module>base</module>
+      <module>cache</module>
+      <module>architecture</module>
+      <module>expression</module>
+      <module>format</module>
+      <module>rule-engine</module>
+    <module>ai</module>
+  </modules>
+
+  <properties>
+    <revision>1.0</revision>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <lombok.version>1.18.18</lombok.version>
+    <spring-context.version>6.1.11</spring-context.version>
+    <assertj-core.version>3.26.3</assertj-core.version>
+    <reflections.version>0.10.2</reflections.version>
+    <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
+    <ws.rs.version>2.1.1</ws.rs.version>
+    <commons-lang.version>2.6</commons-lang.version>
+    <jakarta.mvc-api>2.1.0</jakarta.mvc-api>
+    <logback-version>1.5.6</logback-version>
+    <google.guava.version>30.1.1-jre</google.guava.version>
+    <curator.version>5.4.0</curator.version>
+    <protobuf.version>3.16.3</protobuf.version>
+    <camunda.springboot.version>7.21.0</camunda.springboot.version>
+    <camunda.junit.version>7.21.0</camunda.junit.version>
+    <commons-collections4.version>4.4</commons-collections4.version>
+    <rocketmq.version>4.8.0</rocketmq.version>
+    <rocketmq-spring-boot-starter.version>2.0.4</rocketmq-spring-boot-starter.version>
+    <jolokia.version>1.7.1</jolokia.version>
+
+  </properties>
+
+  <dependencyManagement>
+
+    <dependencies>
+
+      <dependency>
+        <groupId>org.jolokia</groupId>
+        <artifactId>jolokia-client-java</artifactId>
+        <version>${jolokia.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-collections4</artifactId>
+        <version>${commons-collections4.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.camunda.bpm</groupId>
+        <artifactId>camunda-bpm-junit5</artifactId>
+        <version>${camunda.junit.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.camunda.bpm.springboot</groupId>
+        <artifactId>camunda-bpm-spring-boot-starter</artifactId>
+        <version>${camunda.springboot.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+        <version>${protobuf.version}</version>
+      </dependency>
+
+      <!-- https://mvnrepository.com/artifact/org.apache.curator/curator-client -->
+      <dependency>
+        <groupId>org.apache.curator</groupId>
+        <artifactId>curator-framework</artifactId>
+        <version>${curator.version}</version>
+      </dependency>
+
+      <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${google.guava.version}</version>
+      </dependency>
+
+      <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${logback-version}</version>
+        <scope>test</scope>
+      </dependency>
+
+
+      <!-- https://mvnrepository.com/artifact/jakarta.mvc/jakarta.mvc-api -->
+      <dependency>
+        <groupId>jakarta.mvc</groupId>
+        <artifactId>jakarta.mvc-api</artifactId>
+        <version>${jakarta.mvc-api}</version>
+      </dependency>
+
+
+      <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>${commons-lang.version}</version>
+      </dependency>
+
+      <!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
+      <dependency>
+        <groupId>javax.ws.rs</groupId>
+        <artifactId>javax.ws.rs-api</artifactId>
+        <version>${ws.rs.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.reflections</groupId>
+        <artifactId>reflections</artifactId>
+        <version>${reflections.version}</version>
+      </dependency>
+
+      <!-- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api -->
+      <dependency>
+        <groupId>jakarta.servlet</groupId>
+        <artifactId>jakarta.servlet-api</artifactId>
+        <version>${jakarta.servlet-api.version}</version>
+      </dependency>
+
+      <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>${assertj-core.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>${spring-context.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.rocketmq</groupId>
+        <artifactId>rocketmq-spring-boot-starter</artifactId>
+        <version>${rocketmq-spring-boot-starter.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.rocketmq</groupId>
+        <artifactId>rocketmq-openmessaging</artifactId>
+        <version>${rocketmq.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.rocketmq</groupId>
+        <artifactId>rocketmq-acl</artifactId>
+        <version>${rocketmq.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.rocketmq</groupId>
+        <artifactId>rocketmq-broker</artifactId>
+        <version>${rocketmq.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.rocketmq</groupId>
+        <artifactId>rocketmq-common</artifactId>
+        <version>${rocketmq.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.rocketmq</groupId>
+        <artifactId>rocketmq-tools</artifactId>
+        <version>${rocketmq.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.rocketmq</groupId>
+        <artifactId>rocketmq-filter</artifactId>
+        <version>${rocketmq.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.rocketmq</groupId>
+        <artifactId>rocketmq-srvutil</artifactId>
+        <version>${rocketmq.version}</version>
+      </dependency>
+
+    </dependencies>
+
+
+
+  </dependencyManagement>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
+<!--    <dependency>-->
+<!--      <groupId>org.slf4j</groupId>-->
+<!--      <artifactId>slf4j-log4j12</artifactId>-->
+<!--    </dependency>-->
+
+    <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>17</source>
+          <target>17</target>
+        </configuration>
+      </plugin>
+    </plugins>
+
+  </build>
+
+</project>

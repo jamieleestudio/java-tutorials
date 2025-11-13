@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.third.li</groupId>
+        <artifactId>java-tutorials</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <groupId>com.yineng.bpe</groupId>
+    <artifactId>concurrent</artifactId>
+    <packaging>pom</packaging>
+
+    <name>concurrent</name>
+    <url>http://maven.apache.org</url>
+    <modules>
+        <module>sychronized</module>
+        <module>volatile</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
