@@ -4,16 +4,27 @@ import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.impl.ProcessEngineImpl;
 import org.camunda.bpm.engine.impl.interceptor.CommandExecutor;
+import org.camunda.bpm.engine.task.Task;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class AddSignService {
 
     private final CommandExecutor commandExecutor;
     private final TaskService taskService;
+
+    private static final String VAR_BEFORE_MODE = "beforeSignMode";
+    private static final String VAR_BEFORE_TOTAL = "beforeSignTotal";
+    private static final String VAR_BEFORE_REQUIRED = "beforeSignRequired";
+    private static final String VAR_AFTER_MODE = "afterSignMode";
+    private static final String VAR_AFTER_TOTAL = "afterSignTotal";
+    private static final String VAR_AFTER_REQUIRED = "afterSignRequired";
+    private static final String VAR_SIGN_TYPE = "addSignType";
 
     public AddSignService(ProcessEngine processEngine) {
         this.commandExecutor = ((ProcessEngineImpl) processEngine)
@@ -24,9 +35,10 @@ public class AddSignService {
 
     public String addBeforeSignTask(String taskId, String assignee) {
         String id = commandExecutor.execute(new BeforeSignCmd(taskId, assignee));
-        taskService.setVariableLocal(taskId, "beforeSignMode", BeforeSignMode.ALL.name());
-        taskService.setVariableLocal(taskId, "beforeSignTotal", 1);
-        taskService.setVariableLocal(taskId, "beforeSignRequired", 1);
+        taskService.setVariableLocal(taskId, VAR_BEFORE_MODE, BeforeSignMode.ALL.name());
+        taskService.setVariableLocal(taskId, VAR_BEFORE_TOTAL, 1);
+        taskService.setVariableLocal(taskId, VAR_BEFORE_REQUIRED, 1);
+        taskService.setVariableLocal(taskId, VAR_SIGN_TYPE, SignType.BEFORE.name());
         return id;
     }
 
@@ -44,9 +56,10 @@ public class AddSignService {
         }
         int total = result.size();
         if (total > 0) {
-            taskService.setVariableLocal(taskId, "beforeSignMode", BeforeSignMode.ALL.name());
-            taskService.setVariableLocal(taskId, "beforeSignTotal", total);
-            taskService.setVariableLocal(taskId, "beforeSignRequired", total);
+            taskService.setVariableLocal(taskId, VAR_BEFORE_MODE, BeforeSignMode.ALL.name());
+            taskService.setVariableLocal(taskId, VAR_BEFORE_TOTAL, total);
+            taskService.setVariableLocal(taskId, VAR_BEFORE_REQUIRED, total);
+            taskService.setVariableLocal(taskId, VAR_SIGN_TYPE, SignType.BEFORE.name());
         }
         return result;
     }
@@ -73,9 +86,10 @@ public class AddSignService {
             }
             need = r;
         }
-        taskService.setVariableLocal(taskId, "beforeSignMode", useMode.name());
-        taskService.setVariableLocal(taskId, "beforeSignTotal", total);
-        taskService.setVariableLocal(taskId, "beforeSignRequired", need);
+        taskService.setVariableLocal(taskId, VAR_BEFORE_MODE, useMode.name());
+        taskService.setVariableLocal(taskId, VAR_BEFORE_TOTAL, total);
+        taskService.setVariableLocal(taskId, VAR_BEFORE_REQUIRED, need);
+        taskService.setVariableLocal(taskId, VAR_SIGN_TYPE, SignType.BEFORE.name());
         return ids;
     }
 
@@ -85,9 +99,10 @@ public class AddSignService {
 
     public String addAfterSignTask(String taskId, String assignee) {
         String id = commandExecutor.execute(new AfterSignCmd(taskId, assignee));
-        taskService.setVariableLocal(taskId, "afterSignMode", BeforeSignMode.ALL.name());
-        taskService.setVariableLocal(taskId, "afterSignTotal", 1);
-        taskService.setVariableLocal(taskId, "afterSignRequired", 1);
+        taskService.setVariableLocal(taskId, VAR_AFTER_MODE, BeforeSignMode.ALL.name());
+        taskService.setVariableLocal(taskId, VAR_AFTER_TOTAL, 1);
+        taskService.setVariableLocal(taskId, VAR_AFTER_REQUIRED, 1);
+        taskService.setVariableLocal(taskId, VAR_SIGN_TYPE, SignType.AFTER.name());
         return id;
     }
 
@@ -105,9 +120,10 @@ public class AddSignService {
         }
         int total = result.size();
         if (total > 0) {
-            taskService.setVariableLocal(taskId, "afterSignMode", BeforeSignMode.ALL.name());
-            taskService.setVariableLocal(taskId, "afterSignTotal", total);
-            taskService.setVariableLocal(taskId, "afterSignRequired", total);
+            taskService.setVariableLocal(taskId, VAR_AFTER_MODE, BeforeSignMode.ALL.name());
+            taskService.setVariableLocal(taskId, VAR_AFTER_TOTAL, total);
+            taskService.setVariableLocal(taskId, VAR_AFTER_REQUIRED, total);
+            taskService.setVariableLocal(taskId, VAR_SIGN_TYPE, SignType.AFTER.name());
         }
         return result;
     }
@@ -134,9 +150,10 @@ public class AddSignService {
             }
             need = r;
         }
-        taskService.setVariableLocal(taskId, "afterSignMode", useMode.name());
-        taskService.setVariableLocal(taskId, "afterSignTotal", total);
-        taskService.setVariableLocal(taskId, "afterSignRequired", need);
+        taskService.setVariableLocal(taskId, VAR_AFTER_MODE, useMode.name());
+        taskService.setVariableLocal(taskId, VAR_AFTER_TOTAL, total);
+        taskService.setVariableLocal(taskId, VAR_AFTER_REQUIRED, need);
+        taskService.setVariableLocal(taskId, VAR_SIGN_TYPE, SignType.AFTER.name());
         return ids;
     }
 
@@ -144,9 +161,84 @@ public class AddSignService {
         commandExecutor.execute(new CompleteTaskWithAfterSignCmd(taskId, variables));
     }
 
+    public void completeTask(String taskId, Map<String, Object> variables) {
+        Object type = taskService.getVariableLocal(taskId, VAR_SIGN_TYPE);
+        if (type != null) {
+            String name = String.valueOf(type);
+            if (SignType.BEFORE.name().equals(name)) {
+                completeWithBeforeSign(taskId, variables);
+                return;
+            }
+            if (SignType.AFTER.name().equals(name)) {
+                completeWithAfterSign(taskId, variables);
+                return;
+            }
+        }
+        if (variables == null || variables.isEmpty()) {
+            taskService.complete(taskId);
+        } else {
+            taskService.complete(taskId, variables);
+        }
+    }
+
+    public List<String> addCosigners(String taskId, Collection<String> assignees) {
+        return addAfterSignTasks(taskId, assignees, BeforeSignMode.ALL, null);
+    }
+
+    public List<String> addCosigners(String taskId, Collection<String> assignees, BeforeSignMode mode, Integer required) {
+        return addAfterSignTasks(taskId, assignees, mode, required);
+    }
+
+    public void removeCosigners(String taskId, Collection<String> assignees) {
+        if (assignees == null) {
+            return;
+        }
+        Set<String> removeAssignees = new HashSet<>(assignees);
+        if (removeAssignees.isEmpty()) {
+            return;
+        }
+        List<Task> subTasks = taskService.createTaskQuery().taskParentTaskId(taskId).list();
+        int removed = 0;
+        for (Task t : subTasks) {
+            String a = t.getAssignee();
+            if (a != null && removeAssignees.contains(a)) {
+                taskService.deleteTask(t.getId(), true);
+                removed++;
+            }
+        }
+        if (removed == 0) {
+            return;
+        }
+        Object totalObj = taskService.getVariableLocal(taskId, VAR_AFTER_TOTAL);
+        Object requiredObj = taskService.getVariableLocal(taskId, VAR_AFTER_REQUIRED);
+        Object modeObj = taskService.getVariableLocal(taskId, VAR_AFTER_MODE);
+        if (totalObj == null || modeObj == null || requiredObj == null) {
+            return;
+        }
+        int total = ((Number) totalObj).intValue() - removed;
+        if (total <= 0) {
+            taskService.removeVariableLocal(taskId, VAR_AFTER_MODE);
+            taskService.removeVariableLocal(taskId, VAR_AFTER_TOTAL);
+            taskService.removeVariableLocal(taskId, VAR_AFTER_REQUIRED);
+            taskService.removeVariableLocal(taskId, VAR_SIGN_TYPE);
+            return;
+        }
+        int required = ((Number) requiredObj).intValue();
+        if (required > total) {
+            required = total;
+        }
+        taskService.setVariableLocal(taskId, VAR_AFTER_TOTAL, total);
+        taskService.setVariableLocal(taskId, VAR_AFTER_REQUIRED, required);
+    }
+
     public enum BeforeSignMode {
         ALL,
         ANY,
         AT_LEAST
+    }
+
+    public enum SignType {
+        BEFORE,
+        AFTER
     }
 }
