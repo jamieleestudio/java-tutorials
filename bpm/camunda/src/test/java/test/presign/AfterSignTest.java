@@ -10,62 +10,65 @@ import test.CamundaBusinessProcessConfigurationTest;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-public class BeforeSignTest extends CamundaBusinessProcessConfigurationTest {
+public class AfterSignTest extends CamundaBusinessProcessConfigurationTest {
 
     @Test
-    public void beforeSign_for_user_task() {
+    public void afterSign_single_user() {
         var processInstance = deploymentAndStart("pa_simple", "bpmn/pa_simple.bpmn");
         var processInstanceId = processInstance.getProcessInstanceId();
         Task task = extension.getTaskService().createTaskQuery().processInstanceId(processInstanceId).singleResult();
         Assertions.assertNotNull(task);
+
         AddSignService service = new AddSignService(extension.getProcessEngine());
-        String beforeTaskId = service.addBeforeSignTask(task.getId(), "before_user");
-        Assertions.assertNotNull(beforeTaskId);
-        Task beforeTask = extension.getTaskService().createTaskQuery().taskId(beforeTaskId).singleResult();
-        Assertions.assertNotNull(beforeTask);
-        Assertions.assertEquals(task.getId(), beforeTask.getParentTaskId());
-        Assertions.assertEquals("before_user", beforeTask.getAssignee());
-        extension.getTaskService().complete(beforeTaskId);
+        String afterTaskId = service.addAfterSignTask(task.getId(), "after_user");
+        Assertions.assertNotNull(afterTaskId);
+
+        Task afterTask = extension.getTaskService().createTaskQuery().taskId(afterTaskId).singleResult();
+        Assertions.assertNotNull(afterTask);
+        Assertions.assertEquals(task.getId(), afterTask.getParentTaskId());
+
+        Assertions.assertThrows(ProcessEngineException.class,
+                () -> service.completeWithAfterSign(task.getId(), null));
+
+        extension.getTaskService().complete(afterTaskId);
         var variables = new HashMap<String, Object>();
-        variables.put("x", 1);
-        service.completeWithBeforeSign(task.getId(), variables);
+        variables.put("y", 1);
+        service.completeWithAfterSign(task.getId(), variables);
+
         var nextTasks = extension.getTaskService().createTaskQuery().processInstanceId(processInstanceId).list();
         Assertions.assertFalse(nextTasks.isEmpty());
     }
 
     @Test
-    public void beforeSign_for_multi_user() {
+    public void afterSign_multi_user_at_least_two() {
         var processInstance = deploymentAndStart("pa_simple", "bpmn/pa_simple.bpmn");
         var processInstanceId = processInstance.getProcessInstanceId();
         Task task = extension.getTaskService().createTaskQuery().processInstanceId(processInstanceId).singleResult();
         Assertions.assertNotNull(task);
 
         AddSignService service = new AddSignService(extension.getProcessEngine());
-        List<String> users = Arrays.asList("u1", "u2", "u3");
-        List<String> beforeTaskIds = service.addBeforeSignTasks(task.getId(), users, AddSignService.BeforeSignMode.AT_LEAST, 2);
-        Assertions.assertEquals(users.size(), beforeTaskIds.size());
+        List<String> users = Arrays.asList("d1", "d2", "d3");
+        List<String> afterTaskIds = service.addAfterSignTasks(task.getId(), users, AddSignService.BeforeSignMode.AT_LEAST, 2);
+        Assertions.assertEquals(users.size(), afterTaskIds.size());
 
         List<Task> subTasks = extension.getTaskService().createTaskQuery()
                 .taskParentTaskId(task.getId())
                 .list();
         Assertions.assertEquals(users.size(), subTasks.size());
 
-        Set<String> assignees = subTasks.stream().map(Task::getAssignee).collect(Collectors.toSet());
-        Assertions.assertTrue(assignees.containsAll(users));
-
         Assertions.assertThrows(ProcessEngineException.class,
-                () -> service.completeWithBeforeSign(task.getId(), null));
+                () -> service.completeWithAfterSign(task.getId(), null));
 
         extension.getTaskService().complete(subTasks.get(0).getId());
         Assertions.assertThrows(ProcessEngineException.class,
-                () -> service.completeWithBeforeSign(task.getId(), null));
+                () -> service.completeWithAfterSign(task.getId(), null));
 
         extension.getTaskService().complete(subTasks.get(1).getId());
-        service.completeWithBeforeSign(task.getId(), null);
+        service.completeWithAfterSign(task.getId(), null);
+
         var nextTasks = extension.getTaskService().createTaskQuery().processInstanceId(processInstanceId).list();
         Assertions.assertFalse(nextTasks.isEmpty());
     }
 }
+

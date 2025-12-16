@@ -9,12 +9,12 @@ import org.camunda.bpm.engine.task.Task;
 import java.util.List;
 import java.util.Map;
 
-public class CompleteTaskWithBeforeSignCmd implements Command<Void> {
+public class CompleteTaskWithAfterSignCmd implements Command<Void> {
 
     private final String taskId;
     private final Map<String, Object> variables;
 
-    public CompleteTaskWithBeforeSignCmd(String taskId, Map<String, Object> variables) {
+    public CompleteTaskWithAfterSignCmd(String taskId, Map<String, Object> variables) {
         this.taskId = taskId;
         this.variables = variables;
     }
@@ -26,12 +26,12 @@ public class CompleteTaskWithBeforeSignCmd implements Command<Void> {
             throw new ProcessEngineException("task not found: " + taskId);
         }
         List<Task> subTasks = commandContext.getTaskManager().findTasksByParentTaskId(taskId);
-        Object modeObj = task.getVariableLocal("beforeSignMode");
-        Object totalObj = task.getVariableLocal("beforeSignTotal");
-        Object requiredObj = task.getVariableLocal("beforeSignRequired");
+        Object modeObj = task.getVariableLocal("afterSignMode");
+        Object totalObj = task.getVariableLocal("afterSignTotal");
+        Object requiredObj = task.getVariableLocal("afterSignRequired");
         if (modeObj == null || totalObj == null || requiredObj == null) {
             if (!subTasks.isEmpty()) {
-                throw new ProcessEngineException("before-sign task is not completed");
+                throw new ProcessEngineException("after-sign task is not completed");
             }
         } else {
             String modeName = String.valueOf(modeObj);
@@ -54,7 +54,7 @@ public class CompleteTaskWithBeforeSignCmd implements Command<Void> {
                 pass = finished >= required;
             }
             if (!pass) {
-                throw new ProcessEngineException("before-sign condition not satisfied");
+                throw new ProcessEngineException("after-sign condition not satisfied");
             }
         }
         if (variables != null && !variables.isEmpty()) {
@@ -64,3 +64,4 @@ public class CompleteTaskWithBeforeSignCmd implements Command<Void> {
         return null;
     }
 }
+
