@@ -39,16 +39,16 @@ public class CompleteTaskWithAfterSignCmd implements Command<Void> {
             int required = ((Number) requiredObj).intValue();
             int open = subTasks.size();
             int finished = total - open;
-            AddSignService.BeforeSignMode mode;
+            SignMode mode;
             try {
-                mode = AddSignService.BeforeSignMode.valueOf(modeName);
+                mode = SignMode.valueOf(modeName);
             } catch (IllegalArgumentException ex) {
-                mode = AddSignService.BeforeSignMode.ALL;
+                mode = SignMode.ALL;
             }
             boolean pass;
-            if (mode == AddSignService.BeforeSignMode.ALL) {
+            if (mode == SignMode.ALL) {
                 pass = open == 0;
-            } else if (mode == AddSignService.BeforeSignMode.ANY) {
+            } else if (mode == SignMode.ANY) {
                 pass = finished >= 1;
             } else {
                 pass = finished >= required;

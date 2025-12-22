@@ -35,7 +35,7 @@ public class AddSignService {
 
     public String addBeforeSignTask(String taskId, String assignee) {
         String id = commandExecutor.execute(new BeforeSignCmd(taskId, assignee));
-        taskService.setVariableLocal(taskId, VAR_BEFORE_MODE, BeforeSignMode.ALL.name());
+        taskService.setVariableLocal(taskId, VAR_BEFORE_MODE, SignMode.ALL.name());
         taskService.setVariableLocal(taskId, VAR_BEFORE_TOTAL, 1);
         taskService.setVariableLocal(taskId, VAR_BEFORE_REQUIRED, 1);
         taskService.setVariableLocal(taskId, VAR_SIGN_TYPE, SignType.BEFORE.name());
@@ -56,7 +56,7 @@ public class AddSignService {
         }
         int total = result.size();
         if (total > 0) {
-            taskService.setVariableLocal(taskId, VAR_BEFORE_MODE, BeforeSignMode.ALL.name());
+            taskService.setVariableLocal(taskId, VAR_BEFORE_MODE, SignMode.ALL.name());
             taskService.setVariableLocal(taskId, VAR_BEFORE_TOTAL, total);
             taskService.setVariableLocal(taskId, VAR_BEFORE_REQUIRED, total);
             taskService.setVariableLocal(taskId, VAR_SIGN_TYPE, SignType.BEFORE.name());
@@ -64,17 +64,17 @@ public class AddSignService {
         return result;
     }
 
-    public List<String> addBeforeSignTasks(String taskId, Collection<String> assignees, BeforeSignMode mode, Integer required) {
+    public List<String> addBeforeSignTasks(String taskId, Collection<String> assignees, SignMode mode, Integer required) {
         List<String> ids = addBeforeSignTasks(taskId, assignees);
         int total = ids.size();
         if (total == 0) {
             return ids;
         }
-        BeforeSignMode useMode = mode == null ? BeforeSignMode.ALL : mode;
+        SignMode useMode = mode == null ? SignMode.ALL : mode;
         int need;
-        if (useMode == BeforeSignMode.ALL) {
+        if (useMode == SignMode.ALL) {
             need = total;
-        } else if (useMode == BeforeSignMode.ANY) {
+        } else if (useMode == SignMode.ANY) {
             need = 1;
         } else {
             int r = required == null ? total : required;
@@ -99,7 +99,7 @@ public class AddSignService {
 
     public String addAfterSignTask(String taskId, String assignee) {
         String id = commandExecutor.execute(new AfterSignCmd(taskId, assignee));
-        taskService.setVariableLocal(taskId, VAR_AFTER_MODE, BeforeSignMode.ALL.name());
+        taskService.setVariableLocal(taskId, VAR_AFTER_MODE, SignMode.ALL.name());
         taskService.setVariableLocal(taskId, VAR_AFTER_TOTAL, 1);
         taskService.setVariableLocal(taskId, VAR_AFTER_REQUIRED, 1);
         taskService.setVariableLocal(taskId, VAR_SIGN_TYPE, SignType.AFTER.name());
@@ -120,7 +120,7 @@ public class AddSignService {
         }
         int total = result.size();
         if (total > 0) {
-            taskService.setVariableLocal(taskId, VAR_AFTER_MODE, BeforeSignMode.ALL.name());
+            taskService.setVariableLocal(taskId, VAR_AFTER_MODE, SignMode.ALL.name());
             taskService.setVariableLocal(taskId, VAR_AFTER_TOTAL, total);
             taskService.setVariableLocal(taskId, VAR_AFTER_REQUIRED, total);
             taskService.setVariableLocal(taskId, VAR_SIGN_TYPE, SignType.AFTER.name());
@@ -128,17 +128,17 @@ public class AddSignService {
         return result;
     }
 
-    public List<String> addAfterSignTasks(String taskId, Collection<String> assignees, BeforeSignMode mode, Integer required) {
+    public List<String> addAfterSignTasks(String taskId, Collection<String> assignees, SignMode mode, Integer required) {
         List<String> ids = addAfterSignTasks(taskId, assignees);
         int total = ids.size();
         if (total == 0) {
             return ids;
         }
-        BeforeSignMode useMode = mode == null ? BeforeSignMode.ALL : mode;
+        SignMode useMode = mode == null ? SignMode.ALL : mode;
         int need;
-        if (useMode == BeforeSignMode.ALL) {
+        if (useMode == SignMode.ALL) {
             need = total;
-        } else if (useMode == BeforeSignMode.ANY) {
+        } else if (useMode == SignMode.ANY) {
             need = 1;
         } else {
             int r = required == null ? total : required;
@@ -182,10 +182,10 @@ public class AddSignService {
     }
 
     public List<String> addCosigners(String taskId, Collection<String> assignees) {
-        return addAfterSignTasks(taskId, assignees, BeforeSignMode.ALL, null);
+        return addAfterSignTasks(taskId, assignees, SignMode.ALL, null);
     }
 
-    public List<String> addCosigners(String taskId, Collection<String> assignees, BeforeSignMode mode, Integer required) {
+    public List<String> addCosigners(String taskId, Collection<String> assignees, SignMode mode, Integer required) {
         return addAfterSignTasks(taskId, assignees, mode, required);
     }
 
@@ -229,16 +229,5 @@ public class AddSignService {
         }
         taskService.setVariableLocal(taskId, VAR_AFTER_TOTAL, total);
         taskService.setVariableLocal(taskId, VAR_AFTER_REQUIRED, required);
-    }
-
-    public enum BeforeSignMode {
-        ALL,
-        ANY,
-        AT_LEAST
-    }
-
-    public enum SignType {
-        BEFORE,
-        AFTER
     }
 }

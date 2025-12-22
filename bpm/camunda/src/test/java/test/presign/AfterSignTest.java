@@ -1,6 +1,7 @@
 package test.presign;
 
 import com.yineng.bpe.camunda.presign.AddSignService;
+import com.yineng.bpe.camunda.presign.SignMode;
 import org.camunda.bpm.engine.ProcessEngineException;
 import org.camunda.bpm.engine.task.Task;
 import org.junit.jupiter.api.Assertions;
@@ -49,7 +50,7 @@ public class AfterSignTest extends CamundaBusinessProcessConfigurationTest {
 
         AddSignService service = new AddSignService(extension.getProcessEngine());
         List<String> users = Arrays.asList("d1", "d2", "d3");
-        List<String> afterTaskIds = service.addAfterSignTasks(task.getId(), users, AddSignService.BeforeSignMode.AT_LEAST, 2);
+        List<String> afterTaskIds = service.addAfterSignTasks(task.getId(), users, SignMode.AT_LEAST, 2);
         Assertions.assertEquals(users.size(), afterTaskIds.size());
 
         List<Task> subTasks = extension.getTaskService().createTaskQuery()
