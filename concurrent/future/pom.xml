@@ -2,23 +2,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.third.li</groupId>
-        <artifactId>java-tutorials</artifactId>
-        <version>${revision}</version>
+        <groupId>com.yineng.bpe</groupId>
+        <artifactId>concurrent</artifactId>
+        <version>1.0</version>
     </parent>
 
-    <groupId>com.yineng.bpe</groupId>
-    <artifactId>concurrent</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>future</artifactId>
+    <packaging>jar</packaging>
 
-    <name>concurrent</name>
+    <name>future</name>
     <url>http://maven.apache.org</url>
-    <modules>
-        <module>sychronized</module>
-        <module>volatile</module>
-        <module>executor</module>
-        <module>future</module>
-    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
