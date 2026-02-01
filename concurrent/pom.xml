@@ -18,6 +18,8 @@
         <module>volatile</module>
         <module>executor</module>
         <module>future</module>
+        <module>callable</module>
+        <module>tools</module>
     </modules>
 
     <properties>
