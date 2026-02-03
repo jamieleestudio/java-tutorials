@@ -44,7 +44,7 @@
   <properties>
     <revision>1.0</revision>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <lombok.version>1.18.18</lombok.version>
+    <lombok.version>1.18.34</lombok.version>
     <spring-context.version>6.1.11</spring-context.version>
     <assertj-core.version>3.26.3</assertj-core.version>
     <reflections.version>0.10.2</reflections.version>

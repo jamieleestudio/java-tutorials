@@ -3,6 +3,7 @@ package com.yineng.bpe.volatiles;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -39,32 +40,48 @@ public class ReOrder {
     private static int A=0;
     private static int B=0;
 
-    private void test(){
-
-        int r2= A;//1
-        B = 1;//2
-
-        int r1=B;//3
-        A=2;//4
-
-        System.out.println("---------------");
-        System.out.println((r2==2));
-        System.out.println((r1==1));
-        System.out.println("---------------");
-    }
-
-
     public static void main(String[] args) {
 
-        var m = new ReOrder();
-        ExecutorService executor = Executors.newFixedThreadPool(10);
-        for (int i=0;i<100;i++){
-            executor.submit(m::test);
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+
+        long surprises = 0;
+        long iterations = 200_000;
+        for (long i = 0; i < iterations; i++) {
+            A = 0;
+            B = 0;
+
+            Future<Integer> t1 = executor.submit(() -> {
+                int r2 = A;
+                B = 1;
+                return r2;
+            });
+
+            Future<Integer> t2 = executor.submit(() -> {
+                int r1 = B;
+                A = 2;
+                return r1;
+            });
+
+            try {
+                int r2 = t1.get();
+                int r1 = t2.get();
+                if (r2 == 2 && r1 == 1) {
+                    surprises++;
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
+
         executor.shutdown();
-        while (!executor.isTerminated()){
-            //do nothing
+        try {
+            executor.awaitTermination(10, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
+
+        System.out.println("iterations = " + iterations);
+        System.out.println("surprises  = " + surprises);
     }
 
 }
