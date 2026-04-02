@@ -37,12 +37,15 @@
     <file url="file://$PROJECT_DIR$/cache/redis/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cache/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/cache/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/concurrent/callable/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/concurrent/executor/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/concurrent/future/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/concurrent/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/concurrent/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/concurrent/sychronized/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/concurrent/sychronized/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/concurrent/tools/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/concurrent/virtual-thread/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/concurrent/volatile/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/concurrent/volatile/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ddd/src/main/java" charset="UTF-8" />
