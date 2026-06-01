@@ -39,6 +39,7 @@
       <module>format</module>
       <module>rule-engine</module>
     <module>ai</module>
+    <module>db</module>
   </modules>
 
   <properties>
