@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.third.li</groupId>
         <artifactId>java-tutorials</artifactId>
-        <version>${revision}</version>
+        <version>1.0</version>
     </parent>
 
     <groupId>com.yineng.bpe</groupId>
