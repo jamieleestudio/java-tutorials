@@ -1,0 +1,12 @@
+server:
+  port: 8889
+
+embabel:
+  models:
+    default-llm: deepseek-v4-flash
+
+spring:
+  ai:
+    openai:
+      # 通过环境变量 OPENAI_API_KEY 注入，例如：export OPENAI_API_KEY=sk-xxxx
+      api-key: ${OPENAI_API_KEY:placeholder}

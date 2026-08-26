@@ -15,6 +15,7 @@
     <modules>
         <module>spring-ai</module>
         <module>spring-ai-alibaba</module>
+        <module>embabel</module>
     </modules>
 
     <properties>
