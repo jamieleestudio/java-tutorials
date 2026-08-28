@@ -1,0 +1,12 @@
+server:
+  port: 8890
+
+agentscope:
+  model:
+    # DeepSeek 模型名（OpenAI 兼容接口）
+    name: deepseek-v4-flash
+    # API Key 默认从环境变量 OPENAI_API_KEY 注入，例如：export OPENAI_API_KEY=sk-xxxx
+    # 也可在此处直接配置：
+    # api-key: sk-xxxx
+    # DeepSeek OpenAI 兼容端点
+    base-url: https://api.deepseek.com

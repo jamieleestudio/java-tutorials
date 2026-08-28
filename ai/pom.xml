@@ -16,6 +16,7 @@
         <module>spring-ai</module>
         <module>spring-ai-alibaba</module>
         <module>embabel</module>
+        <module>agentscope</module>
     </modules>
 
     <properties>
