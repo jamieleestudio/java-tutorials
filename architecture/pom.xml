@@ -13,7 +13,8 @@
     <name>architecture</name>
     <url>http://maven.apache.org</url>
     <modules>
-        <module>single</module>
+        <module>evolvable-single-module</module>
+        <module>monolithic</module>
     </modules>
 
     <properties>
