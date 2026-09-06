@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.third.li</groupId>
+        <artifactId>architecture</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>monolithic-multi-module</artifactId>
+    <packaging>pom</packaging>
+
+    <name>monolithic-multi-module</name>
+    <description>Monolithic Multi-Module Architecture — 3 bounded contexts as Maven modules, packaged as ONE deployable fat jar</description>
+
+    <modules>
+        <module>shared-kernel</module>
+        <module>order</module>
+        <module>product</module>
+        <module>payment</module>
+        <module>bootstrap</module>
+    </modules>
+</project>

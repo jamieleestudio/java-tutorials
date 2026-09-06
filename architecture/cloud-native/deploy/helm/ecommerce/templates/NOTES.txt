@@ -1,0 +1,15 @@
+E-commerce cloud-native release deployed.
+
+1. Port-forward to test locally:
+   kubectl port-forward svc/order-service 8081:8080
+
+2. Create a product:
+   curl -X POST http://localhost:8081/api/products -H 'Content-Type: application/json' -d '{"name":"Laptop","price":999.99,"stock":10}'
+
+3. Create an order (order → payment/product via K8s Service DNS):
+   curl -X POST http://localhost:8081/api/orders -H 'Content-Type: application/json' -d '{"customerId":"c-1","lines":[{"productId":"<id>","quantity":1}]}'
+
+Service discovery = K8s DNS: order-service reaches payment-service at http://payment-service:8080.
+{{- if .Values.ingress.enabled }}
+Ingress enabled — routes /api/{orders,payments,products} to the services.
+{{- end }}

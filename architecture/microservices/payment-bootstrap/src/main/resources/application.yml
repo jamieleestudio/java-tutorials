@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: payment-service
+  cloud:
+    nacos:
+      server-addr: ${NACOS_ADDR:localhost:8848}
+  datasource:
+    url: jdbc:h2:mem:payment;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+server:
+  port: 8082
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

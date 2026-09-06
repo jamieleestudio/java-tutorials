@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: product-service
+  cloud:
+    nacos:
+      server-addr: ${NACOS_ADDR:localhost:8848}
+  datasource:
+    url: jdbc:h2:mem:product;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+server:
+  port: 8083
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

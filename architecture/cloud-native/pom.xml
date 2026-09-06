@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.third.li</groupId>
+        <artifactId>architecture</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>cloud-native</artifactId>
+    <packaging>pom</packaging>
+
+    <name>cloud-native</name>
+    <description>Cloud-Native Architecture — K8s-native microservices: platform DNS discovery, ConfigMap/Secret config, liveness/readiness probes, HPA, Jib images, Helm chart. NO Spring Cloud middleware.</description>
+
+    <modules>
+        <module>shared-kernel</module>
+        <module>order-domain</module>
+        <module>order-application</module>
+        <module>order-bootstrap</module>
+        <module>payment-api</module>
+        <module>payment-domain</module>
+        <module>payment-application</module>
+        <module>payment-bootstrap</module>
+        <module>product-api</module>
+        <module>product-domain</module>
+        <module>product-application</module>
+        <module>product-bootstrap</module>
+    </modules>
+</project>

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: ecommerce
+description: Cloud-native e-commerce (order/payment/product) — K8s-native, no Spring Cloud middleware
+type: application
+version: 1.0.0
+appVersion: "1.0"

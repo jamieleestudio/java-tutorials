@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: order-service
+  config:
+    import: optional:nacos:order-service.yml
+  cloud:
+    nacos:
+      server-addr: ${NACOS_ADDR:localhost:8848}
+      config:
+        import-check:
+          enabled: false
+    openfeign:
+      circuitbreaker:
+        enabled: true # Resilience4j around every Feign call
+  datasource:
+    url: jdbc:h2:mem:order;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+server:
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,circuitbreakers
+  health:
+    circuitbreakers:
+      enabled: true
+
+# Resilience4j: circuit breaker + retry around payment/product calls
+resilience4j:
+  circuitbreaker:
+    instances:
+      payment-service:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+      product-service:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+  timelimiter:
+    instances:
+      payment-service:
+        timeoutDuration: 3s
+      product-service:
+        timeoutDuration: 3s

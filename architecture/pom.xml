@@ -15,6 +15,11 @@
     <modules>
         <module>evolvable-single-module</module>
         <module>monolithic</module>
+        <module>monolithic-multi-module</module>
+        <module>distributed</module>
+        <module>event-driven</module>
+        <module>microservices</module>
+        <module>cloud-native</module>
     </modules>
 
     <properties>

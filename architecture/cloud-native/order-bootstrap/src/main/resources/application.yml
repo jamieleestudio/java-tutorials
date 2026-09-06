@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: order-service
+  # 12-Factor: config injected by the platform (ConfigMap/Secret → env vars)
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:order;DB_CLOSE_DELAY=-1}
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER:org.h2.Driver}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8080 # K8s convention: every container listens on 8080
+
+# ⑥ service discovery = K8s Service DNS (NO registry middleware).
+# payment-service / product-service are K8s Service names in the same namespace.
+payment:
+  service:
+    base-url: ${PAYMENT_SERVICE_URL:http://payment-service:8080}
+
+product:
+  service:
+    base-url: ${PRODUCT_SERVICE_URL:http://product-service:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true # liveness/readiness for K8s
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true

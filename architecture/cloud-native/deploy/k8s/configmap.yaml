@@ -1,0 +1,24 @@
+# ConfigMap replaces the config center — platform-native config management
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: order-config
+data:
+  SPRING_DATASOURCE_URL: jdbc:h2:mem:order;DB_CLOSE_DELAY=-1
+  SPRING_DATASOURCE_DRIVER: org.h2.Driver
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payment-config
+data:
+  SPRING_DATASOURCE_URL: jdbc:h2:mem:payment;DB_CLOSE_DELAY=-1
+  SPRING_DATASOURCE_DRIVER: org.h2.Driver
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: product-config
+data:
+  SPRING_DATASOURCE_URL: jdbc:h2:mem:product;DB_CLOSE_DELAY=-1
+  SPRING_DATASOURCE_DRIVER: org.h2.Driver
