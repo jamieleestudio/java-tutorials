@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: java-tutorials/cn-order-bootstrap:1.0
+          image: java-tutorials/cn-order-service:1.0
           ports:
             - containerPort: 8080
           # 12-Factor: config from the platform

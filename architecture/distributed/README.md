@@ -9,25 +9,36 @@
 | | ② 单体多模块 | ③ 分布式 |
 |---|---|---|
 | JVM | 1 个 | **3 个**（8081 order / 8082 payment / 8083 product） |
-| 跨上下文调用 | 进程内注入 | **HTTP RPC（RestClient）** |
-| domain/application | — | **零修改**（只换 bootstrap 的 infrastructure） |
+| 跨上下文调用 | 程内注入 | **HTTP RPC（RestClient）** |
+| domain/application | — | **零修改**（只换 infrastructure 的 RPC 客户端） |
 | 幂等 | 不需要 | **orderId 唯一 + 状态判断**（RPC 重试安全） |
 | 超时重试 | 不需要 | connect 2s / read 3s + 2 次重试 |
 
-## 模块结构（12 个）
+## 模块结构（8 个）
 
 ```
 distributed/
-├── shared-kernel/
-├── order-domain/            与②完全相同
-├── order-application/       与②完全相同（仍注入 PaymentService/ProductService 接口）
-├── order-bootstrap/         OrderApplication + Controller + JPA + rpc/{PaymentServiceRpcClient, ProductServiceRpcClient}
-├── payment-api/             跨上下文契约：PaymentService(pay/refund) + PaymentDto
-├── payment-domain/          与②相同
-├── payment-application/     PaymentAppService extends PaymentService + PaymentServiceImpl
-├── payment-bootstrap/       PaymentApplication + Controller + PaymentRpcController(/rpc/**) + JPA
-├── product-*（同 payment 结构 ×4）
+├── shared-kernel/          纯 Java 内核，零框架依赖
+├── payment-api/            跨服务契约：PaymentService(pay/refund) + PaymentDto
+├── product-api/            跨服务契约：ProductService + ProductDto
+├── order-service/          单模块 4 层：domain + application + interfaces + infrastructure/rpc
+├── payment-service/        单模块 4 层：domain + application + interfaces + infrastructure
+└── product-service/        单模块 4 层：domain + application + interfaces + infrastructure
 ```
+
+### 模块拆分粒度（业界对齐）
+
+本架构采用 **2 模块/服务**（api + service），service 内 4 层用包 + ArchUnit 守护。
+这是 Spring 官方团队、Spring Cloud samples、Dubbo、eShopOnContainers 等业界主流做法。
+
+另一种更细粒度的做法是 **4 模块/服务**（api + domain + application + bootstrap），
+用 Maven 编译期强制层隔离。Vernon《Implementing DDD》教学项目采用此风格
+生产项目中仅见于金融/银行等强合规场景。
+
+选择 2 模块的理由：
+- ArchUnit 已覆盖 domain 纯度、层方向、跨上下文隔离等约束
+- 模块数从 12 降至 8，降低构建复杂度
+- 与 ④ 事件驱动结构一致，演进谱系风格统一
 
 ## ②→③ 演进点（唯一改动处）
 
@@ -48,9 +59,9 @@ distributed/
 
 ```bash
 cd architecture/distributed
-mvn spring-boot:run -pl payment-bootstrap &   # 8082
-mvn spring-boot:run -pl product-bootstrap &   # 8083
-mvn spring-boot:run -pl order-bootstrap       # 8081
+mvn spring-boot:run -pl payment-service &   # 8082
+mvn spring-boot:run -pl product-service &   # 8083
+mvn spring-boot:run -pl order-service       # 8081
 ```
 
 服务地址通过环境变量覆盖：`PAYMENT_SERVICE_URL` / `PRODUCT_SERVICE_URL`
@@ -58,7 +69,7 @@ mvn spring-boot:run -pl order-bootstrap       # 8081
 ## 测试
 
 ```bash
-mvn test   # 15 个：8 领域 + 1 流程(@MockBean 远程服务) + 6 ArchUnit
+mvn test   # 18 个：8 领域 + 1 流程(@MockBean 远程服务) + 9 ArchUnit
 ```
 
 `OrderServiceFlowTest` 演示了提供方接口的测试优势：远程服务 mock 掉即可测完整流程，无需起进程。

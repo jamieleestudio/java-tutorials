@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: {{ .name }}
-          image: "{{ $.Values.image.repository }}/cn-{{ .name }}-bootstrap:{{ $.Values.image.tag }}"
+          image: "{{ $.Values.image.repository }}/cn-{{ .name }}:{{ $.Values.image.tag }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .port }}

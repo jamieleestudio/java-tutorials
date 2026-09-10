@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: product-service
-          image: java-tutorials/cn-product-bootstrap:1.0
+          image: java-tutorials/cn-product-service:1.0
           ports:
             - containerPort: 8080
           envFrom:

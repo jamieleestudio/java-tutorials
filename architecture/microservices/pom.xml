@@ -19,17 +19,11 @@
 
     <modules>
         <module>shared-kernel</module>
-        <module>order-domain</module>
-        <module>order-application</module>
-        <module>order-bootstrap</module>
         <module>payment-api</module>
-        <module>payment-domain</module>
-        <module>payment-application</module>
-        <module>payment-bootstrap</module>
         <module>product-api</module>
-        <module>product-domain</module>
-        <module>product-application</module>
-        <module>product-bootstrap</module>
+        <module>order-service</module>
+        <module>payment-service</module>
+        <module>product-service</module>
         <module>api-gateway</module>
     </modules>
 

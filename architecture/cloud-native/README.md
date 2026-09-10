@@ -17,21 +17,37 @@
 | 镜像 | 无 | **Jib 分层构建**（无 Docker 守护进程） |
 | 部署 | 手动 | **Helm Chart 一键部署** |
 
-## 模块结构
+## 模块结构（9 个 + deploy）
 
 ```
 cloud-native/
 ├── shared-kernel/
-├── order-{domain,application,bootstrap}       bootstrap: K8s DNS RPC + 探针 + Jib
-├── payment-{api,domain,application,bootstrap}
-├── product-{api,domain,application,bootstrap}
+├── payment-api/                跨服务契约
+├── product-api/                跨服务契约
+├── order-service/              单模块 4 层：domain + application + interfaces + infrastructure/rpc + Jib
+├── payment-service/            单模块 4 层 + Jib
+├── product-service/            单模块 4 层 + Jib
 └── deploy/
     ├── docker/          3 个 Dockerfile（多阶段构建，备用方案）
     ├── k8s/             Deployment+Service+探针 ×3、ingress、configmap、secret、hpa
     └── helm/ecommerce/  Chart: values + templates（deployment/service/ingress/secret/hpa）
 ```
 
-## 云原生要点
+### 模块拆分粒度（业界对齐）
+
+本架构采用 **2 模块/服务**（api + service），service 内 4 层用包 + ArchUnit 守护。
+这是 Spring 官方团队、Spring Cloud samples、Dubbo、eShopOnContainers 等业界主流做法。
+
+另一种更细粒度的做法是 **4 模块/服务**（api + domain + application + bootstrap），
+用 Maven 编译期强制层隔离。Vernon《Implementing DDD》教学项目采用此风格，
+生产项目中仅见于金融/银行等强合规场景。
+
+选择 2 模块的理由：
+- ArchUnit 已覆盖 domain 纯度、层方向、跨上下文隔离等约束
+- 模块数从 13 降至 9，降低构建复杂度
+- 与 ④ 事件驱动结构一致，演进谱系风格统一
+
+## 原生要点
 
 - **统一 8080 端口**（K8s 容器惯例），JVM `-XX:MaxRAMPercentage=75` 适配容器内存限制
 - **配置全环境变量化**：`SPRING_DATASOURCE_URL`、`PAYMENT_SERVICE_URL` 等由平台注入
@@ -42,8 +58,8 @@ cloud-native/
 
 ```bash
 cd architecture/cloud-native
-mvn compile jib:build -pl order-bootstrap -am    # 推送 java-tutorials/cn-order-bootstrap:1.0
-# 或构建到 Docker daemon：mvn compile jib:docker-build -pl order-bootstrap -am
+mvn compile jib:build -pl order-service -am    # 推送 java-tutorials/cn-order-service:1.0
+# 或构建到 Docker daemon：mvn compile jib:docker-build -pl order-service -am
 ```
 
 ## 部署
@@ -60,6 +76,6 @@ kubectl get pods,hpa,ingress
 ## 测试
 
 ```bash
-mvn test   # 15 个：8 领域 + 1 流程(@MockBean远程服务) + 6 ArchUnit
+mvn test   # 18 个：8 领域 + 1 流程(@MockBean远程服务) + 9 ArchUnit
 ```
 本地无需 K8s/Kafka/Nacos——平台能力全部在部署层。
