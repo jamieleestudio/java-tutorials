@@ -9,6 +9,6 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.cn</groupId>
-    <artifactId>shared-kernel</artifactId>
+    <artifactId>cn-shared-kernel</artifactId>
     <name>cn-shared-kernel</name>
 </project>

@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.dist</groupId>
-    <artifactId>order-service</artifactId>
+    <artifactId>dist-order-service</artifactId>
     <name>dist-order-service</name>
     <description>Order service — independent JVM on port 8081; domain + application + infrastructure in one module (industry-aligned 2-module pattern: api + service)</description>
 
@@ -17,17 +17,17 @@
         <!-- Internal -->
         <dependency>
             <groupId>com.example.dist</groupId>
-            <artifactId>shared-kernel</artifactId>
+            <artifactId>dist-shared-kernel</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.dist</groupId>
-            <artifactId>payment-api</artifactId>
+            <artifactId>dist-payment-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.dist</groupId>
-            <artifactId>product-api</artifactId>
+            <artifactId>dist-product-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 

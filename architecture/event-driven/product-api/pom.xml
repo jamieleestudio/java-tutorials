@@ -9,13 +9,13 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.eda</groupId>
-    <artifactId>product-api</artifactId>
+    <artifactId>eda-product-api</artifactId>
     <name>eda-product-api</name>
     <description>Product read contract — used by order-service for synchronous catalog reads (sync read + async write is the pragmatic production pattern)</description>
     <dependencies>
         <dependency>
             <groupId>com.example.eda</groupId>
-            <artifactId>shared-kernel</artifactId>
+            <artifactId>eda-shared-kernel</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

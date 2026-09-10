@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.ms</groupId>
-    <artifactId>api-gateway</artifactId>
+    <artifactId>ms-api-gateway</artifactId>
     <name>ms-api-gateway</name>
     <description>API Gateway — Spring Cloud Gateway: unified entry, route to services via Nacos + LoadBalancer</description>
 

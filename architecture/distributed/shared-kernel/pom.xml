@@ -9,6 +9,6 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.dist</groupId>
-    <artifactId>shared-kernel</artifactId>
+    <artifactId>dist-shared-kernel</artifactId>
     <name>dist-shared-kernel</name>
 </project>

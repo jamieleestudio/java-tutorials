@@ -9,6 +9,6 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.ms</groupId>
-    <artifactId>shared-kernel</artifactId>
+    <artifactId>ms-shared-kernel</artifactId>
     <name>ms-shared-kernel</name>
 </project>

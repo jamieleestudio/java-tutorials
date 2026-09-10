@@ -9,19 +9,19 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.eda</groupId>
-    <artifactId>order-service</artifactId>
+    <artifactId>eda-order-service</artifactId>
     <name>eda-order-service</name>
     <description>Order service — saga orchestrator side: creates orders (outbox), consumes payment/inventory events, confirms or cancels</description>
 
     <dependencies>
         <dependency>
             <groupId>com.example.eda</groupId>
-            <artifactId>shared-kernel</artifactId>
+            <artifactId>eda-shared-kernel</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.eda</groupId>
-            <artifactId>product-api</artifactId>
+            <artifactId>eda-product-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 

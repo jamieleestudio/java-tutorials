@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.cn</groupId>
-    <artifactId>product-api</artifactId>
+    <artifactId>cn-product-api</artifactId>
     <name>cn-product-api</name>
     <description>Product provider contract — ProductService interface + ProductDto</description>
 </project>

@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.cn</groupId>
-    <artifactId>product-service</artifactId>
+    <artifactId>cn-product-service</artifactId>
     <name>cn-product-service</name>
     <description>Product service — K8s native, Jib image build</description>
 
@@ -17,12 +17,12 @@
         <!-- Internal -->
         <dependency>
             <groupId>com.example.cn</groupId>
-            <artifactId>shared-kernel</artifactId>
+            <artifactId>cn-shared-kernel</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.cn</groupId>
-            <artifactId>product-api</artifactId>
+            <artifactId>cn-product-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 

@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.cn</groupId>
-    <artifactId>order-service</artifactId>
+    <artifactId>cn-order-service</artifactId>
     <name>cn-order-service</name>
     <description>Order service — K8s DNS RPC + liveness/readiness probes + Jib image build</description>
 
@@ -17,17 +17,17 @@
         <!-- Internal -->
         <dependency>
             <groupId>com.example.cn</groupId>
-            <artifactId>shared-kernel</artifactId>
+            <artifactId>cn-shared-kernel</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.cn</groupId>
-            <artifactId>payment-api</artifactId>
+            <artifactId>cn-payment-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.cn</groupId>
-            <artifactId>product-api</artifactId>
+            <artifactId>cn-product-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 

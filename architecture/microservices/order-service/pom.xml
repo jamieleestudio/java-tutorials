@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.ms</groupId>
-    <artifactId>order-service</artifactId>
+    <artifactId>ms-order-service</artifactId>
     <name>ms-order-service</name>
     <description>Order microservice — Feign + LoadBalancer + Resilience4j circuit breaker + Nacos discovery/config + tracing</description>
 
@@ -17,17 +17,17 @@
         <!-- Internal -->
         <dependency>
             <groupId>com.example.ms</groupId>
-            <artifactId>shared-kernel</artifactId>
+            <artifactId>ms-shared-kernel</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.ms</groupId>
-            <artifactId>payment-api</artifactId>
+            <artifactId>ms-payment-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.ms</groupId>
-            <artifactId>product-api</artifactId>
+            <artifactId>ms-product-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 

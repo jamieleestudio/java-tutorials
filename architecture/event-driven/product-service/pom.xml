@@ -9,19 +9,19 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.eda</groupId>
-    <artifactId>product-service</artifactId>
+    <artifactId>eda-product-service</artifactId>
     <name>eda-product-service</name>
     <description>Product service — consumes OrderCreatedEvent (deduct stock) / OrderCancelledEvent (restock compensation); exposes sync catalog read for order-service</description>
 
     <dependencies>
         <dependency>
             <groupId>com.example.eda</groupId>
-            <artifactId>shared-kernel</artifactId>
+            <artifactId>eda-shared-kernel</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.eda</groupId>
-            <artifactId>product-api</artifactId>
+            <artifactId>eda-product-api</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

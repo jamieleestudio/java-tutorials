@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.dist</groupId>
-    <artifactId>product-api</artifactId>
+    <artifactId>dist-product-api</artifactId>
     <name>dist-product-api</name>
     <description>Product provider contract — ProductService interface + ProductDto</description>
 </project>

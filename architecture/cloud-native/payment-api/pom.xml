@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.cn</groupId>
-    <artifactId>payment-api</artifactId>
+    <artifactId>cn-payment-api</artifactId>
     <name>cn-payment-api</name>
     <description>Payment provider contract — PaymentService interface + PaymentDto, consumed by order-application</description>
 </project>

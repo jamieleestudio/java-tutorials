@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.dist</groupId>
-    <artifactId>product-service</artifactId>
+    <artifactId>dist-product-service</artifactId>
     <name>dist-product-service</name>
     <description>Product service — independent JVM on port 8083</description>
 
@@ -17,12 +17,12 @@
         <!-- Internal -->
         <dependency>
             <groupId>com.example.dist</groupId>
-            <artifactId>shared-kernel</artifactId>
+            <artifactId>dist-shared-kernel</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.dist</groupId>
-            <artifactId>product-api</artifactId>
+            <artifactId>dist-product-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 

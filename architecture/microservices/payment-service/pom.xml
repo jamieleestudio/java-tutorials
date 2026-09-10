@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.ms</groupId>
-    <artifactId>payment-service</artifactId>
+    <artifactId>ms-payment-service</artifactId>
     <name>ms-payment-service</name>
     <description>Payment microservice — Nacos discovery + REST API + internal RPC contract</description>
 
@@ -17,12 +17,12 @@
         <!-- Internal -->
         <dependency>
             <groupId>com.example.ms</groupId>
-            <artifactId>shared-kernel</artifactId>
+            <artifactId>ms-shared-kernel</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.ms</groupId>
-            <artifactId>payment-api</artifactId>
+            <artifactId>ms-payment-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 

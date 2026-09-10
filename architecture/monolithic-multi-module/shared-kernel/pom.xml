@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>com.example.mmm</groupId>
-    <artifactId>shared-kernel</artifactId>
+    <artifactId>mmm-shared-kernel</artifactId>
 
     <name>mmm-shared-kernel</name>
     <description>Shared kernel — pure Java, zero framework dependencies</description>

@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>com.example.mmm</groupId>
-    <artifactId>order</artifactId>
+    <artifactId>mmm-order</artifactId>
 
     <name>mmm-order</name>
     <description>Order bounded context — interfaces/application/domain/infrastructure packages inside one Maven module</description>
@@ -19,18 +19,18 @@
     <dependencies>
         <dependency>
             <groupId>com.example.mmm</groupId>
-            <artifactId>shared-kernel</artifactId>
+            <artifactId>mmm-shared-kernel</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- Cross-context: order depends on product/payment application Service interfaces (provider-defined) -->
         <dependency>
             <groupId>com.example.mmm</groupId>
-            <artifactId>product</artifactId>
+            <artifactId>mmm-product</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.mmm</groupId>
-            <artifactId>payment</artifactId>
+            <artifactId>mmm-payment</artifactId>
             <version>${project.version}</version>
         </dependency>
 

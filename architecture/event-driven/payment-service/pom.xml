@@ -9,14 +9,14 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.eda</groupId>
-    <artifactId>payment-service</artifactId>
+    <artifactId>eda-payment-service</artifactId>
     <name>eda-payment-service</name>
     <description>Payment service — consumes OrderCreatedEvent, pays, publishes PaymentSucceeded/FailedEvent; refunds on OrderCancelledEvent (saga compensation)</description>
 
     <dependencies>
         <dependency>
             <groupId>com.example.eda</groupId>
-            <artifactId>shared-kernel</artifactId>
+            <artifactId>eda-shared-kernel</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

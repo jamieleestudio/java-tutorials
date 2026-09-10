@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.dist</groupId>
-    <artifactId>payment-service</artifactId>
+    <artifactId>dist-payment-service</artifactId>
     <name>dist-payment-service</name>
     <description>Payment service — independent JVM on port 8082, exposes own REST API + internal RPC contract</description>
 
@@ -17,12 +17,12 @@
         <!-- Internal -->
         <dependency>
             <groupId>com.example.dist</groupId>
-            <artifactId>shared-kernel</artifactId>
+            <artifactId>dist-shared-kernel</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.dist</groupId>
-            <artifactId>payment-api</artifactId>
+            <artifactId>dist-payment-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 

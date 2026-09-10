@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>com.example.mmm</groupId>
-    <artifactId>bootstrap</artifactId>
+    <artifactId>mmm-bootstrap</artifactId>
 
     <name>mmm-bootstrap</name>
     <description>Bootstrap module — assembles all bounded contexts into ONE Spring Boot fat jar</description>
@@ -19,22 +19,22 @@
     <dependencies>
         <dependency>
             <groupId>com.example.mmm</groupId>
-            <artifactId>order</artifactId>
+            <artifactId>mmm-order</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.mmm</groupId>
-            <artifactId>product</artifactId>
+            <artifactId>mmm-product</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.mmm</groupId>
-            <artifactId>payment</artifactId>
+            <artifactId>mmm-payment</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.mmm</groupId>
-            <artifactId>shared-kernel</artifactId>
+            <artifactId>mmm-shared-kernel</artifactId>
             <version>${project.version}</version>
         </dependency>
 

@@ -11,14 +11,14 @@
     </parent>
 
     <groupId>com.example.mmm</groupId>
-    <artifactId>payment</artifactId>
+    <artifactId>mmm-payment</artifactId>
 
     <name>mmm-payment</name>
 
     <dependencies>
         <dependency>
             <groupId>com.example.mmm</groupId>
-            <artifactId>shared-kernel</artifactId>
+            <artifactId>mmm-shared-kernel</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

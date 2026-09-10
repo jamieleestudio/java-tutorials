@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.cn</groupId>
-    <artifactId>payment-service</artifactId>
+    <artifactId>cn-payment-service</artifactId>
     <name>cn-payment-service</name>
     <description>Payment service — K8s native, Jib image build</description>
 
@@ -17,12 +17,12 @@
         <!-- Internal -->
         <dependency>
             <groupId>com.example.cn</groupId>
-            <artifactId>shared-kernel</artifactId>
+            <artifactId>cn-shared-kernel</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.example.cn</groupId>
-            <artifactId>payment-api</artifactId>
+            <artifactId>cn-payment-api</artifactId>
             <version>${project.version}</version>
         </dependency>
 

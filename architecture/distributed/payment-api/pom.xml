@@ -9,7 +9,7 @@
         <version>1.0</version>
     </parent>
     <groupId>com.example.dist</groupId>
-    <artifactId>payment-api</artifactId>
+    <artifactId>dist-payment-api</artifactId>
     <name>dist-payment-api</name>
     <description>Payment provider contract — PaymentService interface + PaymentDto, consumed by order-application</description>
 </project>
