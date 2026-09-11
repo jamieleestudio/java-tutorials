@@ -18,10 +18,10 @@
     <description>Monolithic Multi-Module Architecture — 3 bounded contexts as Maven modules, packaged as ONE deployable fat jar</description>
 
     <modules>
-        <module>shared-kernel</module>
-        <module>order</module>
-        <module>product</module>
-        <module>payment</module>
-        <module>bootstrap</module>
+        <module>mmm-shared-kernel</module>
+        <module>mmm-order</module>
+        <module>mmm-product</module>
+        <module>mmm-payment</module>
+        <module>mmm-bootstrap</module>
     </modules>
 </project>

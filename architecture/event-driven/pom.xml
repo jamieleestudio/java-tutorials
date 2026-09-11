@@ -18,10 +18,10 @@
     <description>Event-Driven Architecture — Kafka event bus + local message table (outbox) + Saga choreography + eventual consistency</description>
 
     <modules>
-        <module>shared-kernel</module>
-        <module>product-api</module>
-        <module>order-service</module>
-        <module>payment-service</module>
-        <module>product-service</module>
+        <module>eda-shared-kernel</module>
+        <module>eda-product-api</module>
+        <module>eda-order-service</module>
+        <module>eda-payment-service</module>
+        <module>eda-product-service</module>
     </modules>
 </project>

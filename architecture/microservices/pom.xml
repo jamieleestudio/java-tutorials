@@ -18,13 +18,13 @@
     <description>Microservices Architecture — ③ + governance ecosystem: Nacos registry/config, OpenFeign + LoadBalancer, Resilience4j circuit breaker, Spring Cloud Gateway, Micrometer tracing</description>
 
     <modules>
-        <module>shared-kernel</module>
-        <module>payment-api</module>
-        <module>product-api</module>
-        <module>order-service</module>
-        <module>payment-service</module>
-        <module>product-service</module>
-        <module>api-gateway</module>
+        <module>ms-shared-kernel</module>
+        <module>ms-payment-api</module>
+        <module>ms-product-api</module>
+        <module>ms-order-service</module>
+        <module>ms-payment-service</module>
+        <module>ms-product-service</module>
+        <module>ms-api-gateway</module>
     </modules>
 
     <properties>

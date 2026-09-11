@@ -18,11 +18,11 @@
     <description>Cloud-Native Architecture — K8s-native microservices: platform DNS discovery, ConfigMap/Secret config, liveness/readiness probes, HPA, Jib images, Helm chart. NO Spring Cloud middleware.</description>
 
     <modules>
-        <module>shared-kernel</module>
-        <module>payment-api</module>
-        <module>product-api</module>
-        <module>order-service</module>
-        <module>payment-service</module>
-        <module>product-service</module>
+        <module>cn-shared-kernel</module>
+        <module>cn-payment-api</module>
+        <module>cn-product-api</module>
+        <module>cn-order-service</module>
+        <module>cn-payment-service</module>
+        <module>cn-product-service</module>
     </modules>
 </project>
