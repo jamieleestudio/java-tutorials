@@ -9,76 +9,46 @@
     <file url="file://$PROJECT_DIR$/ai/spring-ai/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/src/main/resources" charset="UTF-8" />
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-order-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-payment-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-payment-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-product-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-shared-kernel/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/cloud-native/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/cloud-native/src/main/resources" charset="UTF-8" />
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    <file url="file://$PROJECT_DIR$/architecture/distributed/dist-order-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/distributed/dist-payment-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/distributed/dist-payment-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/distributed/dist-product-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/distributed/dist-product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/distributed/dist-shared-kernel/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/distributed/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/distributed/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/event-driven/eda-order-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/event-driven/eda-payment-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/event-driven/eda-product-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/event-driven/eda-product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/event-driven/eda-shared-kernel/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/event-driven/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/event-driven/src/main/resources" charset="UTF-8" />
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    <file url="file://$PROJECT_DIR$/architecture/microservices/ms-api-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/microservices/ms-order-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/microservices/ms-payment-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/microservices/ms-payment-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/microservices/ms-product-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/microservices/ms-product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/microservices/ms-shared-kernel/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/microservices/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/microservices/src/main/resources" charset="UTF-8" />
-    
-    
-    
-    
-    
+    <file url="file://$PROJECT_DIR$/architecture/monolithic-multi-module/mmm-bootstrap/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/monolithic-multi-module/mmm-order/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/monolithic-multi-module/mmm-payment/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/monolithic-multi-module/mmm-product/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/monolithic-multi-module/mmm-shared-kernel/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/monolithic-multi-module/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/monolithic-multi-module/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/monolithic/src/main/java" charset="UTF-8" />
-    
-    
     <file url="file://$PROJECT_DIR$/architecture/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/base/jmx/src/main/java" charset="UTF-8" />
@@ -123,17 +93,17 @@
     <file url="file://$PROJECT_DIR$/db/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ddd/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ddd/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/distributed/distributed-id/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/distributed/distributed-id/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/distributed/distributed-lock/mysql/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/distributed/distributed-lock/redis/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/distributed/distributed-lock/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/distributed/distributed-lock/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/distributed/distributed-lock/zookeeper/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/distributed/distributed-transaction/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/distributed/distributed-transaction/src/main/resources" charset="UTF-8" />
-    
-    
+    <file url="file://$PROJECT_DIR$/distributed-infra/distributed-id/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/distributed-infra/distributed-id/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/distributed-infra/distributed-lock/mysql/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/distributed-infra/distributed-lock/redis/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/distributed-infra/distributed-lock/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/distributed-infra/distributed-lock/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/distributed-infra/distributed-lock/zookeeper/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/distributed-infra/distributed-transaction/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/distributed-infra/distributed-transaction/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/distributed-infra/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/distributed-infra/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/expression/aviator/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/expression/aviator/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/expression/src/main/java" charset="UTF-8" />
