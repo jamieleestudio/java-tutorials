@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.yineng.bpe</groupId>
         <artifactId>log</artifactId>
-        <version>1.0</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>log4j</artifactId>

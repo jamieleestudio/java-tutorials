@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.yineng.bpe</groupId>
         <artifactId>concurrent</artifactId>
-        <version>1.0</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>future</artifactId>
