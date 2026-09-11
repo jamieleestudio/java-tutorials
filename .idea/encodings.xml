@@ -41,8 +41,8 @@
     
     
     
-    <file url="file://$PROJECT_DIR$/architecture/distributed/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/architecture/distributed/src/main/resources" charset="UTF-8" />
+    
+    
     
     
     
@@ -132,8 +132,8 @@
     <file url="file://$PROJECT_DIR$/distributed/distributed-lock/zookeeper/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/distributed/distributed-transaction/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/distributed/distributed-transaction/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/distributed/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/distributed/src/main/resources" charset="UTF-8" />
+    
+    
     <file url="file://$PROJECT_DIR$/expression/aviator/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/expression/aviator/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/expression/src/main/java" charset="UTF-8" />

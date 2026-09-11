@@ -40,7 +40,7 @@
       <module>rule-engine</module>
     <module>ai</module>
     <module>db</module>
-    <module>distributed</module>
+    <module>distributed-infra</module>
   </modules>
 
   <properties>
