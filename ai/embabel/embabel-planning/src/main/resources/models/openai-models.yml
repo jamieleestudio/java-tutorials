@@ -1,0 +1,32 @@
+# 覆盖 embabel-agent-openai-autoconfigure 内置的 classpath:models/openai-models.yml
+# （classpath 同路径下应用资源优先于 jar 内文件），
+# 使 embabel-agent-starter-openai 注册 DeepSeek 的 OpenAI 兼容模型。
+# 模型与价格信息来源：https://api-docs.deepseek.com/quick_start/pricing（2026-09）
+
+native_support_defaults:
+  structured_output:
+    # DeepSeek 仅支持 response_format={"type":"json_object"}，
+    # 不支持 OpenAI 的 json_schema，因此关闭原生结构化输出，
+    # Embabel 会自动回退为提示词方式生成结构化数据。
+    supported: false
+
+models:
+  - name: "deepseek-flash"
+    model_id: "deepseek-flash"
+    display_name: "DeepSeek Flash (V4.1)"
+    max_tokens: 16384
+    temperature: 1.0
+    pricing_model:
+      # 高峰价（缓存未命中）
+      usd_per1m_input_tokens: 0.30
+      usd_per1m_output_tokens: 1.20
+
+  - name: "deepseek-v4-pro"
+    model_id: "deepseek-v4-pro"
+    display_name: "DeepSeek V4 Pro"
+    max_tokens: 16384
+    temperature: 1.0
+    pricing_model:
+      # 高峰价（缓存未命中）
+      usd_per1m_input_tokens: 1.32
+      usd_per1m_output_tokens: 3.96

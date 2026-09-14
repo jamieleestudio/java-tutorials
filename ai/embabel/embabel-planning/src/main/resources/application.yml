@@ -1,0 +1,16 @@
+server:
+  port: 8890
+
+embabel:
+  models:
+    # 必须与 models/openai-models.yml 中某个模型的 name 字段一致
+    default-llm: deepseek-flash
+  agent:
+    platform:
+      models:
+        openai:
+          # DeepSeek 的 OpenAI 兼容端点，https://api-docs.deepseek.com
+          base-url: ${OPENAI_BASE_URL:placeholder}
+          completions: /chat/completions
+          # 通过环境变量 DEEPSEEK_API_KEY 注入，例如：export DEEPSEEK_API_KEY=sk-xxxx
+          api-key: ${DEEPSEEK_API_KEY:placeholder}
