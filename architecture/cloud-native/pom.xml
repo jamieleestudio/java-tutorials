@@ -19,10 +19,8 @@
 
     <modules>
         <module>cn-shared-kernel</module>
-        <module>cn-payment-api</module>
-        <module>cn-product-api</module>
+        <module>cn-payment</module>
+        <module>cn-product</module>
         <module>cn-order-service</module>
-        <module>cn-payment-service</module>
-        <module>cn-product-service</module>
     </modules>
 </project>

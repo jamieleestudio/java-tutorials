@@ -6,21 +6,19 @@
 
     <parent>
         <groupId>com.third.li</groupId>
-        <artifactId>architecture</artifactId>
+        <artifactId>distributed</artifactId>
         <version>1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>distributed</artifactId>
+    <artifactId>dist-payment</artifactId>
     <packaging>pom</packaging>
 
-    <name>distributed</name>
-    <description>Distributed Architecture — evolution from ②: 3 independent JVMs, sync RPC, idempotency, minimal governance (fixed addresses)</description>
+    <name>dist-payment</name>
+    <description>Payment domain aggregator — dist-payment-api (contract) + dist-payment-service (implementation)</description>
 
     <modules>
-        <module>dist-shared-kernel</module>
-        <module>dist-payment</module>
-        <module>dist-product</module>
-        <module>dist-order-service</module>
+        <module>dist-payment-api</module>
+        <module>dist-payment-service</module>
     </modules>
 </project>

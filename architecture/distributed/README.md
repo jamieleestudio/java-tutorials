@@ -19,11 +19,13 @@
 ```
 distributed/
 ├── shared-kernel/          纯 Java 内核，零框架依赖
-├── payment-api/            跨服务契约：PaymentService(pay/refund) + PaymentDto
-├── product-api/            跨服务契约：ProductService + ProductDto
-├── order-service/          单模块 4 层：domain + application + interfaces + infrastructure/rpc
-├── payment-service/        单模块 4 层：domain + application + interfaces + infrastructure
-└── product-service/        单模块 4 层：domain + application + interfaces + infrastructure
+├── payment/                业务域聚合：api + service
+│   ├── payment-api/        跨服务契约：PaymentService(pay/refund) + PaymentDto
+│   └── payment-service/    单模块 4 层：domain + application + interfaces + infrastructure
+├── product/                业务域聚合：api + service
+│   ├── product-api/        跨服务契约：ProductService + ProductDto
+│   └── product-service/    单模块 4 层：domain + application + interfaces + infrastructure
+└── order-service/          单模块 4 层：domain + application + interfaces + infrastructure/rpc
 ```
 
 ### 模块拆分粒度（业界对齐）
@@ -59,9 +61,9 @@ distributed/
 
 ```bash
 cd architecture/distributed
-mvn spring-boot:run -pl payment-service &   # 8082
-mvn spring-boot:run -pl product-service &   # 8083
-mvn spring-boot:run -pl order-service       # 8081
+mvn spring-boot:run -pl :dist-payment-service &   # 8082
+mvn spring-boot:run -pl :dist-product-service &   # 8083
+mvn spring-boot:run -pl :dist-order-service       # 8081
 ```
 
 服务地址通过环境变量覆盖：`PAYMENT_SERVICE_URL` / `PRODUCT_SERVICE_URL`

@@ -6,21 +6,19 @@
 
     <parent>
         <groupId>com.third.li</groupId>
-        <artifactId>architecture</artifactId>
+        <artifactId>microservices</artifactId>
         <version>1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>distributed</artifactId>
+    <artifactId>ms-payment</artifactId>
     <packaging>pom</packaging>
 
-    <name>distributed</name>
-    <description>Distributed Architecture — evolution from ②: 3 independent JVMs, sync RPC, idempotency, minimal governance (fixed addresses)</description>
+    <name>ms-payment</name>
+    <description>Payment domain aggregator — ms-payment-api (contract) + ms-payment-service (implementation)</description>
 
     <modules>
-        <module>dist-shared-kernel</module>
-        <module>dist-payment</module>
-        <module>dist-product</module>
-        <module>dist-order-service</module>
+        <module>ms-payment-api</module>
+        <module>ms-payment-service</module>
     </modules>
 </project>

@@ -38,10 +38,11 @@ OrderService 消费两者:
 ```
 event-driven/
 ├── shared-kernel/     纯内核 + 集成事件契约(shared.event: OrderCreated/PaymentSucceeded/... + EventEnvelope)
-├── product-api/       同步目录读契约（务实混合：同步读 + 异步写）
+├── product/           业务域聚合：api + service
+│   ├── product-api/   同步目录读契约（务实混合：同步读 + 异步写）
+│   └── product-service/   消费 order-events → 扣库存/补货 + deducted_orders 补偿记录 + /rpc/products 读
 ├── order-service/     单模块4层: Saga状态机domain + Outbox + Kafka消费(payment-events/product-events)
-├── payment-service/   消费 order-events → 支付/退款 + Outbox
-└── product-service/   消费 order-events → 扣库存/补货 + deducted_orders 补偿记录 + /rpc/products 读
+└── payment-service/   消费 order-events → 支付/退款 + Outbox（纯异步消费，无 api 契约模块）
 ```
 
 ## 关键机制
@@ -56,9 +57,9 @@ event-driven/
 
 ```bash
 cd architecture/event-driven
-mvn spring-boot:run -pl product-service &   # 8083
-mvn spring-boot:run -pl payment-service &   # 8082
-mvn spring-boot:run -pl order-service       # 8081
+mvn spring-boot:run -pl :eda-product-service &   # 8083
+mvn spring-boot:run -pl :eda-payment-service &   # 8082
+mvn spring-boot:run -pl :eda-order-service       # 8081
 # KAFKA_SERVERS 环境变量覆盖默认 localhost:9092
 ```
 

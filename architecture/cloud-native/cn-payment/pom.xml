@@ -6,21 +6,19 @@
 
     <parent>
         <groupId>com.third.li</groupId>
-        <artifactId>architecture</artifactId>
+        <artifactId>cloud-native</artifactId>
         <version>1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>distributed</artifactId>
+    <artifactId>cn-payment</artifactId>
     <packaging>pom</packaging>
 
-    <name>distributed</name>
-    <description>Distributed Architecture — evolution from ②: 3 independent JVMs, sync RPC, idempotency, minimal governance (fixed addresses)</description>
+    <name>cn-payment</name>
+    <description>Payment domain aggregator — cn-payment-api (contract) + cn-payment-service (implementation)</description>
 
     <modules>
-        <module>dist-shared-kernel</module>
-        <module>dist-payment</module>
-        <module>dist-product</module>
-        <module>dist-order-service</module>
+        <module>cn-payment-api</module>
+        <module>cn-payment-service</module>
     </modules>
 </project>

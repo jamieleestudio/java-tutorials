@@ -19,9 +19,8 @@
 
     <modules>
         <module>eda-shared-kernel</module>
-        <module>eda-product-api</module>
+        <module>eda-product</module>
         <module>eda-order-service</module>
         <module>eda-payment-service</module>
-        <module>eda-product-service</module>
     </modules>
 </project>

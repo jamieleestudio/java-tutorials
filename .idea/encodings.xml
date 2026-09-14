@@ -12,16 +12,32 @@
     <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-order-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-payment-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-payment-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-payment/cn-payment-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-payment/cn-payment-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-payment/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-payment/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-product-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-product/cn-product-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-product/cn-product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-product/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-product/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/cloud-native/cn-shared-kernel/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/cloud-native/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/cloud-native/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/distributed/dist-order-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/distributed/dist-payment-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/distributed/dist-payment-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/distributed/dist-payment/dist-payment-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/distributed/dist-payment/dist-payment-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/distributed/dist-payment/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/distributed/dist-payment/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/distributed/dist-product-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/distributed/dist-product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/distributed/dist-product/dist-product-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/distributed/dist-product/dist-product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/distributed/dist-product/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/distributed/dist-product/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/distributed/dist-shared-kernel/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/distributed/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/distributed/src/main/resources" charset="UTF-8" />
@@ -29,6 +45,10 @@
     <file url="file://$PROJECT_DIR$/architecture/event-driven/eda-payment-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/event-driven/eda-product-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/event-driven/eda-product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/event-driven/eda-product/eda-product-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/event-driven/eda-product/eda-product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/event-driven/eda-product/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/event-driven/eda-product/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/event-driven/eda-shared-kernel/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/event-driven/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/event-driven/src/main/resources" charset="UTF-8" />
@@ -36,8 +56,16 @@
     <file url="file://$PROJECT_DIR$/architecture/microservices/ms-order-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/microservices/ms-payment-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/microservices/ms-payment-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/microservices/ms-payment/ms-payment-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/microservices/ms-payment/ms-payment-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/microservices/ms-payment/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/microservices/ms-payment/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/microservices/ms-product-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/microservices/ms-product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/microservices/ms-product/ms-product-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/microservices/ms-product/ms-product-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/microservices/ms-product/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/microservices/ms-product/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/microservices/ms-shared-kernel/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/microservices/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/microservices/src/main/resources" charset="UTF-8" />

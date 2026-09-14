@@ -22,11 +22,13 @@
 ```
 cloud-native/
 ├── shared-kernel/
-├── payment-api/                跨服务契约
-├── product-api/                跨服务契约
+├── payment/                    业务域聚合：api + service
+│   ├── payment-api/            跨服务契约
+│   └── payment-service/        单模块 4 层 + Jib
+├── product/                    业务域聚合：api + service
+│   ├── product-api/            跨服务契约
+│   └── product-service/        单模块 4 层 + Jib
 ├── order-service/              单模块 4 层：domain + application + interfaces + infrastructure/rpc + Jib
-├── payment-service/            单模块 4 层 + Jib
-├── product-service/            单模块 4 层 + Jib
 └── deploy/
     ├── docker/          3 个 Dockerfile（多阶段构建，备用方案）
     ├── k8s/             Deployment+Service+探针 ×3、ingress、configmap、secret、hpa
@@ -58,8 +60,8 @@ cloud-native/
 
 ```bash
 cd architecture/cloud-native
-mvn compile jib:build -pl order-service -am    # 推送 java-tutorials/cn-order-service:1.0
-# 或构建到 Docker daemon：mvn compile jib:docker-build -pl order-service -am
+mvn compile jib:build -pl :cn-order-service -am    # 推送 java-tutorials/cn-order-service:1.0
+# 或构建到 Docker daemon：mvn compile jib:docker-build -pl :cn-order-service -am
 ```
 
 ## 部署

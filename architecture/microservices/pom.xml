@@ -19,11 +19,9 @@
 
     <modules>
         <module>ms-shared-kernel</module>
-        <module>ms-payment-api</module>
-        <module>ms-product-api</module>
+        <module>ms-payment</module>
+        <module>ms-product</module>
         <module>ms-order-service</module>
-        <module>ms-payment-service</module>
-        <module>ms-product-service</module>
         <module>ms-api-gateway</module>
     </modules>
 

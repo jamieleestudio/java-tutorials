@@ -21,11 +21,13 @@
 ```
 microservices/
 ├── shared-kernel/
-├── payment-api/                跨服务契约：PaymentService + PaymentDto
-├── product-api/                跨服务契约：ProductService + ProductDto
+├── payment/                    业务域聚合：api + service
+│   ├── payment-api/            跨服务契约：PaymentService + PaymentDto
+│   └── payment-service/        单模块 4 层：domain + application + interfaces + infrastructure
+├── product/                    业务域聚合：api + service
+│   ├── product-api/            跨服务契约：ProductService + ProductDto
+│   └── product-service/        单模块 4 层：domain + application + interfaces + infrastructure
 ├── order-service/              单模块 4 层：domain + application + interfaces + infrastructure/feign
-├── payment-service/            单模块 4 层：domain + application + interfaces + infrastructure
-├── product-service/            单模块 4 层：domain + application + interfaces + infrastructure
 └── api-gateway/                SCG + Nacos: /api/** → lb://service-name
 ```
 
@@ -63,10 +65,10 @@ OrderServiceImpl 依然**零修改**——依赖反转贯穿 ②→③→⑤。
 ```bash
 # 1. 启动 Nacos (docker run -p 8848:8848 nacos/nacos-server)
 cd architecture/microservices
-mvn spring-boot:run -pl payment-service &    # 注册到 Nacos
-mvn spring-boot:run -pl product-service &
-mvn spring-boot:run -pl order-service &
-mvn spring-boot:run -pl api-gateway          # 8080 统一入口
+mvn spring-boot:run -pl :ms-payment-service &    # 注册到 Nacos
+mvn spring-boot:run -pl :ms-product-service &
+mvn spring-boot:run -pl :ms-order-service &
+mvn spring-boot:run -pl :ms-api-gateway          # 8080 统一入口
 # NACOS_ADDR 环境变量覆盖默认 localhost:8848
 ```
 

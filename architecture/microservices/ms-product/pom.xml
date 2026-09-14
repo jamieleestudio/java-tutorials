@@ -6,21 +6,19 @@
 
     <parent>
         <groupId>com.third.li</groupId>
-        <artifactId>architecture</artifactId>
+        <artifactId>microservices</artifactId>
         <version>1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>distributed</artifactId>
+    <artifactId>ms-product</artifactId>
     <packaging>pom</packaging>
 
-    <name>distributed</name>
-    <description>Distributed Architecture — evolution from ②: 3 independent JVMs, sync RPC, idempotency, minimal governance (fixed addresses)</description>
+    <name>ms-product</name>
+    <description>Product domain aggregator — ms-product-api (contract) + ms-product-service (implementation)</description>
 
     <modules>
-        <module>dist-shared-kernel</module>
-        <module>dist-payment</module>
-        <module>dist-product</module>
-        <module>dist-order-service</module>
+        <module>ms-product-api</module>
+        <module>ms-product-service</module>
     </modules>
 </project>
