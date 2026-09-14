@@ -25,6 +25,11 @@
         <module>embabel-subagent</module>
         <module>embabel-hitl</module>
         <module>embabel-streaming</module>
+        <module>embabel-thinking</module>
+        <module>embabel-conversation</module>
+        <module>embabel-guardrails</module>
+        <module>embabel-refinement</module>
+        <module>embabel-planner-types</module>
     </modules>
 
     <properties>

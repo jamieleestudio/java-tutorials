@@ -1,0 +1,20 @@
+server:
+  port: 8898
+
+embabel:
+  models:
+    default-llm: deepseek-flash
+  agent:
+    platform:
+      models:
+        openai:
+          base-url: ${OPENAI_BASE_URL:placeholder}
+          completions: /chat/completions
+          api-key: ${DEEPSEEK_API_KEY:placeholder}
+      # 护栏触发时快速失败，避免被动作/数据绑定重试策略拖慢（默认 5 次 / 10 次）
+      action-qos:
+        default:
+          max-attempts: 1
+      llm-operations:
+        data-binding:
+          max-attempts: 1
