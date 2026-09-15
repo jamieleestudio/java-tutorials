@@ -10,16 +10,14 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>embabel-reasoning</artifactId>
+    <artifactId>embabel-context</artifactId>
     <packaging>pom</packaging>
-    <name>embabel-reasoning</name>
-    <description>Embabel examples: reasoning and planning (thinking, planner types, self-refinement)</description>
+    <name>embabel-context</name>
+    <description>Embabel examples: context engineering (references, file tools)</description>
 
     <modules>
-        <module>embabel-thinking</module>
-        <module>embabel-planner-types</module>
-        <module>embabel-refinement</module>
-        <module>embabel-multi-model</module>
+        <module>embabel-references</module>
+        <module>embabel-file-tools</module>
     </modules>
 
 </project>

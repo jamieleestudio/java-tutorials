@@ -10,6 +10,10 @@
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-basics/embabel-structured-output/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-basics/embabel-tools/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-basics/embabel-tools/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-file-tools/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-file-tools/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-references/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-references/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-conversation/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-conversation/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-hitl/src/main/java" charset="UTF-8" />
@@ -18,6 +22,12 @@
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-streaming/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-subagent/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-subagent/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-observability/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-observability/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-testing/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-testing/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-reasoning/embabel-multi-model/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-reasoning/embabel-multi-model/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-reasoning/embabel-planner-types/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-reasoning/embabel-planner-types/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-reasoning/embabel-refinement/src/main/java" charset="UTF-8" />

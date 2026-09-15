@@ -1,0 +1,17 @@
+server:
+  port: 8902
+
+demo:
+  # 沙箱目录：文件工具只能在这个目录内操作
+  sandbox-dir: ${java.io.tmpdir}/embabel-file-tools-sandbox
+
+embabel:
+  models:
+    default-llm: deepseek-flash
+  agent:
+    platform:
+      models:
+        openai:
+          base-url: ${OPENAI_BASE_URL:placeholder}
+          completions: /chat/completions
+          api-key: ${DEEPSEEK_API_KEY:placeholder}

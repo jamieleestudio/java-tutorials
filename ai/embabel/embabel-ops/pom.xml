@@ -10,16 +10,14 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>embabel-reasoning</artifactId>
+    <artifactId>embabel-ops</artifactId>
     <packaging>pom</packaging>
-    <name>embabel-reasoning</name>
-    <description>Embabel examples: reasoning and planning (thinking, planner types, self-refinement)</description>
+    <name>embabel-ops</name>
+    <description>Embabel examples: engineering operations (observability, testing)</description>
 
     <modules>
-        <module>embabel-thinking</module>
-        <module>embabel-planner-types</module>
-        <module>embabel-refinement</module>
-        <module>embabel-multi-model</module>
+        <module>embabel-observability</module>
+        <module>embabel-testing</module>
     </modules>
 
 </project>
