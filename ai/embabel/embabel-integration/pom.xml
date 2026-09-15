@@ -17,6 +17,7 @@
 
     <modules>
         <module>embabel-mcp</module>
+        <module>embabel-a2a</module>
     </modules>
 
 </project>

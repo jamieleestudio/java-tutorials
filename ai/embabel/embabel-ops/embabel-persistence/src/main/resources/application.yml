@@ -1,0 +1,21 @@
+server:
+  port: 8911
+
+# 需要先启动 docker 组件里的 Postgres：
+#   cd ai/embabel/docker && docker compose up -d postgres
+spring:
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5433/embabel}
+    username: ${POSTGRES_USER:embabel}
+    password: ${POSTGRES_PASSWORD:embabel}
+
+embabel:
+  models:
+    default-llm: deepseek-flash
+  agent:
+    platform:
+      models:
+        openai:
+          base-url: ${OPENAI_BASE_URL:placeholder}
+          completions: /chat/completions
+          api-key: ${DEEPSEEK_API_KEY:placeholder}

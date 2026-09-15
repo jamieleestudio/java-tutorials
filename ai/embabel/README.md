@@ -1,7 +1,7 @@
 # Embabel Agent Framework 示例集
 
 用 **Java 21 + Spring Boot 3.5 + Embabel 1.0.0** 演示 Embabel 的核心能力。
-共 21 个**自包含**子模块，按能力分为 7 类；每个模块是一个独立可运行的 Spring Boot 应用，
+共 23 个**自包含**子模块，按能力分为 7 类；每个模块是一个独立可运行的 Spring Boot 应用，
 默认 LLM 接入 **DeepSeek**（OpenAI 兼容接口），需要嵌入/视觉时经 LiteLLM 接入本地 Ollama。
 
 > Embabel 是 Spring 创始人 Rod Johnson 发起的 JVM Agent 框架：用强类型领域模型 + 可复用 *Action* + GOAP 规划器，
@@ -58,12 +58,14 @@
 |---|---|---|---|
 | [embabel-observability](embabel-ops/embabel-observability/README.md) | 8903 | 事件监听 + 成本/Token 统计 | `GET /observability/run` |
 | [embabel-testing](embabel-ops/embabel-testing/README.md) | 8904 | 无需 API Key 的确定性测试 | `mvn -pl :embabel-testing test` |
+| [embabel-persistence](embabel-ops/embabel-persistence/README.md) | 8911 | 上下文持久化到 Postgres（需 Docker） | `GET /persistence/save`、`/persistence/load` |
 
 ### ⑦ 外部集成（embabel-integration）
 
 | 模块 | 端口 | 主题 | 主要接口 |
 |---|---|---|---|
 | [embabel-mcp](embabel-integration/embabel-mcp/README.md) | 8909 | MCP 工具（filesystem server） | `GET /mcp/ask` |
+| [embabel-a2a](embabel-integration/embabel-a2a/README.md) | 8910 | A2A 服务端暴露 + 客户端调用 | `GET /a2a/card`、`/a2a/ask`、`/a2a/delegate` |
 
 ## 目录结构
 
@@ -77,8 +79,8 @@ ai/embabel/
 ├── embabel-interaction/           ③ 交互与协作（subagent / hitl / streaming / conversation / multimodal）
 ├── embabel-reasoning/             ④ 推理与规划（thinking / refinement / planner-types / multi-model / workflows）
 ├── embabel-safety/                ⑤ 质量与安全（guardrails）
-├── embabel-ops/                   ⑥ 工程化（observability / testing）
-└── embabel-integration/           ⑦ 外部集成（mcp）
+├── embabel-ops/                   ⑥ 工程化（observability / testing / persistence）
+└── embabel-integration/           ⑦ 外部集成（mcp / a2a）
 ```
 
 每个叶子模块的 `parent` 指向所属分类聚合器，分类聚合器的 `parent` 指向 `ai/embabel`，
@@ -90,7 +92,7 @@ ai/embabel/
 - JDK 21、Maven
 - 一个 DeepSeek API Key：<https://platform.deepseek.com/api_keys>
 - （仅部分模块）Docker：`embabel-embeddings` / `embabel-multimodal` 需要嵌入/视觉模型，
-  `embabel-mcp` 需要 docker 拉起 MCP server
+  `embabel-mcp` 需要 docker 拉起 MCP server，`embabel-persistence` 需要 Postgres，`embabel-a2a` 无需额外组件
 
 ```bash
 export DEEPSEEK_API_KEY=sk-xxxx

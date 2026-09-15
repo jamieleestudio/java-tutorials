@@ -9,7 +9,7 @@
 |---|---|---|
 | LiteLLM | 4000 | 统一 OpenAI 兼容入口：聊天转发 DeepSeek，嵌入/视觉转发 Ollama |
 | Ollama | 11434 | 本地模型：`nomic-embed-text`（嵌入，768 维）、`qwen2.5vl:3b`（视觉） |
-| Postgres | 5433 | 预留（下一批 `embabel-persistence` 用） |
+| Postgres | 5433 | `embabel-persistence` 的上下文存储（`embabel_context` 表自动创建） |
 
 > 端口刻意避开常见的 80/443/8080/8081/5003（本机已有 nginx / dependency-track / Dify 在跑）。
 
