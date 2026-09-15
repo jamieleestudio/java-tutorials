@@ -1,0 +1,15 @@
+server:
+  port: 8918
+
+embabel:
+  models:
+    default-llm: deepseek-flash
+  agent:
+    platform:
+      # CONCURRENT：允许并发执行独立动作（sectioning 的并行来源）
+      process-type: CONCURRENT
+      models:
+        openai:
+          base-url: ${OPENAI_BASE_URL:placeholder}
+          completions: /chat/completions
+          api-key: ${DEEPSEEK_API_KEY:placeholder}

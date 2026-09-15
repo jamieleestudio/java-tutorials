@@ -1,7 +1,7 @@
 # Embabel Agent Framework 示例集
 
 用 **Java 21 + Spring Boot 3.5 + Embabel 1.0.0** 演示 Embabel 的核心能力。
-共 27 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
+共 32 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
 默认 LLM 接入 **DeepSeek**（OpenAI 兼容接口），需要嵌入/视觉时经 LiteLLM 接入本地 Ollama。
 
 > Embabel 是 Spring 创始人 Rod Johnson 发起的 JVM Agent 框架：用强类型领域模型 + 可复用 *Action* + GOAP 规划器，
@@ -68,6 +68,11 @@
 
 | 模块 | 端口 | 模式 | 主要接口 |
 |---|---|---|---|
+| [embabel-prompt-chaining](embabel-patterns/embabel-prompt-chaining/README.md) | 8916 | 链式提示 + 关卡（gate） | `GET /chaining/write` |
+| [embabel-routing](embabel-patterns/embabel-routing/README.md) | 8917 | 路由（分类 → 专门处理器） | `GET /routing/ask` |
+| [embabel-parallelization](embabel-patterns/embabel-parallelization/README.md) | 8918 | 并行化（Sectioning / Voting） | `GET /parallel/sectioning`、`/parallel/voting` |
+| [embabel-orchestrator-workers](embabel-patterns/embabel-orchestrator-workers/README.md) | 8919 | 编排者-工人（动态拆解） | `GET /orchestrator/ask` |
+| [embabel-autonomous-agent](embabel-patterns/embabel-autonomous-agent/README.md) | 8920 | 自主 Agent（工具循环 + 错误恢复） | `GET /autonomous/ask` |
 | [embabel-supervisor](embabel-patterns/embabel-supervisor/README.md) | 8912 | 主管调度（LLM 编排动作） | `GET /supervisor/ask` |
 | [embabel-trigger](embabel-patterns/embabel-trigger/README.md) | 8913 | 反应式触发（`trigger`） | `GET /trigger/ask` |
 | [embabel-replanning](embabel-patterns/embabel-replanning/README.md) | 8914 | 动态重规划（工具失败换路） | `GET /replan/ask` |
@@ -75,6 +80,24 @@
 | [embabel-subagent](embabel-patterns/embabel-subagent/README.md) | 8893 | 子 Agent / handoff 委派 | `GET /subagent/translate` |
 | [embabel-refinement](embabel-patterns/embabel-refinement/README.md) | 8899 | 自评迭代（Evaluator-Optimizer） | `GET /refine` |
 | [embabel-workflows](embabel-patterns/embabel-workflows/README.md) | 8906 | 编排原语（Kotlin：ScatterGather / Consensus） | `GET /workflows/scatter-gather`、`/workflows/consensus` |
+
+#### 与 Anthropic《Building Effective Agents》的模式对照
+
+该文（<https://www.anthropic.com/engineering/building-effective-agents>）总结的每种模式在本仓库的落点：
+
+| 文章模式 | 本仓库模块 |
+|---|---|
+| **Building block: Augmented LLM**（检索 + 工具 + 记忆） | `embabel-tools`、`embabel-references`、`embabel-embeddings`、`embabel-mcp`、`embabel-conversation` |
+| **Workflow: Prompt chaining**（含 gate） | `embabel-prompt-chaining`、`embabel-planning` |
+| **Workflow: Routing** | `embabel-routing` |
+| **Workflow: Parallelization — Sectioning** | `embabel-parallelization`（`/parallel/sectioning`）、`embabel-workflows`（ScatterGather） |
+| **Workflow: Parallelization — Voting** | `embabel-parallelization`（`/parallel/voting`）、`embabel-workflows`（Consensus） |
+| **Workflow: Orchestrator-workers** | `embabel-orchestrator-workers` |
+| **Workflow: Evaluator-optimizer** | `embabel-refinement` |
+| **Agents**（自主循环、环境反馈、错误恢复、停止条件） | `embabel-autonomous-agent`、`embabel-tools`、`embabel-hitl`（人工检查点）、`embabel-guardrails`（护栏） |
+
+> 文章的核心建议——**先找最简单的方案**，只在确有收益时增加复杂度——同样适用于本仓库：
+> 从 `embabel-chat` 开始，需要时再逐步引入上表中的模式。
 
 ## 目录结构
 

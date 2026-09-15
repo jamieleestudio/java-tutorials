@@ -16,6 +16,11 @@
     <description>Embabel examples: agent patterns (supervisor, trigger, replanning, multi-goal, handoff, evaluator-optimizer, workflows)</description>
 
     <modules>
+        <module>embabel-prompt-chaining</module>
+        <module>embabel-routing</module>
+        <module>embabel-parallelization</module>
+        <module>embabel-orchestrator-workers</module>
+        <module>embabel-autonomous-agent</module>
         <module>embabel-supervisor</module>
         <module>embabel-trigger</module>
         <module>embabel-replanning</module>
