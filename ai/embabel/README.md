@@ -1,38 +1,77 @@
 # Embabel Agent Framework 示例集
 
 用 **Java 21 + Spring Boot 3.5 + Embabel 1.0.0** 演示 Embabel 的核心能力。
-共 12 个**自包含**子模块，每个模块是一个独立可运行的 Spring Boot 应用，LLM 统一接入 **DeepSeek**（OpenAI 兼容接口）。
+共 12 个**自包含**子模块，按能力分为 4 类；每个模块是一个独立可运行的 Spring Boot 应用，
+LLM 统一接入 **DeepSeek**（OpenAI 兼容接口）。
 
 > Embabel 是 Spring 创始人 Rod Johnson 发起的 JVM Agent 框架：用强类型领域模型 + 可复用 *Action* + GOAP 规划器，
 > 让智能体围绕"目标"动态推导执行步骤，而不是写死工作流。
 
-## 模块一览
+## 分类与模块
+
+### ① 基础（embabel-basics）
 
 | 模块 | 端口 | 主题 | 主要接口 |
 |---|---|---|---|
-| [embabel-chat](embabel-chat/README.md) | 8889 | 最小聊天 Agent（单 Action） | `GET /ai/generate` |
-| [embabel-planning](embabel-planning/README.md) | 8890 | GOAP 多步规划（调研→提纲→成文） | `GET /plan/generate` |
-| [embabel-tools](embabel-tools/README.md) | 8891 | 工具调用（`@LlmTool` + 函数式工具） | `GET /tools/ask` |
-| [embabel-structured-output](embabel-structured-output/README.md) | 8892 | 结构化输出（强类型数据绑定） | `GET /extract` |
-| [embabel-subagent](embabel-subagent/README.md) | 8893 | 子 Agent / handoff 委派 | `GET /subagent/translate` |
-| [embabel-hitl](embabel-hitl/README.md) | 8894 | 人机协同（确认 / 表单，暂停与恢复） | `GET /hitl/review`、`POST /hitl/{id}/confirm` |
-| [embabel-streaming](embabel-streaming/README.md) | 8895 | SSE 流式输出 | `GET /stream/generate` |
-| [embabel-thinking](embabel-thinking/README.md) | 8896 | 推理过程提取（thinking） | `GET /thinking/ask` |
-| [embabel-conversation](embabel-conversation/README.md) | 8897 | 多轮对话与人格 | `POST /chat/{sessionId}` |
-| [embabel-guardrails](embabel-guardrails/README.md) | 8898 | 输入/输出护栏 | `GET /guardrails/ask` |
-| [embabel-refinement](embabel-refinement/README.md) | 8899 | 自评迭代（Evaluator-Optimizer） | `GET /refine` |
-| [embabel-planner-types](embabel-planner-types/README.md) | 8900 | GOAP / UTILITY 规划器对比 | `GET /planner/goap`、`GET /planner/utility` |
+| [embabel-chat](embabel-basics/embabel-chat/README.md) | 8889 | 最小聊天 Agent（单 Action） | `GET /ai/generate` |
+| [embabel-planning](embabel-basics/embabel-planning/README.md) | 8890 | GOAP 多步规划（调研→提纲→成文） | `GET /plan/generate` |
+| [embabel-tools](embabel-basics/embabel-tools/README.md) | 8891 | 工具调用（`@LlmTool` + 函数式工具） | `GET /tools/ask` |
+| [embabel-structured-output](embabel-basics/embabel-structured-output/README.md) | 8892 | 结构化输出（强类型数据绑定） | `GET /extract` |
+
+### ② 交互与协作（embabel-interaction）
+
+| 模块 | 端口 | 主题 | 主要接口 |
+|---|---|---|---|
+| [embabel-subagent](embabel-interaction/embabel-subagent/README.md) | 8893 | 子 Agent / handoff 委派 | `GET /subagent/translate` |
+| [embabel-hitl](embabel-interaction/embabel-hitl/README.md) | 8894 | 人机协同（确认 / 表单，暂停与恢复） | `GET /hitl/review`、`POST /hitl/{id}/confirm` |
+| [embabel-streaming](embabel-interaction/embabel-streaming/README.md) | 8895 | SSE 流式输出 | `GET /stream/generate` |
+| [embabel-conversation](embabel-interaction/embabel-conversation/README.md) | 8897 | 多轮对话与人格 | `POST /chat/{sessionId}` |
+
+### ③ 推理与规划（embabel-reasoning）
+
+| 模块 | 端口 | 主题 | 主要接口 |
+|---|---|---|---|
+| [embabel-thinking](embabel-reasoning/embabel-thinking/README.md) | 8896 | 推理过程提取（thinking） | `GET /thinking/ask` |
+| [embabel-refinement](embabel-reasoning/embabel-refinement/README.md) | 8899 | 自评迭代（Evaluator-Optimizer） | `GET /refine` |
+| [embabel-planner-types](embabel-reasoning/embabel-planner-types/README.md) | 8900 | GOAP / UTILITY 规划器对比 | `GET /planner/goap`、`GET /planner/utility` |
+
+### ④ 质量与安全（embabel-safety）
+
+| 模块 | 端口 | 主题 | 主要接口 |
+|---|---|---|---|
+| [embabel-guardrails](embabel-safety/embabel-guardrails/README.md) | 8898 | 输入/输出护栏 | `GET /guardrails/ask` |
+
+> 规划的后续分类：**embabel-ops**（observability、testing）、**embabel-context**（references、file-tools）。
+> 新模块落地时再建对应分类聚合器，避免出现空目录。
 
 ## 目录结构
 
 ```
 ai/embabel/
-├── pom.xml                          聚合器（packaging=pom，统一 embabel-agent.version）
-├── embabel-chat/                    每个子模块：pom + src + application.yml + models/openai-models.yml
-├── embabel-planning/
-├── ...                              （artifactId 与目录名带 embabel- 前缀）
-└── embabel-planner-types/
+├── pom.xml                        总聚合（packaging=pom，parent=spring-boot-starter-parent，管版本）
+├── README.md
+├── embabel-basics/                ① 基础
+│   ├── pom.xml
+│   ├── embabel-chat/
+│   ├── embabel-planning/
+│   ├── embabel-tools/
+│   └── embabel-structured-output/
+├── embabel-interaction/           ② 交互与协作
+│   ├── embabel-subagent/
+│   ├── embabel-hitl/
+│   ├── embabel-streaming/
+│   └── embabel-conversation/
+├── embabel-reasoning/             ③ 推理与规划
+│   ├── embabel-thinking/
+│   ├── embabel-refinement/
+│   └── embabel-planner-types/
+└── embabel-safety/                ④ 质量与安全
+    └── embabel-guardrails/
 ```
+
+每个叶子模块的 `parent` 指向所属分类聚合器，分类聚合器的 `parent` 指向 `ai/embabel`，
+因此 `embabel-agent.version`、Java 版本、依赖版本统一在顶层维护。
+**artifactId 与目录名一致**（都带 `embabel-` 前缀），所以 `mvn -pl :embabel-chat` 这类命令不受分类影响。
 
 ## 环境准备
 
@@ -53,8 +92,8 @@ export OPENAI_BASE_URL=https://api.deepseek.com
 cd ai/embabel
 mvn -q package                     # 构建全部模块（含 embabel-chat 单测）
 
-# 运行单个模块（端口见上表）
-mvn -pl embabel-chat spring-boot:run
+# 运行单个模块（-pl 用 artifactId，不受分类层级影响）
+mvn -pl :embabel-chat spring-boot:run
 
 # 调用
 curl -G --data-urlencode "message=讲个笑话" http://localhost:8889/ai/generate
@@ -63,7 +102,7 @@ curl -G --data-urlencode "message=讲个笑话" http://localhost:8889/ai/generat
 也可以直接运行打包后的 jar：
 
 ```bash
-java -jar embabel-chat/target/embabel-chat-1.0.jar
+java -jar embabel-basics/embabel-chat/target/embabel-chat-1.0.jar
 ```
 
 ## DeepSeek 接入说明（重要）
@@ -109,5 +148,5 @@ embabel:
 ```bash
 cd ai/embabel
 mvn package        # 全部模块 + embabel-chat 的 Mockito 单测
-mvn -pl embabel-chat test
+mvn -pl :embabel-chat test
 ```

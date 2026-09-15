@@ -18,18 +18,10 @@
     <description>Embabel Agent Framework examples (aggregator)</description>
 
     <modules>
-        <module>embabel-chat</module>
-        <module>embabel-planning</module>
-        <module>embabel-tools</module>
-        <module>embabel-structured-output</module>
-        <module>embabel-subagent</module>
-        <module>embabel-hitl</module>
-        <module>embabel-streaming</module>
-        <module>embabel-thinking</module>
-        <module>embabel-conversation</module>
-        <module>embabel-guardrails</module>
-        <module>embabel-refinement</module>
-        <module>embabel-planner-types</module>
+        <module>embabel-basics</module>
+        <module>embabel-interaction</module>
+        <module>embabel-reasoning</module>
+        <module>embabel-safety</module>
     </modules>
 
     <properties>
