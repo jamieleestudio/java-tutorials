@@ -10,15 +10,13 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>embabel-context</artifactId>
+    <artifactId>embabel-integration</artifactId>
     <packaging>pom</packaging>
-    <name>embabel-context</name>
-    <description>Embabel examples: context engineering (references, file tools)</description>
+    <name>embabel-integration</name>
+    <description>Embabel examples: external integrations (MCP)</description>
 
     <modules>
-        <module>embabel-references</module>
-        <module>embabel-file-tools</module>
-        <module>embabel-embeddings</module>
+        <module>embabel-mcp</module>
     </modules>
 
 </project>

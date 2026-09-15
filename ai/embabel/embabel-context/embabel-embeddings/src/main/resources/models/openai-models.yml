@@ -1,0 +1,31 @@
+native_support_defaults:
+  structured_output:
+    supported: false
+
+models:
+  - name: "deepseek-flash"
+    model_id: "deepseek-flash"
+    display_name: "DeepSeek Flash (V4.1)"
+    max_tokens: 16384
+    temperature: 1.0
+    pricing_model:
+      usd_per1m_input_tokens: 0.30
+      usd_per1m_output_tokens: 1.20
+
+  - name: "deepseek-v4-pro"
+    model_id: "deepseek-v4-pro"
+    display_name: "DeepSeek V4 Pro"
+    max_tokens: 16384
+    temperature: 1.0
+    pricing_model:
+      usd_per1m_input_tokens: 1.32
+      usd_per1m_output_tokens: 3.96
+
+embedding_models:
+  # 通过 LiteLLM 转发到本地 Ollama 的 nomic-embed-text（768 维）
+  - name: "nomic-embed-text"
+    model_id: "nomic-embed-text"
+    display_name: "Nomic Embed Text"
+    dimensions: 768
+    pricing_model:
+      usd_per1m_tokens: 0.0

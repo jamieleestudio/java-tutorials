@@ -20,6 +20,7 @@
         <module>embabel-streaming</module>
         <module>embabel-conversation</module>
         <module>embabel-subagent</module>
+        <module>embabel-multimodal</module>
     </modules>
 
 </project>

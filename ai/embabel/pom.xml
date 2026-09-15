@@ -20,6 +20,7 @@
     <modules>
         <module>embabel-basics</module>
         <module>embabel-context</module>
+        <module>embabel-integration</module>
         <module>embabel-interaction</module>
         <module>embabel-ops</module>
         <module>embabel-reasoning</module>

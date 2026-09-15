@@ -1,0 +1,26 @@
+server:
+  port: 8907
+
+# 需要先启动 ai/embabel/docker 下的 LiteLLM + Ollama：
+#   cd ai/embabel/docker && docker compose up -d litellm ollama
+#   docker exec embabel-ollama ollama pull nomic-embed-text
+#
+# DeepSeek 没有 embedding 接口，所以必须让应用指向 LiteLLM：
+# 聊天请求由 LiteLLM 转发给 DeepSeek，嵌入请求转发给本地 Ollama。
+#
+# 重要：Embabel 的 OpenAI starter **环境变量优先于 yml**（OPENAI_BASE_URL / OPENAI_API_KEY），
+# 所以运行本模块时必须把这两个变量指向 LiteLLM（即使你平时用它们指向 DeepSeek）：
+#   PowerShell:  $env:OPENAI_BASE_URL="http://localhost:4000"; $env:OPENAI_API_KEY="sk-1234"
+#   bash:        export OPENAI_BASE_URL=http://localhost:4000 OPENAI_API_KEY=sk-1234
+embabel:
+  models:
+    default-llm: deepseek-flash
+    default-embedding-model: nomic-embed-text
+  agent:
+    platform:
+      models:
+        openai:
+          base-url: ${OPENAI_BASE_URL:http://localhost:4000}
+          completions: /chat/completions
+          embeddings-path: /v1/embeddings
+          api-key: ${LITELLM_API_KEY:sk-1234}

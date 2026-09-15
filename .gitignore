@@ -39,3 +39,7 @@ build/
 
 ### AgentScope ###
 .agentscope/
+
+### Local docker env (may contain secrets) ###
+.env
+**/docker/.env

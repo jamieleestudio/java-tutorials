@@ -1,0 +1,55 @@
+server:
+  port: 8909
+
+demo:
+  # MCP filesystem server 允许访问的沙箱目录（会挂载到容器的 /projects）
+  mcp-root: ${java.io.tmpdir}/embabel-mcp-sandbox
+
+spring:
+  ai:
+    mcp:
+      client:
+        enabled: true
+        name: embabel-mcp-client
+        version: 1.0.0
+        type: SYNC
+        # 用 docker 拉起 MCP filesystem server；Spring AI 以 stdio 与之通信。
+        # 需要本机可执行 docker（无需在 compose 里常驻）。
+        stdio:
+          connections:
+            filesystem:
+              command: docker
+              args:
+                - run
+                - -i
+                - --rm
+                - --mount
+                - type=bind,src=${demo.mcp-root},dst=/projects
+                - mcp/filesystem
+                - /projects
+
+embabel:
+  models:
+    default-llm: deepseek-flash
+  agent:
+    platform:
+      models:
+        openai:
+          base-url: ${OPENAI_BASE_URL:placeholder}
+          completions: /chat/completions
+          api-key: ${DEEPSEEK_API_KEY:placeholder}
+      # 把 MCP 工具按名字挂成一个工具组（ToolGroupsConfiguration 会读这里）
+      tools:
+        includes:
+          files:
+            description: "沙箱文件系统工具（来自 MCP filesystem server）"
+            tools:
+              - read_text_file
+              - read_file
+              - write_file
+              - edit_file
+              - list_directory
+              - directory_tree
+              - search_files
+              - get_file_info
+              - list_allowed_directories

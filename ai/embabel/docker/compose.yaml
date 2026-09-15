@@ -1,0 +1,58 @@
+# Embabel 示例依赖的外部组件
+#
+# 注意：显式指定项目名，避免与本机其他 compose 项目（例如同目录名 docker/ 下的 Dify）混淆，
+# 否则 docker compose 可能把它们当作 orphan 容器。
+name: embabel
+#
+# 启动：
+#   cd ai/embabel/docker
+#   copy .env.example .env      # 填入 DEEPSEEK_API_KEY
+#   docker compose up -d
+#   docker compose exec ollama ollama pull nomic-embed-text
+#   docker compose exec ollama ollama pull qwen2.5vl:3b
+#
+# 端口刻意避开常用占用（80/443/8080/8081/5003）：
+#   LiteLLM   4000   —— 统一入口（DeepSeek 聊天 + Ollama 嵌入/视觉）
+#   Ollama    11434  —— 本地嵌入与视觉模型
+#   Postgres  5433   —— 预留给 embabel-persistence（下一批）
+
+services:
+  litellm:
+    # 本地构建：官方镜像补装 Pillow（视觉请求需要）
+    build: ./litellm
+    image: embabel-litellm:local
+    container_name: embabel-litellm
+    ports:
+      - "4000:4000"
+    environment:
+      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:-sk-1234}
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY}
+    volumes:
+      - ./litellm/config.yaml:/app/config.yaml:ro
+    command: ["--config", "/app/config.yaml", "--port", "4000"]
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: embabel-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: embabel-postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: embabel
+      POSTGRES_USER: embabel
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-embabel}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  ollama-data:
+  postgres-data:

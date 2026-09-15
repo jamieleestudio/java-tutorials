@@ -1,0 +1,24 @@
+server:
+  port: 8908
+
+demo:
+  # 示例图片的生成目录（启动时会自动生成一张测试图）
+  image-dir: ${java.io.tmpdir}/embabel-multimodal
+
+# 需要先启动 docker 组件（LiteLLM + Ollama）并拉取视觉模型：
+#   docker exec embabel-ollama ollama pull qwen2.5vl:3b
+# DeepSeek 无视觉能力，所以视觉调用经 LiteLLM 转发到本地 Ollama 的 qwen2.5vl:3b。
+#
+# 重要：Embabel 的 OpenAI starter **环境变量优先于 yml**（OPENAI_BASE_URL / OPENAI_API_KEY），
+# 运行本模块时须把这两个变量指向 LiteLLM：
+#   PowerShell:  $env:OPENAI_BASE_URL="http://localhost:4000"; $env:OPENAI_API_KEY="sk-1234"
+embabel:
+  models:
+    default-llm: deepseek-flash
+  agent:
+    platform:
+      models:
+        openai:
+          base-url: ${OPENAI_BASE_URL:http://localhost:4000}
+          completions: /chat/completions
+          api-key: ${LITELLM_API_KEY:sk-1234}

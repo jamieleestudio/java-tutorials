@@ -1,0 +1,17 @@
+server:
+  port: 8906
+
+embabel:
+  models:
+    default-llm: deepseek-flash
+    # 共识工作流用两个角色代表两个"来源"
+    llms:
+      fast: deepseek-flash
+      deep: deepseek-v4-pro
+  agent:
+    platform:
+      models:
+        openai:
+          base-url: ${OPENAI_BASE_URL:placeholder}
+          completions: /chat/completions
+          api-key: ${DEEPSEEK_API_KEY:placeholder}

@@ -10,14 +10,20 @@
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-basics/embabel-structured-output/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-basics/embabel-tools/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-basics/embabel-tools/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-embeddings/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-embeddings/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-file-tools/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-file-tools/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-references/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-references/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-integration/embabel-mcp/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-integration/embabel-mcp/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-conversation/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-conversation/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-hitl/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-hitl/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-multimodal/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-multimodal/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-streaming/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-streaming/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-subagent/src/main/java" charset="UTF-8" />
@@ -34,6 +40,8 @@
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-reasoning/embabel-refinement/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-reasoning/embabel-thinking/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-reasoning/embabel-thinking/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-reasoning/embabel-workflows/src/main/kotlin" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-reasoning/embabel-workflows/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-safety/embabel-guardrails/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-safety/embabel-guardrails/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/src/main/java" charset="UTF-8" />
