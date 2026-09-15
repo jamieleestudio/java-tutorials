@@ -1,0 +1,16 @@
+server:
+  port: 8915
+
+embabel:
+  models:
+    default-llm: deepseek-flash
+  agent:
+    platform:
+      # 目标/Agent 的排序模型：有多个候选时用它排序（这里显式指定，便于观察）
+      ranking:
+        llm: deepseek-flash
+      models:
+        openai:
+          base-url: ${OPENAI_BASE_URL:placeholder}
+          completions: /chat/completions
+          api-key: ${DEEPSEEK_API_KEY:placeholder}

@@ -18,9 +18,7 @@
     <modules>
         <module>embabel-thinking</module>
         <module>embabel-planner-types</module>
-        <module>embabel-refinement</module>
         <module>embabel-multi-model</module>
-        <module>embabel-workflows</module>
     </modules>
 
 </project>

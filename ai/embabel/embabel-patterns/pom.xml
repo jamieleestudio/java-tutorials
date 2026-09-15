@@ -10,16 +10,19 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>embabel-interaction</artifactId>
+    <artifactId>embabel-patterns</artifactId>
     <packaging>pom</packaging>
-    <name>embabel-interaction</name>
-    <description>Embabel examples: interaction and collaboration (HITL, streaming, conversation, subagent)</description>
+    <name>embabel-patterns</name>
+    <description>Embabel examples: agent patterns (supervisor, trigger, replanning, multi-goal, handoff, evaluator-optimizer, workflows)</description>
 
     <modules>
-        <module>embabel-hitl</module>
-        <module>embabel-streaming</module>
-        <module>embabel-conversation</module>
-        <module>embabel-multimodal</module>
+        <module>embabel-supervisor</module>
+        <module>embabel-trigger</module>
+        <module>embabel-replanning</module>
+        <module>embabel-multi-goal</module>
+        <module>embabel-subagent</module>
+        <module>embabel-refinement</module>
+        <module>embabel-workflows</module>
     </modules>
 
 </project>

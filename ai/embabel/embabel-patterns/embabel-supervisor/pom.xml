@@ -5,14 +5,14 @@
 
     <parent>
         <groupId>com.third.li</groupId>
-        <artifactId>embabel-interaction</artifactId>
+        <artifactId>embabel-patterns</artifactId>
         <version>1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>embabel-subagent</artifactId>
-    <name>embabel-subagent</name>
-    <description>Embabel Agent Framework: sub-agent delegation / handoff pattern</description>
+    <artifactId>embabel-supervisor</artifactId>
+    <name>embabel-supervisor</name>
+    <description>Embabel Agent Framework: supervisor pattern (an LLM orchestrates actions as tools)</description>
 
     <dependencies>
         <dependency>

@@ -1,0 +1,13 @@
+server:
+  port: 8914
+
+embabel:
+  models:
+    default-llm: deepseek-flash
+  agent:
+    platform:
+      models:
+        openai:
+          base-url: ${OPENAI_BASE_URL:placeholder}
+          completions: /chat/completions
+          api-key: ${DEEPSEEK_API_KEY:placeholder}

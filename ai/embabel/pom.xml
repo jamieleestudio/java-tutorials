@@ -23,6 +23,7 @@
         <module>embabel-integration</module>
         <module>embabel-interaction</module>
         <module>embabel-ops</module>
+        <module>embabel-patterns</module>
         <module>embabel-reasoning</module>
         <module>embabel-safety</module>
     </modules>

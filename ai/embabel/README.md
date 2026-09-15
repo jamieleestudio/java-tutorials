@@ -1,7 +1,7 @@
 # Embabel Agent Framework 示例集
 
 用 **Java 21 + Spring Boot 3.5 + Embabel 1.0.0** 演示 Embabel 的核心能力。
-共 23 个**自包含**子模块，按能力分为 7 类；每个模块是一个独立可运行的 Spring Boot 应用，
+共 27 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
 默认 LLM 接入 **DeepSeek**（OpenAI 兼容接口），需要嵌入/视觉时经 LiteLLM 接入本地 Ollama。
 
 > Embabel 是 Spring 创始人 Rod Johnson 发起的 JVM Agent 框架：用强类型领域模型 + 可复用 *Action* + GOAP 规划器，
@@ -30,7 +30,6 @@
 
 | 模块 | 端口 | 主题 | 主要接口 |
 |---|---|---|---|
-| [embabel-subagent](embabel-interaction/embabel-subagent/README.md) | 8893 | 子 Agent / handoff 委派 | `GET /subagent/translate` |
 | [embabel-hitl](embabel-interaction/embabel-hitl/README.md) | 8894 | 人机协同（确认 / 表单，暂停与恢复） | `GET /hitl/review`、`POST /hitl/{id}/confirm` |
 | [embabel-streaming](embabel-interaction/embabel-streaming/README.md) | 8895 | SSE 流式输出 | `GET /stream/generate` |
 | [embabel-conversation](embabel-interaction/embabel-conversation/README.md) | 8897 | 多轮对话与人格 | `POST /chat/{sessionId}` |
@@ -41,10 +40,8 @@
 | 模块 | 端口 | 主题 | 主要接口 |
 |---|---|---|---|
 | [embabel-thinking](embabel-reasoning/embabel-thinking/README.md) | 8896 | 推理过程提取（thinking） | `GET /thinking/ask` |
-| [embabel-refinement](embabel-reasoning/embabel-refinement/README.md) | 8899 | 自评迭代（Evaluator-Optimizer） | `GET /refine` |
 | [embabel-planner-types](embabel-reasoning/embabel-planner-types/README.md) | 8900 | GOAP / UTILITY 规划器对比 | `GET /planner/goap`、`GET /planner/utility` |
 | [embabel-multi-model](embabel-reasoning/embabel-multi-model/README.md) | 8905 | 角色→模型映射与回退 | `GET /multi-model/ask`、`/multi-model/fallback` |
-| [embabel-workflows](embabel-reasoning/embabel-workflows/README.md) | 8906 | 工作流原语（Kotlin：ScatterGather / Consensus） | `GET /workflows/scatter-gather`、`/workflows/consensus` |
 
 ### ⑤ 质量与安全（embabel-safety）
 
@@ -67,6 +64,18 @@
 | [embabel-mcp](embabel-integration/embabel-mcp/README.md) | 8909 | MCP 工具（filesystem server） | `GET /mcp/ask` |
 | [embabel-a2a](embabel-integration/embabel-a2a/README.md) | 8910 | A2A 服务端暴露 + 客户端调用 | `GET /a2a/card`、`/a2a/ask`、`/a2a/delegate` |
 
+### ⑧ Agent 模式（embabel-patterns）
+
+| 模块 | 端口 | 模式 | 主要接口 |
+|---|---|---|---|
+| [embabel-supervisor](embabel-patterns/embabel-supervisor/README.md) | 8912 | 主管调度（LLM 编排动作） | `GET /supervisor/ask` |
+| [embabel-trigger](embabel-patterns/embabel-trigger/README.md) | 8913 | 反应式触发（`trigger`） | `GET /trigger/ask` |
+| [embabel-replanning](embabel-patterns/embabel-replanning/README.md) | 8914 | 动态重规划（工具失败换路） | `GET /replan/ask` |
+| [embabel-multi-goal](embabel-patterns/embabel-multi-goal/README.md) | 8915 | 多目标自动选择（排序器） | `GET /multi-goal/auto` |
+| [embabel-subagent](embabel-patterns/embabel-subagent/README.md) | 8893 | 子 Agent / handoff 委派 | `GET /subagent/translate` |
+| [embabel-refinement](embabel-patterns/embabel-refinement/README.md) | 8899 | 自评迭代（Evaluator-Optimizer） | `GET /refine` |
+| [embabel-workflows](embabel-patterns/embabel-workflows/README.md) | 8906 | 编排原语（Kotlin：ScatterGather / Consensus） | `GET /workflows/scatter-gather`、`/workflows/consensus` |
+
 ## 目录结构
 
 ```
@@ -76,11 +85,12 @@ ai/embabel/
 ├── docker/                        外部组件（LiteLLM + Ollama + Postgres），见 docker/README.md
 ├── embabel-basics/                ① 基础
 ├── embabel-context/               ② 上下文工程（references / file-tools / embeddings）
-├── embabel-interaction/           ③ 交互与协作（subagent / hitl / streaming / conversation / multimodal）
-├── embabel-reasoning/             ④ 推理与规划（thinking / refinement / planner-types / multi-model / workflows）
+├── embabel-interaction/           ③ 交互与协作（hitl / streaming / conversation / multimodal）
+├── embabel-reasoning/             ④ 推理与规划（thinking / planner-types / multi-model）
 ├── embabel-safety/                ⑤ 质量与安全（guardrails）
 ├── embabel-ops/                   ⑥ 工程化（observability / testing / persistence）
-└── embabel-integration/           ⑦ 外部集成（mcp / a2a）
+├── embabel-integration/           ⑦ 外部集成（mcp / a2a）
+└── embabel-patterns/              ⑧ Agent 模式（supervisor / trigger / replanning / multi-goal / subagent / refinement / workflows）
 ```
 
 每个叶子模块的 `parent` 指向所属分类聚合器，分类聚合器的 `parent` 指向 `ai/embabel`，
