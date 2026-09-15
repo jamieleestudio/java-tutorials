@@ -19,6 +19,7 @@
         <module>embabel-observability</module>
         <module>embabel-testing</module>
         <module>embabel-persistence</module>
+        <module>embabel-eval</module>
     </modules>
 
 </project>

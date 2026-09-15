@@ -17,6 +17,7 @@
 
     <modules>
         <module>embabel-guardrails</module>
+        <module>embabel-secure-tools</module>
     </modules>
 
 </project>

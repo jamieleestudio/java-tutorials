@@ -21,6 +21,7 @@
         <module>embabel-parallelization</module>
         <module>embabel-orchestrator-workers</module>
         <module>embabel-autonomous-agent</module>
+        <module>embabel-tools-advanced</module>
         <module>embabel-supervisor</module>
         <module>embabel-trigger</module>
         <module>embabel-replanning</module>

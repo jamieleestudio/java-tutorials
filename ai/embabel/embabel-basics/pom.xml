@@ -20,6 +20,7 @@
         <module>embabel-planning</module>
         <module>embabel-tools</module>
         <module>embabel-structured-output</module>
+        <module>embabel-prompts</module>
     </modules>
 
 </project>
