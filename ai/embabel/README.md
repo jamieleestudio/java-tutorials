@@ -1,7 +1,7 @@
 # Embabel Agent Framework 示例集
 
 用 **Java 21 + Spring Boot 3.5 + Embabel 1.0.0** 演示 Embabel 的核心能力。
-共 44 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
+共 43 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
 默认 LLM 接入 **DeepSeek**（OpenAI 兼容接口），需要嵌入/视觉时经 LiteLLM 接入本地 Ollama。
 
 > Embabel 是 Spring 创始人 Rod Johnson 发起的 JVM Agent 框架：用强类型领域模型 + 可复用 *Action* + GOAP 规划器，
@@ -25,15 +25,15 @@
 |---|---|---|---|
 | [embabel-references](embabel-context/embabel-references/README.md) | 8901 | 引用加载 / 轻量 RAG（`LlmReference`） | `GET /references/ask` |
 | [embabel-file-tools](embabel-context/embabel-file-tools/README.md) | 8902 | 沙箱文件工具（`FileTools`） | `GET /files/ask` |
-| [embabel-embeddings](embabel-context/embabel-embeddings/README.md) | 8907 | 嵌入与语义检索（需 Docker） | `GET /embeddings/search` |
+| [embabel-embeddings](embabel-context/embabel-embeddings/README.md) | 8907 | 嵌入与语义检索（内存，需 Docker） | `GET /embeddings/search` |
+| [embabel-vector-store](embabel-context/embabel-vector-store/README.md) | 8933 | pgvector 持久化向量检索（HNSW + 元数据过滤，需 Docker） | `GET /vector/search`、`/vector/ask` |
 
 ### ③ [交互与协作（embabel-interaction）](embabel-interaction/README.md)
 
 | 模块 | 端口 | 主题 | 主要接口 |
 |---|---|---|---|
 | [embabel-hitl](embabel-interaction/embabel-hitl/README.md) | 8894 | 人机协同（确认 / 表单，暂停与恢复） | `GET /hitl/review`、`POST /hitl/{id}/confirm` |
-| [embabel-streaming](embabel-interaction/embabel-streaming/README.md) | 8895 | SSE 流式输出 | `GET /stream/generate` |
-| [embabel-conversation](embabel-interaction/embabel-conversation/README.md) | 8897 | 多轮对话与人格 | `POST /chat/{sessionId}` |
+| [embabel-conversation](embabel-interaction/embabel-conversation/README.md) | 8897 | 多轮对话与人格 + SSE 流式输出 | `POST /chat/{sessionId}`、`GET /chat/{sessionId}/stream` |
 | [embabel-multimodal](embabel-interaction/embabel-multimodal/README.md) | 8908 | 图像理解（需 Docker） | `GET /multimodal/describe` |
 
 ### ④ [推理与规划（embabel-reasoning）](embabel-reasoning/README.md)
@@ -56,6 +56,7 @@
 | 模块 | 端口 | 主题 | 主要接口 |
 |---|---|---|---|
 | [embabel-observability](embabel-ops/embabel-observability/README.md) | 8903 | 事件监听 + 成本/Token 统计 | `GET /observability/run` |
+| [embabel-budget](embabel-ops/embabel-budget/README.md) | 8934 | 运行预算与熔断（动作/token/成本三重上限 + 限速） | `GET /budget/run`、`/budget/compare` |
 | [embabel-testing](embabel-ops/embabel-testing/README.md) | 8904 | 无需 API Key 的确定性测试 | `mvn -pl :embabel-testing test` |
 | [embabel-persistence](embabel-ops/embabel-persistence/README.md) | 8911 | 上下文持久化到 Postgres（需 Docker） | `GET /persistence/save`、`/persistence/load` |
 | [embabel-eval](embabel-ops/embabel-eval/README.md) | 8923 | 评估 harness（数据集 + LLM 评审） | `GET /eval/run` |
@@ -76,11 +77,10 @@
 |---|---|---|---|
 | [embabel-prompt-chaining](embabel-patterns/embabel-prompt-chaining/README.md) | 8916 | 链式提示 + 关卡（gate） | `GET /chaining/write` |
 | [embabel-routing](embabel-patterns/embabel-routing/README.md) | 8917 | 路由（分类 → 专门处理器） | `GET /routing/ask` |
-| [embabel-parallelization](embabel-patterns/embabel-parallelization/README.md) | 8918 | 并行化（Sectioning / Voting） | `GET /parallel/sectioning`、`/parallel/voting` |
+| [embabel-parallelization](embabel-patterns/embabel-parallelization/README.md) | 8918 | 并行化（Sectioning / Voting + Kotlin 原语） | `GET /parallel/sectioning`、`/voting`、`/scatter-gather`、`/consensus` |
 | [embabel-orchestrator-workers](embabel-patterns/embabel-orchestrator-workers/README.md) | 8919 | 编排者-工人（动态拆解） | `GET /orchestrator/ask` |
 | [embabel-autonomous-agent](embabel-patterns/embabel-autonomous-agent/README.md) | 8920 | 自主 Agent（工具循环 + 错误恢复） | `GET /autonomous/ask` |
-| [embabel-tools-advanced](embabel-patterns/embabel-tools-advanced/README.md) | 8922 | 工具进阶（渐进式工具 / 循环回调） | `GET /tools-advanced/ask` |
-| [embabel-agentic-tools](embabel-patterns/embabel-agentic-tools/README.md) | 8928 | Agent 自省工具（黑板 / 进程状态） | `GET /agentic-tools/ask` |
+| [embabel-tools-advanced](embabel-patterns/embabel-tools-advanced/README.md) | 8922 | 工具进阶（渐进式工具 / 循环回调 / 自省工具） | `GET /tools-advanced/ask`、`/tools-advanced/inspect` |
 | [embabel-debate](embabel-patterns/embabel-debate/README.md) | 8930 | 多 Agent 辩论（对立视角 + 裁判） | `GET /debate/ask` |
 | [embabel-tree-of-thoughts](embabel-patterns/embabel-tree-of-thoughts/README.md) | 8931 | 思维树（分支 + 评分 + 剪枝） | `GET /tot/ask` |
 | [embabel-state-machine](embabel-patterns/embabel-state-machine/README.md) | 8929 | 状态机（按状态收敛工具集 + 显式转移） | `GET /state-machine/process` |
@@ -102,8 +102,8 @@
 | **Building block: Augmented LLM**（检索 + 工具 + 记忆） | `embabel-tools`、`embabel-references`、`embabel-embeddings`、`embabel-mcp`、`embabel-conversation` |
 | **Workflow: Prompt chaining**（含 gate） | `embabel-prompt-chaining`、`embabel-planning` |
 | **Workflow: Routing** | `embabel-routing` |
-| **Workflow: Parallelization — Sectioning** | `embabel-parallelization`（`/parallel/sectioning`）、`embabel-workflows`（ScatterGather） |
-| **Workflow: Parallelization — Voting** | `embabel-parallelization`（`/parallel/voting`）、`embabel-workflows`（Consensus） |
+| **Workflow: Parallelization — Sectioning** | `embabel-parallelization`（`/parallel/sectioning` 手写 `@Action` + `/parallel/scatter-gather` Kotlin 原语） |
+| **Workflow: Parallelization — Voting** | `embabel-parallelization`（`/parallel/voting` 多视角投票 + `/parallel/consensus` 多模型共识） |
 | **Workflow: Orchestrator-workers** | `embabel-orchestrator-workers` |
 | **Workflow: Evaluator-optimizer** | `embabel-refinement` |
 | **Agents**（自主循环、环境反馈、错误恢复、停止条件） | `embabel-autonomous-agent`、`embabel-tools`、`embabel-hitl`（人工检查点）、`embabel-guardrails`（护栏） |
@@ -222,7 +222,10 @@ embabel:
 | 模型输出 `<tool_calls>` 之类的 XML | 提示词里出现 `Tool prefix` 但实际没有工具；见 embabel-references |
 | 护栏违规的请求非常慢 | 默认动作重试 5 次、数据绑定重试 10 次；见 embabel-guardrails 的快速失败配置 |
 | HITL 恢复后状态是 `STUCK` | 等待对象的 payload 类型必须等于该 Action 的返回类型 |
-| Kotlin 模块编译报 metadata 版本不兼容 | Embabel 的 Kotlin metadata 是 2.1.0，需把 `kotlin.version` 覆盖为 2.1.0（见 embabel-workflows） |
+| Kotlin 模块编译报 metadata 版本不兼容 | Embabel 的 Kotlin metadata 是 2.1.0，需把 `kotlin.version` 覆盖为 2.1.0（见 embabel-parallelization、embabel-programmatic-dsl） |
+| `ProcessOptions.withBudget(...)` 后预算不生效 | `withBudget` 只设置 budget 字段；终止策略只在**构造时**派生，需显式把 `budget.earlyTerminationPolicy()` 接进 `ProcessControl`（见 embabel-budget） |
+| 同一模块两个 Agent 都被调用/报目标歧义 | `AgentInvocation.create(platform, X.class)` 按**目标类型**选 Agent，两个 Agent 不能共用同一目标类型（见 embabel-tools-advanced） |
+| Kotlin 注释里写路径报 `Unclosed comment` | Kotlin 支持**嵌套块注释**，注释里出现 `/*` 会打开嵌套注释（见 embabel-parallelization） |
 
 ## 构建与测试
 

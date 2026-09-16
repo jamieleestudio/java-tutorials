@@ -4,6 +4,10 @@ server:
 embabel:
   models:
     default-llm: deepseek-flash
+    # 共识工作流（ConsensusBuilder）用两个角色代表两个"来源"
+    llms:
+      fast: deepseek-flash
+      deep: deepseek-v4-pro
   agent:
     platform:
       # CONCURRENT：允许并发执行独立动作（sectioning 的并行来源）

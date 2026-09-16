@@ -22,7 +22,6 @@
         <module>embabel-orchestrator-workers</module>
         <module>embabel-autonomous-agent</module>
         <module>embabel-tools-advanced</module>
-        <module>embabel-agentic-tools</module>
         <module>embabel-debate</module>
         <module>embabel-tree-of-thoughts</module>
         <module>embabel-programmatic-dsl</module>
@@ -33,7 +32,6 @@
         <module>embabel-multi-goal</module>
         <module>embabel-subagent</module>
         <module>embabel-refinement</module>
-        <module>embabel-workflows</module>
     </modules>
 
 </project>

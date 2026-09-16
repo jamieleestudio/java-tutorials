@@ -12,7 +12,13 @@
 
     <artifactId>embabel-parallelization</artifactId>
     <name>embabel-parallelization</name>
-    <description>Embabel Agent Framework: parallelization pattern (sectioning and voting)</description>
+    <description>Embabel Agent Framework: parallelization pattern — Java 手写（sectioning/voting）与 Kotlin 原语（ScatterGather/Consensus）两种写法对照</description>
+
+    <properties>
+        <!-- 必须 >= Embabel 1.0.0 的编译版本（其 Kotlin metadata 为 2.1.0）；
+             Spring Boot 3.5 默认把 kotlin.version 管到 1.9.25，这里显式覆盖。 -->
+        <kotlin.version>2.1.0</kotlin.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -28,6 +34,16 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -35,7 +51,53 @@
     </dependencies>
 
     <build>
+        <!-- Java 保持默认 src/main/java；Kotlin 由 kotlin-maven-plugin 额外编译到同一 target/classes。
+             两侧互不引用，因此编译顺序无关紧要。 -->
         <plugins>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <version>${kotlin.version}</version>
+                <configuration>
+                    <jvmTarget>21</jvmTarget>
+                    <compilerPlugins>
+                        <plugin>spring</plugin>
+                    </compilerPlugins>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-allopen</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

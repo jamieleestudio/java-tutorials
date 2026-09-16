@@ -17,8 +17,10 @@ import com.embabel.agent.domain.io.UserInput;
  * 汇总动作同时需要三份结果。配置了
  * {@code embabel.agent.platform.process-type: CONCURRENT}，独立动作可并发执行。
  *
- * <p>对比：{@code embabel-workflows} 的 `ScatterGather` 是同一模式的**显式原语**
- * （Kotlin DSL，可指定 maxConcurrency）。
+ * <p>对比（同一个模块里的另一种写法）：{@code WorkflowConfig} 用 Kotlin 原语
+ * `ScatterGatherBuilder` 表达同一模式——它自动生成"N 个生成动作 + 汇总动作 + 目标"的规划，
+ * 并发度由 builder 管理，无需手写 `@Action`、也不依赖 `process-type` 配置。
+ * 端点：`/parallel/scatter-gather`。
  */
 @Agent(description = "Sectioning：多维度并行评审后汇总")
 public class SectioningAgent {

@@ -20,6 +20,7 @@
         <module>embabel-testing</module>
         <module>embabel-persistence</module>
         <module>embabel-eval</module>
+        <module>embabel-budget</module>
     </modules>
 
 </project>

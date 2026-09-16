@@ -1,0 +1,37 @@
+server:
+  port: 8933
+
+# 需要先启动 docker 组件里的 Postgres（pgvector 镜像）与 LiteLLM/Ollama：
+#   cd ai/embabel/docker && docker compose up -d postgres litellm ollama
+#   docker compose exec ollama ollama pull nomic-embed-text
+#
+# DeepSeek 没有 embedding 接口，所以嵌入必须走 LiteLLM -> 本地 Ollama。
+# 重要：Embabel 的 OpenAI starter **环境变量优先于 yml**（OPENAI_BASE_URL / OPENAI_API_KEY），
+# 所以运行本模块时必须把这两个变量指向 LiteLLM：
+#   PowerShell:  $env:OPENAI_BASE_URL="http://localhost:4000"; $env:OPENAI_API_KEY="sk-1234"
+#   bash:        export OPENAI_BASE_URL=http://localhost:4000 OPENAI_API_KEY=sk-1234
+spring:
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5433/embabel}
+    username: ${POSTGRES_USER:embabel}
+    password: ${POSTGRES_PASSWORD:embabel}
+
+app:
+  vector:
+    # 必须与嵌入模型的维度一致（nomic-embed-text = 768）。
+    # 不一致时 PgVectorStore 会在写入时报错并提示。
+    dim: 768
+    table: doc_chunk
+
+embabel:
+  models:
+    default-llm: deepseek-flash
+    default-embedding-model: nomic-embed-text
+  agent:
+    platform:
+      models:
+        openai:
+          base-url: ${OPENAI_BASE_URL:http://localhost:4000}
+          completions: /chat/completions
+          embeddings-path: /v1/embeddings
+          api-key: ${LITELLM_API_KEY:sk-1234}

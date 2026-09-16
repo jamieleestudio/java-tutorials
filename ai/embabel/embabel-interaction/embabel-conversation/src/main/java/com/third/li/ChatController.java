@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * 多轮对话接口。
+ * 多轮对话接口（阻塞式）。
  *
  * <p>用 Embabel 的 {@link InMemoryConversation} 保存每个会话的历史，
  * 每轮把完整历史（{@code List<Message>}）交给 {@link PromptRunner#respond}，
@@ -28,31 +26,29 @@ import java.util.concurrent.ConcurrentHashMap;
  *   POST /chat/demo-1?message=我叫什么？养了什么宠物？
  * </pre>
  *
- * <p>进阶：Embabel 还提供 {@code AgentProcessChatbot}，可让整个 AgentProcess
- * 常驻并托管会话（支持 HITL/工具/事件），此处用更轻量的方式演示对话记忆。
+ * <p>需要"边生成边显示"用 {@link StreamingController}（同一个会话存储，可混用）。
  */
 @RestController
 @RequestMapping("/chat")
 public class ChatController {
 
-    private static final String SYSTEM_PROMPT =
+    /** 助手人格：两个控制器共用（见 {@link StreamingController}）。 */
+    static final String SYSTEM_PROMPT =
             "你是 Embabel 教程中的多轮对话助手。请用简洁的中文回答，并记住之前对话中的用户信息。";
 
     private final AiBuilder aiBuilder;
-    private final Map<String, InMemoryConversation> sessions = new ConcurrentHashMap<>();
+    private final ConversationStore store;
 
-    public ChatController(AiBuilder aiBuilder) {
+    public ChatController(AiBuilder aiBuilder, ConversationStore store) {
         this.aiBuilder = aiBuilder;
+        this.store = store;
     }
 
     @PostMapping("/{sessionId}")
     public ChatResult chat(
             @PathVariable String sessionId,
             @RequestParam(value = "message") String message) {
-        InMemoryConversation conversation = sessions.computeIfAbsent(
-                sessionId,
-                id -> new InMemoryConversation(List.of(), id));
-
+        InMemoryConversation conversation = store.get(sessionId);
         conversation.addMessage(new UserMessage(message));
 
         PromptRunner runner = aiBuilder.ai().withDefaultLlm().withSystemPrompt(SYSTEM_PROMPT);
@@ -64,7 +60,7 @@ public class ChatController {
 
     @PostMapping("/{sessionId}/reset")
     public Map<String, Object> reset(@PathVariable String sessionId) {
-        sessions.remove(sessionId);
+        store.reset(sessionId);
         return Map.of("sessionId", sessionId, "reset", true);
     }
 }

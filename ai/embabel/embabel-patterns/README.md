@@ -13,10 +13,9 @@
 |---|---|---|
 | [embabel-prompt-chaining](../embabel-patterns/embabel-prompt-chaining/README.md) | 8916 | Prompt chaining + 关卡（gate 不通过则链条停止） |
 | [embabel-routing](../embabel-patterns/embabel-routing/README.md) | 8917 | Routing（分类 → `@Condition` 决定通道） |
-| [embabel-parallelization](../embabel-patterns/embabel-parallelization/README.md) | 8918 | Parallelization（Sectioning 并行分片 / Voting 投票） |
+| [embabel-parallelization](../embabel-patterns/embabel-parallelization/README.md) | 8918 | Parallelization（Sectioning / Voting）+ Kotlin 原语（ScatterGather / Consensus）两种写法对照 |
 | [embabel-orchestrator-workers](../embabel-patterns/embabel-orchestrator-workers/README.md) | 8919 | Orchestrator-workers（动态拆解子任务） |
 | [embabel-refinement](../embabel-patterns/embabel-refinement/README.md) | 8899 | Evaluator-optimizer（自评迭代） |
-| [embabel-workflows](../embabel-patterns/embabel-workflows/README.md) | 8906 | 编排原语（Kotlin：ScatterGather / Consensus / RepeatUntil） |
 
 ### Agent 模式（模型自主决策）
 
@@ -33,8 +32,7 @@
 | 模块 | 端口 | 模式 |
 |---|---|---|
 | [embabel-subagent](../embabel-patterns/embabel-subagent/README.md) | 8893 | 子 Agent / handoff 委派 |
-| [embabel-tools-advanced](../embabel-patterns/embabel-tools-advanced/README.md) | 8922 | 渐进式工具 + 工具循环回调 + 工具名纠正 |
-| [embabel-agentic-tools](../embabel-patterns/embabel-agentic-tools/README.md) | 8928 | Agent 自省工具（查看黑板与进程状态） |
+| [embabel-tools-advanced](../embabel-patterns/embabel-tools-advanced/README.md) | 8922 | 渐进式工具 + 工具循环回调 + 工具名纠正 + 自省工具 |
 | [embabel-debate](../embabel-patterns/embabel-debate/README.md) | 8930 | 多 Agent 辩论（对立视角 + 裁判综合） |
 | [embabel-tree-of-thoughts](../embabel-patterns/embabel-tree-of-thoughts/README.md) | 8931 | 思维树（分支生成 + 评分 + 剪枝 + 取最优） |
 | [embabel-state-machine](../embabel-patterns/embabel-state-machine/README.md) | 8929 | 状态机（按状态收敛工具集 + 显式转移） |
@@ -43,10 +41,10 @@
 ## 建议阅读顺序
 
 1. **先看清"结构"**：`prompt-chaining` → `routing` → `parallelization` → `orchestrator-workers`
-   （从固定路径到动态拆解）
+   （从固定路径到动态拆解；`parallelization` 里同时给出"手写 `@Action`"与"Kotlin 原语"两种写法）
 2. **再看"自主"**：`autonomous-agent` → `supervisor` → `replanning`
-3. **最后补"协作与工具"**：`subagent` → `tools-advanced` → `agentic-tools`
-4. 想深入"迭代改进"看 `refinement`；想用原语自己拼看 `workflows`（Kotlin）
+3. **最后补"协作与工具"**：`subagent` → `tools-advanced`（自省工具已并入此模块）
+4. 想深入"迭代改进"看 `refinement`；想用原语自己拼看 `parallelization` 的 Kotlin 部分
 5. 想加"硬约束"看 `state-machine`；想不用注解、纯代码构建 Agent 看 `programmatic-dsl`（Kotlin）
 
 ## 与相邻分类的边界

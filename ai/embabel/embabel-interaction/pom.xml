@@ -17,7 +17,6 @@
 
     <modules>
         <module>embabel-hitl</module>
-        <module>embabel-streaming</module>
         <module>embabel-conversation</module>
         <module>embabel-multimodal</module>
     </modules>

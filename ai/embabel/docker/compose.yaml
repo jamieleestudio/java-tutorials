@@ -14,7 +14,7 @@ name: embabel
 # 端口刻意避开常用占用（80/443/8080/8081/5003）：
 #   LiteLLM   4000   —— 统一入口（DeepSeek 聊天 + Ollama 嵌入/视觉）
 #   Ollama    11434  —— 本地嵌入与视觉模型
-#   Postgres  5433   —— 预留给 embabel-persistence（下一批）
+#   Postgres  5433   —— embabel-persistence（会话持久化）+ embabel-vector-store（pgvector 向量检索）
 
 services:
   litellm:
@@ -42,7 +42,10 @@ services:
       - ollama-data:/root/.ollama
 
   postgres:
-    image: postgres:16-alpine
+    # 用 pgvector 官方镜像（基于 postgres:16，数据目录兼容）：
+    #   - embabel-persistence 用它做 ContextRepository
+    #   - embabel-vector-store 用它做向量检索（CREATE EXTENSION vector）
+    image: pgvector/pgvector:pg16
     container_name: embabel-postgres
     ports:
       - "5433:5432"
@@ -52,6 +55,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-embabel}
     volumes:
       - postgres-data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
 
 volumes:
   ollama-data:

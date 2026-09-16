@@ -19,6 +19,7 @@
         <module>embabel-references</module>
         <module>embabel-file-tools</module>
         <module>embabel-embeddings</module>
+        <module>embabel-vector-store</module>
     </modules>
 
 </project>
