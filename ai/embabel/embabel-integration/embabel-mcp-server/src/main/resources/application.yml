@@ -1,0 +1,17 @@
+server:
+  port: 8927
+
+# 本模块把 Embabel Agent 暴露成 **MCP server**（SSE 传输）：
+#   GET  /sse            建立事件流（返回 message endpoint）
+#   POST /mcp/message    发送 JSON-RPC 请求
+# 可用 MCP Inspector / Claude Desktop 等 MCP 客户端连接 http://localhost:8927/sse
+embabel:
+  models:
+    default-llm: deepseek-flash
+  agent:
+    platform:
+      models:
+        openai:
+          base-url: ${OPENAI_BASE_URL:placeholder}
+          completions: /chat/completions
+          api-key: ${DEEPSEEK_API_KEY:placeholder}

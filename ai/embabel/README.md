@@ -1,7 +1,7 @@
 # Embabel Agent Framework 示例集
 
 用 **Java 21 + Spring Boot 3.5 + Embabel 1.0.0** 演示 Embabel 的核心能力。
-共 36 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
+共 39 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
 默认 LLM 接入 **DeepSeek**（OpenAI 兼容接口），需要嵌入/视觉时经 LiteLLM 接入本地 Ollama。
 
 > Embabel 是 Spring 创始人 Rod Johnson 发起的 JVM Agent 框架：用强类型领域模型 + 可复用 *Action* + GOAP 规划器，
@@ -66,6 +66,9 @@
 |---|---|---|---|
 | [embabel-mcp](embabel-integration/embabel-mcp/README.md) | 8909 | MCP 工具（filesystem server） | `GET /mcp/ask` |
 | [embabel-a2a](embabel-integration/embabel-a2a/README.md) | 8910 | A2A 服务端暴露 + 客户端调用 | `GET /a2a/card`、`/a2a/ask`、`/a2a/delegate` |
+| [embabel-mcp-server](embabel-integration/embabel-mcp-server/README.md) | 8927 | 把 Agent 暴露为 MCP server（SSE） | `GET /sse`、`POST /mcp/message` |
+| [embabel-ollama](embabel-integration/embabel-ollama/README.md) | 8925 | 本地模型（完全离线，需 Docker） | `GET /ollama/ask`、`/ollama/embed` |
+| [embabel-byok](embabel-integration/embabel-byok/README.md) | 8926 | 多租户模型路由 + 成本治理 | `GET /byok/ask`、`/byok/usage` |
 
 ### ⑧ Agent 模式（embabel-patterns）
 
@@ -116,7 +119,7 @@ ai/embabel/
 ├── embabel-reasoning/             ④ 推理与规划（thinking / planner-types / multi-model）
 ├── embabel-safety/                ⑤ 质量与安全（guardrails）
 ├── embabel-ops/                   ⑥ 工程化（observability / testing / persistence）
-├── embabel-integration/           ⑦ 外部集成（mcp / a2a）
+├── embabel-integration/           ⑦ 外部集成（mcp / mcp-server / a2a / ollama / byok）
 └── embabel-patterns/              ⑧ Agent 模式（supervisor / trigger / replanning / multi-goal / subagent / refinement / workflows）
 ```
 

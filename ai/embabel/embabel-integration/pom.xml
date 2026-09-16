@@ -17,7 +17,10 @@
 
     <modules>
         <module>embabel-mcp</module>
+        <module>embabel-mcp-server</module>
         <module>embabel-a2a</module>
+        <module>embabel-ollama</module>
+        <module>embabel-byok</module>
     </modules>
 
 </project>

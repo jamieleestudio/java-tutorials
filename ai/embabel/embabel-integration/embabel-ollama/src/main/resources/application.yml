@@ -1,0 +1,16 @@
+server:
+  port: 8925
+
+# 完全本地运行：不需要任何云端 API Key。
+# 前置：docker 里的 Ollama（端口 11434）已拉取模型
+#   docker exec embabel-ollama ollama list
+embabel:
+  agent:
+    platform:
+      models:
+        ollama:
+          base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+  models:
+    # 注意：模型名必须与 Ollama 里的一致（启动日志会打印发现的模型列表）
+    default-llm: qwen2.5vl:3b
+    default-embedding-model: nomic-embed-text:latest

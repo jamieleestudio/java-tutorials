@@ -1,0 +1,21 @@
+server:
+  port: 8926
+
+embabel:
+  models:
+    default-llm: deepseek-flash
+    # 租户等级 -> 模型名（租户路由的基础；真正 BYOK 时这里换成"每用户 key -> 模型"）
+    llms:
+      basic: deepseek-flash
+      pro: deepseek-v4-pro
+  agent:
+    platform:
+      models:
+        openai:
+          base-url: ${OPENAI_BASE_URL:placeholder}
+          completions: /chat/completions
+          api-key: ${DEEPSEEK_API_KEY:placeholder}
+
+demo:
+  # 每个租户的成本上限（美元）；超过则拒绝服务
+  tenant-cost-limit: 0.02
