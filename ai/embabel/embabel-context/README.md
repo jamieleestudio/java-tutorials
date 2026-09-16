@@ -12,7 +12,7 @@
 | [embabel-references](../embabel-context/embabel-references/README.md) | 8901 | 引用加载（`LlmReference`，轻量 RAG：把文档全量注入提示词） |
 | [embabel-file-tools](../embabel-context/embabel-file-tools/README.md) | 8902 | 沙箱文件工具（`FileTools.readOnly/readWrite`） |
 | [embabel-embeddings](../embabel-context/embabel-embeddings/README.md) | 8907 | 嵌入与语义检索（`EmbeddingService` + 余弦相似度；需 Docker） |
-| [embabel-vector-store](../embabel-context/embabel-vector-store/README.md) | 8933 | pgvector 持久化向量检索（HNSW 索引 + 元数据过滤 + 阈值；需 Docker） |
+| [embabel-vector-store](../embabel-context/embabel-vector-store/README.md) | 8933 | pgvector 持久化向量检索（HNSW + 元数据过滤 + 阈值 + **两阶段重排**；需 Docker） |
 | [embabel-document-ingest](../embabel-context/embabel-document-ingest/README.md) | 8937 | 文档摄入流水线（md/txt/pdf → 段落感知分块 → 嵌入 → 增量；需 Docker） |
 
 ## 建议阅读顺序

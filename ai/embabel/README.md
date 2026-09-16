@@ -38,7 +38,7 @@
 | [embabel-references](embabel-context/embabel-references/README.md) | 8901 | 引用加载 / 轻量 RAG（`LlmReference`） | `GET /references/ask` |
 | [embabel-file-tools](embabel-context/embabel-file-tools/README.md) | 8902 | 沙箱文件工具（`FileTools`） | `GET /files/ask` |
 | [embabel-embeddings](embabel-context/embabel-embeddings/README.md) | 8907 | 嵌入与语义检索（内存，需 Docker） | `GET /embeddings/search` |
-| [embabel-vector-store](embabel-context/embabel-vector-store/README.md) | 8933 | pgvector 持久化向量检索（HNSW + 元数据过滤，需 Docker） | `GET /vector/search`、`/vector/ask` |
+| [embabel-vector-store](embabel-context/embabel-vector-store/README.md) | 8933 | pgvector 持久化向量检索（HNSW + 元数据过滤 + 两阶段重排，需 Docker） | `GET /vector/search`、`/vector/compare` |
 | [embabel-document-ingest](embabel-context/embabel-document-ingest/README.md) | 8937 | 文档摄入（md/txt/pdf → 分块 → 嵌入 → 增量，需 Docker） | `POST /ingest/run`、`/ingest/demo-pdf` |
 
 ### ③ [交互与协作（embabel-interaction）](embabel-interaction/README.md)
