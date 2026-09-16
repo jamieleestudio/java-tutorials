@@ -1,11 +1,23 @@
 # Embabel Agent Framework 示例集
 
 用 **Java 21 + Spring Boot 3.5 + Embabel 1.0.0** 演示 Embabel 的核心能力。
-共 43 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
+共 45 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
 默认 LLM 接入 **DeepSeek**（OpenAI 兼容接口），需要嵌入/视觉时经 LiteLLM 接入本地 Ollama。
 
 > Embabel 是 Spring 创始人 Rod Johnson 发起的 JVM Agent 框架：用强类型领域模型 + 可复用 *Action* + GOAP 规划器，
 > 让智能体围绕"目标"动态推导执行步骤，而不是写死工作流。
+
+## 按目的选路线（45 个模块太多，从这里进）
+
+| 我想… | 路线 |
+|---|---|
+| **快速跑通第一个 Agent** | `embabel-chat` → `embabel-planning` → `embabel-tools` → `embabel-structured-output` |
+| **做一个 RAG 应用** | `embabel-references`（全量注入）→ `embabel-embeddings`（内存检索）→ `embabel-vector-store`（pgvector 持久化）→ `embabel-tool-chaining`（工具链） |
+| **实现一个能自主决策的 Agent** | `embabel-autonomous-agent` → `embabel-tools-advanced` → `embabel-replanning` → `embabel-stuck-handler` → `embabel-budget` |
+| **把 Agent 接进产品** | `embabel-hitl` → `embabel-conversation`（含流式）→ `embabel-multimodal` → `embabel-guardrails` → `embabel-secure-tools` |
+| **多 Agent 协作** | `embabel-subagent` → `embabel-supervisor` → `embabel-parallelization` → `embabel-debate` → `embabel-orchestrator-workers` → `embabel-a2a` |
+| **按 Anthropic 模式系统学** | 见下方[模式对照表](#与-anthropicbuilding-effective-agents的模式对照)，从 `embabel-prompt-chaining` 顺序往下 |
+| **上线前补齐工程化** | `embabel-testing` → `embabel-eval` → `embabel-observability` → `embabel-budget` → `embabel-stuck-handler` → `embabel-persistence` |
 
 ## 分类与模块
 
@@ -57,6 +69,7 @@
 |---|---|---|---|
 | [embabel-observability](embabel-ops/embabel-observability/README.md) | 8903 | 事件监听 + 成本/Token 统计 | `GET /observability/run` |
 | [embabel-budget](embabel-ops/embabel-budget/README.md) | 8934 | 运行预算与熔断（动作/token/成本三重上限 + 限速） | `GET /budget/run`、`/budget/compare` |
+| [embabel-stuck-handler](embabel-ops/embabel-stuck-handler/README.md) | 8935 | 卡住兜底（自定义 `StuckHandler`：补前提后重规划） | `GET /stuck/recover`、`/stuck/no-handler` |
 | [embabel-testing](embabel-ops/embabel-testing/README.md) | 8904 | 无需 API Key 的确定性测试 | `mvn -pl :embabel-testing test` |
 | [embabel-persistence](embabel-ops/embabel-persistence/README.md) | 8911 | 上下文持久化到 Postgres（需 Docker） | `GET /persistence/save`、`/persistence/load` |
 | [embabel-eval](embabel-ops/embabel-eval/README.md) | 8923 | 评估 harness（数据集 + LLM 评审） | `GET /eval/run` |
@@ -81,6 +94,7 @@
 | [embabel-orchestrator-workers](embabel-patterns/embabel-orchestrator-workers/README.md) | 8919 | 编排者-工人（动态拆解） | `GET /orchestrator/ask` |
 | [embabel-autonomous-agent](embabel-patterns/embabel-autonomous-agent/README.md) | 8920 | 自主 Agent（工具循环 + 错误恢复） | `GET /autonomous/ask` |
 | [embabel-tools-advanced](embabel-patterns/embabel-tools-advanced/README.md) | 8922 | 工具进阶（渐进式工具 / 循环回调 / 自省工具） | `GET /tools-advanced/ask`、`/tools-advanced/inspect` |
+| [embabel-tool-chaining](embabel-patterns/embabel-tool-chaining/README.md) | 8936 | 工具链式展开（artifacts：对象出现即解锁其工具） | `GET /tool-chaining/ask`、`/artifacts/sink` |
 | [embabel-debate](embabel-patterns/embabel-debate/README.md) | 8930 | 多 Agent 辩论（对立视角 + 裁判） | `GET /debate/ask` |
 | [embabel-tree-of-thoughts](embabel-patterns/embabel-tree-of-thoughts/README.md) | 8931 | 思维树（分支 + 评分 + 剪枝） | `GET /tot/ask` |
 | [embabel-state-machine](embabel-patterns/embabel-state-machine/README.md) | 8929 | 状态机（按状态收敛工具集 + 显式转移） | `GET /state-machine/process` |
@@ -227,6 +241,43 @@ embabel:
 | 同一模块两个 Agent 都被调用/报目标歧义 | `AgentInvocation.create(platform, X.class)` 按**目标类型**选 Agent，两个 Agent 不能共用同一目标类型（见 embabel-tools-advanced） |
 | Kotlin 注释里写路径报 `Unclosed comment` | Kotlin 支持**嵌套块注释**，注释里出现 `/*` 会打开嵌套注释（见 embabel-parallelization） |
 
+## 端口登记表
+
+每个模块固定一个端口（避开本机已占用的 80/443/8080/8081/5003）。改动模块时**先查这里**，别撞端口。
+
+| 端口 | 模块 | 端口 | 模块 |
+|---|---|---|---|
+| 8889 | embabel-chat | 8919 | embabel-orchestrator-workers |
+| 8890 | embabel-planning | 8920 | embabel-autonomous-agent |
+| 8891 | embabel-tools | 8921 | embabel-prompts |
+| 8892 | embabel-structured-output | 8922 | embabel-tools-advanced |
+| 8893 | embabel-subagent | 8923 | embabel-eval |
+| 8894 | embabel-hitl | 8924 | embabel-secure-tools |
+| 8895 | *(已并入 8897 embabel-conversation)* | 8925 | embabel-ollama |
+| 8896 | embabel-thinking | 8926 | embabel-byok |
+| 8897 | embabel-conversation（含流式） | 8927 | embabel-mcp-server |
+| 8898 | embabel-guardrails | 8928 | *(已并入 8922 embabel-tools-advanced)* |
+| 8899 | embabel-refinement | 8929 | embabel-state-machine |
+| 8900 | embabel-planner-types | 8930 | embabel-debate |
+| 8901 | embabel-references | 8931 | embabel-tree-of-thoughts |
+| 8902 | embabel-file-tools | 8932 | embabel-programmatic-dsl |
+| 8903 | embabel-observability | 8933 | embabel-vector-store |
+| 8904 | embabel-testing | 8934 | embabel-budget |
+| 8905 | embabel-multi-model | 8935 | embabel-stuck-handler |
+| 8906 | *(已并入 8918 embabel-parallelization)* | 8936 | embabel-tool-chaining |
+| 8907 | embabel-embeddings | 8937+ | *(空闲)* |
+| 8908 | embabel-multimodal | | |
+| 8909 | embabel-mcp | | |
+| 8910 | embabel-a2a | | |
+| 8911 | embabel-persistence | | |
+| 8912 | embabel-supervisor | | |
+| 8913 | embabel-trigger | | |
+| 8914 | embabel-replanning | | |
+| 8915 | embabel-multi-goal | | |
+| 8916 | embabel-prompt-chaining | | |
+| 8917 | embabel-routing | | |
+| 8918 | embabel-parallelization | | |
+
 ## 构建与测试
 
 ```bash
@@ -234,3 +285,6 @@ cd ai/embabel
 mvn package                          # 全部模块 + 各模块单测
 mvn -pl :embabel-testing test        # 只跑测试示例模块（无需 API Key）
 ```
+
+CI：`.github/workflows/build.yml` 会在 `ai/embabel/**` 变更时全量构建 45 个模块，
+并单独跑 `embabel-testing` 的免 Key 测试（不调用真实 LLM）。

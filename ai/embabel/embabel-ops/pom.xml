@@ -21,6 +21,7 @@
         <module>embabel-persistence</module>
         <module>embabel-eval</module>
         <module>embabel-budget</module>
+        <module>embabel-stuck-handler</module>
     </modules>
 
 </project>

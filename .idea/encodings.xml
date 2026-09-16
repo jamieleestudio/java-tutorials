@@ -48,6 +48,8 @@
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-eval/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-budget/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-budget/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-stuck-handler/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-stuck-handler/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-observability/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-observability/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-persistence/src/main/java" charset="UTF-8" />
@@ -79,6 +81,8 @@
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-supervisor/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tools-advanced/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tools-advanced/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tool-chaining/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tool-chaining/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-debate/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-debate/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tree-of-thoughts/src/main/java" charset="UTF-8" />

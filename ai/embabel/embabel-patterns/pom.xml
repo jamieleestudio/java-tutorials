@@ -22,6 +22,7 @@
         <module>embabel-orchestrator-workers</module>
         <module>embabel-autonomous-agent</module>
         <module>embabel-tools-advanced</module>
+        <module>embabel-tool-chaining</module>
         <module>embabel-debate</module>
         <module>embabel-tree-of-thoughts</module>
         <module>embabel-programmatic-dsl</module>
