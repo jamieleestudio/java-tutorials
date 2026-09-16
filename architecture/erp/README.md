@@ -43,15 +43,36 @@ erp/
 
 ```
 com.example.erp.attendance
-├─ api              AttendanceQueryService / AttendanceClockService / dto / command
+├─ api              AttendanceQueryApi / AttendanceClockApi / dto / command
 ├─ interfaces       web · admin · mobile · openapi · internal · device · mq · job（各带独立 dto）
-├─ application      AttendanceClockApplicationService（事务边界 + 用例编排）
+├─ application      AttendanceService（事务边界 + 用例编排）
 ├─ domain           model / repository（端口）/ service（端口）/ event
 └─ infrastructure   persistence（Entity + JpaRepository + RepositoryImpl）/ client
 ```
 
 `erp-attendance` 是完整样例：8 类端齐全、跨域调用 `erp-grade` 的 `api`、出站走 `erp-platform-integration`、
 领域事件经 `MessagePublisher` 发布。其余 17 个域为可编译骨架。
+
+## 命名规范
+
+| 层 / 类型 | 后缀 | 示例 |
+|---|---|---|
+| api（跨域契约） | `Api` | `AttendanceQueryApi`、`GradeCommandApi` |
+| application（用例实现） | `Service` | `AttendanceService`、`GradeService` |
+| domain 领域服务 | `DomainService` | `AttendanceDomainService` |
+| domain 聚合根 / 值对象 | 无 | `AttendanceRecord` |
+| domain 仓储端口 | `Repository` | `AttendanceRecordRepository` |
+| infrastructure 仓储实现 | `RepositoryImpl` | `AttendanceRecordRepositoryImpl` |
+| infrastructure JPA 实体 | `Entity` | `AttendanceRecordEntity` |
+| infrastructure 外部系统客户端 | `Client` | `FaceRecognitionClient` |
+| 入站 Controller / Consumer / Job | `Controller` / `Consumer` / `Job` | `AttendanceWebController`、`AttendanceClockConsumer`、`AttendanceDailyJob` |
+| 传输对象 | `Dto` | `AttendanceRecordDto` |
+| 命令 / 查询 | `Command` / `Query` | `ClockInCommand` |
+| 端出入参 | `Request` / `Response` | `ClockInWebRequest`、`AttendanceWebResponse` |
+| 领域事件 | `Event` | `AttendanceClockedEvent` |
+
+规则：**层提示只出现一次**——api 用 `Api`、application 用 `Service`、domain 领域服务用 `DomainService`；
+`domain` 包内裸名词一律留给聚合根/值对象，避免与领域服务撞名。
 
 ## 依赖方向
 
@@ -95,7 +116,7 @@ curl -X POST localhost:8080/api/v1/attendance/clock-in -H 'Content-Type: applica
 
 ## 演进到物理拆分 / 微服务
 
-默认整域一个 jar（文档演进路径 ②）。满足任一条件再把某域提升为 `-api` + `-core`（路径 ③）：
+默认整域一个 jar。满足任一条件再把某域提升为 `-api` + `-core`：
 
 - 被 ≥3 个域依赖；或
 - 需要独立部署；或

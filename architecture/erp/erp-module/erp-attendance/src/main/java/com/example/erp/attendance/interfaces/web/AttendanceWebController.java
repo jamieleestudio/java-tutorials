@@ -1,7 +1,7 @@
 package com.example.erp.attendance.interfaces.web;
 
-import com.example.erp.attendance.api.AttendanceClockService;
-import com.example.erp.attendance.api.AttendanceQueryService;
+import com.example.erp.attendance.api.AttendanceClockApi;
+import com.example.erp.attendance.api.AttendanceQueryApi;
 import com.example.erp.attendance.api.command.ClockInCommand;
 import com.example.erp.attendance.api.dto.AttendanceRecordDto;
 import com.example.erp.attendance.interfaces.web.dto.AttendanceWebResponse;
@@ -20,10 +20,10 @@ import java.util.List;
 @RequestMapping("/api/v1/attendance")
 public class AttendanceWebController {
 
-    private final AttendanceQueryService queryService;
-    private final AttendanceClockService clockService;
+    private final AttendanceQueryApi queryService;
+    private final AttendanceClockApi clockService;
 
-    public AttendanceWebController(AttendanceQueryService queryService, AttendanceClockService clockService) {
+    public AttendanceWebController(AttendanceQueryApi queryService, AttendanceClockApi clockService) {
         this.queryService = queryService;
         this.clockService = clockService;
     }

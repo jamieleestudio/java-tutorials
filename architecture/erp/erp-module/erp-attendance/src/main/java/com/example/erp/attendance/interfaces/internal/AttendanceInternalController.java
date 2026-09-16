@@ -1,6 +1,6 @@
 package com.example.erp.attendance.interfaces.internal;
 
-import com.example.erp.attendance.api.AttendanceQueryService;
+import com.example.erp.attendance.api.AttendanceQueryApi;
 import com.example.erp.attendance.api.dto.AttendanceRecordDto;
 import com.example.erp.attendance.interfaces.internal.dto.AttendanceInternalResponse;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/internal/v1/attendance")
 public class AttendanceInternalController {
 
-    private final AttendanceQueryService queryService;
+    private final AttendanceQueryApi queryService;
 
-    public AttendanceInternalController(AttendanceQueryService queryService) {
+    public AttendanceInternalController(AttendanceQueryApi queryService) {
         this.queryService = queryService;
     }
 

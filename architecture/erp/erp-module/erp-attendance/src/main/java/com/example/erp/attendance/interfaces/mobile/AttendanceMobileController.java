@@ -1,7 +1,7 @@
 package com.example.erp.attendance.interfaces.mobile;
 
-import com.example.erp.attendance.api.AttendanceClockService;
-import com.example.erp.attendance.api.AttendanceQueryService;
+import com.example.erp.attendance.api.AttendanceClockApi;
+import com.example.erp.attendance.api.AttendanceQueryApi;
 import com.example.erp.attendance.api.command.ClockInCommand;
 import com.example.erp.attendance.api.dto.AttendanceRecordDto;
 import com.example.erp.attendance.interfaces.mobile.dto.AttendanceMobileResponse;
@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/mobile/attendance")
 public class AttendanceMobileController {
 
-    private final AttendanceQueryService queryService;
-    private final AttendanceClockService clockService;
+    private final AttendanceQueryApi queryService;
+    private final AttendanceClockApi clockService;
 
-    public AttendanceMobileController(AttendanceQueryService queryService, AttendanceClockService clockService) {
+    public AttendanceMobileController(AttendanceQueryApi queryService, AttendanceClockApi clockService) {
         this.queryService = queryService;
         this.clockService = clockService;
     }

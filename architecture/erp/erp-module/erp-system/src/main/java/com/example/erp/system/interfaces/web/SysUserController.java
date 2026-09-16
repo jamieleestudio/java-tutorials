@@ -1,6 +1,6 @@
 package com.example.erp.system.interfaces.web;
 
-import com.example.erp.system.api.SystemQueryService;
+import com.example.erp.system.api.SystemQueryApi;
 import com.example.erp.system.interfaces.web.dto.SysUserResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/system/users")
 public class SysUserController {
 
-    private final SystemQueryService queryService;
+    private final SystemQueryApi queryService;
 
-    public SysUserController(SystemQueryService queryService) {
+    public SysUserController(SystemQueryApi queryService) {
         this.queryService = queryService;
     }
 

@@ -1,6 +1,6 @@
 package com.example.erp.moraleducation.interfaces.web;
 
-import com.example.erp.moraleducation.api.MoralEducationQueryService;
+import com.example.erp.moraleducation.api.MoralEducationQueryApi;
 import com.example.erp.moraleducation.interfaces.web.dto.MoralActivityResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/moral-education")
 public class MoralActivityController {
 
-    private final MoralEducationQueryService queryService;
+    private final MoralEducationQueryApi queryService;
 
-    public MoralActivityController(MoralEducationQueryService queryService) {
+    public MoralActivityController(MoralEducationQueryApi queryService) {
         this.queryService = queryService;
     }
 

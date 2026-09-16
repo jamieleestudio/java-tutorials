@@ -1,6 +1,6 @@
 package com.example.erp.teachingplan.interfaces.web;
 
-import com.example.erp.teachingplan.api.TeachingPlanQueryService;
+import com.example.erp.teachingplan.api.TeachingPlanQueryApi;
 import com.example.erp.teachingplan.interfaces.web.dto.TeachingPlanResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/teaching-plan")
 public class TeachingPlanController {
 
-    private final TeachingPlanQueryService queryService;
+    private final TeachingPlanQueryApi queryService;
 
-    public TeachingPlanController(TeachingPlanQueryService queryService) {
+    public TeachingPlanController(TeachingPlanQueryApi queryService) {
         this.queryService = queryService;
     }
 

@@ -1,6 +1,6 @@
 package com.example.erp.enrollment.interfaces.web;
 
-import com.example.erp.enrollment.api.EnrollmentQueryService;
+import com.example.erp.enrollment.api.EnrollmentQueryApi;
 import com.example.erp.enrollment.interfaces.web.dto.EnrollmentResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/enrollment")
 public class EnrollmentController {
 
-    private final EnrollmentQueryService queryService;
+    private final EnrollmentQueryApi queryService;
 
-    public EnrollmentController(EnrollmentQueryService queryService) {
+    public EnrollmentController(EnrollmentQueryApi queryService) {
         this.queryService = queryService;
     }
 

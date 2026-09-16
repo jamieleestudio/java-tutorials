@@ -1,6 +1,6 @@
 package com.example.erp.attendance.interfaces.openapi;
 
-import com.example.erp.attendance.api.AttendanceQueryService;
+import com.example.erp.attendance.api.AttendanceQueryApi;
 import com.example.erp.attendance.api.dto.AttendanceRecordDto;
 import com.example.erp.attendance.interfaces.openapi.dto.AttendanceOpenApiResponse;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +15,9 @@ import java.util.List;
 @RequestMapping("/openapi/v1/attendance")
 public class AttendanceOpenApiController {
 
-    private final AttendanceQueryService queryService;
+    private final AttendanceQueryApi queryService;
 
-    public AttendanceOpenApiController(AttendanceQueryService queryService) {
+    public AttendanceOpenApiController(AttendanceQueryApi queryService) {
         this.queryService = queryService;
     }
 

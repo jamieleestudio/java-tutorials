@@ -1,6 +1,6 @@
 package com.example.erp.grade.interfaces.admin;
 
-import com.example.erp.grade.api.GradeQueryService;
+import com.example.erp.grade.api.GradeQueryApi;
 import com.example.erp.grade.api.dto.GradeDto;
 import com.example.erp.grade.interfaces.admin.dto.GradeAdminResponse;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/admin/grades")
 public class GradeAdminController {
 
-    private final GradeQueryService queryService;
+    private final GradeQueryApi queryService;
 
-    public GradeAdminController(GradeQueryService queryService) {
+    public GradeAdminController(GradeQueryApi queryService) {
         this.queryService = queryService;
     }
 

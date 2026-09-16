@@ -1,7 +1,7 @@
 package com.example.erp.grade.interfaces.web;
 
-import com.example.erp.grade.api.GradeCommandService;
-import com.example.erp.grade.api.GradeQueryService;
+import com.example.erp.grade.api.GradeCommandApi;
+import com.example.erp.grade.api.GradeQueryApi;
 import com.example.erp.grade.api.dto.GradeDto;
 import com.example.erp.grade.interfaces.web.dto.CreateGradeWebRequest;
 import com.example.erp.grade.interfaces.web.dto.GradeResponse;
@@ -19,10 +19,10 @@ import java.util.List;
 @RequestMapping("/api/v1/grades")
 public class GradeController {
 
-    private final GradeQueryService queryService;
-    private final GradeCommandService commandService;
+    private final GradeQueryApi queryService;
+    private final GradeCommandApi commandService;
 
-    public GradeController(GradeQueryService queryService, GradeCommandService commandService) {
+    public GradeController(GradeQueryApi queryService, GradeCommandApi commandService) {
         this.queryService = queryService;
         this.commandService = commandService;
     }

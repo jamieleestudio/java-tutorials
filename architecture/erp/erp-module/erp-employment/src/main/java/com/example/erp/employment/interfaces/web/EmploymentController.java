@@ -1,6 +1,6 @@
 package com.example.erp.employment.interfaces.web;
 
-import com.example.erp.employment.api.EmploymentQueryService;
+import com.example.erp.employment.api.EmploymentQueryApi;
 import com.example.erp.employment.interfaces.web.dto.EmploymentResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/employment")
 public class EmploymentController {
 
-    private final EmploymentQueryService queryService;
+    private final EmploymentQueryApi queryService;
 
-    public EmploymentController(EmploymentQueryService queryService) {
+    public EmploymentController(EmploymentQueryApi queryService) {
         this.queryService = queryService;
     }
 

@@ -1,6 +1,6 @@
 package com.example.erp.workflow.interfaces.web;
 
-import com.example.erp.workflow.api.WorkflowQueryService;
+import com.example.erp.workflow.api.WorkflowQueryApi;
 import com.example.erp.workflow.interfaces.web.dto.WorkflowResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/workflow")
 public class WorkflowController {
 
-    private final WorkflowQueryService queryService;
+    private final WorkflowQueryApi queryService;
 
-    public WorkflowController(WorkflowQueryService queryService) {
+    public WorkflowController(WorkflowQueryApi queryService) {
         this.queryService = queryService;
     }
 

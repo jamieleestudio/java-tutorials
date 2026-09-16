@@ -1,6 +1,6 @@
 package com.example.erp.attendance.interfaces.admin;
 
-import com.example.erp.attendance.api.AttendanceQueryService;
+import com.example.erp.attendance.api.AttendanceQueryApi;
 import com.example.erp.attendance.api.dto.AttendanceRecordDto;
 import com.example.erp.attendance.interfaces.admin.dto.AttendanceAdminResponse;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +15,9 @@ import java.util.List;
 @RequestMapping("/api/v1/admin/attendance")
 public class AttendanceAdminController {
 
-    private final AttendanceQueryService queryService;
+    private final AttendanceQueryApi queryService;
 
-    public AttendanceAdminController(AttendanceQueryService queryService) {
+    public AttendanceAdminController(AttendanceQueryApi queryService) {
         this.queryService = queryService;
     }
 
