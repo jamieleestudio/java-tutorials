@@ -2,7 +2,7 @@ package com.example.erp.iotterminal.api;
 
 import com.example.erp.iotterminal.api.dto.TerminalDto;
 
-public interface IotTerminalQueryApi {
+public interface IotTerminalApi {
 
     TerminalDto findById(String id);
 }

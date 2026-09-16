@@ -1,29 +1,29 @@
 package com.example.erp.iotterminal.application;
 
-import com.example.erp.iotterminal.api.IotTerminalQueryApi;
+import com.example.erp.iotterminal.api.IotTerminalApi;
 import com.example.erp.iotterminal.api.dto.TerminalDto;
 import com.example.erp.iotterminal.domain.model.Terminal;
 import com.example.erp.iotterminal.domain.repository.TerminalRepository;
 import com.example.erp.shared.EntityNotFoundException;
-import com.example.erp.system.api.SystemQueryApi;
+import com.example.erp.system.api.SystemApi;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class IotTerminalApplicationService implements IotTerminalQueryApi {
+public class IotTerminalApplicationService implements IotTerminalApi {
 
     private final TerminalRepository repository;
-    private final SystemQueryApi systemQueryApi;
+    private final SystemApi systemApi;
 
-    public IotTerminalApplicationService(TerminalRepository repository, SystemQueryApi systemQueryApi) {
+    public IotTerminalApplicationService(TerminalRepository repository, SystemApi systemApi) {
         this.repository = repository;
-        this.systemQueryApi = systemQueryApi;
+        this.systemApi = systemApi;
     }
 
     @Override
     public TerminalDto findById(String id) {
-        systemQueryApi.currentTenantId();
+        systemApi.currentTenantId();
         Terminal aggregate = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Terminal not found: " + id));
         return new TerminalDto(aggregate.id(), aggregate.name());

@@ -2,7 +2,7 @@ package com.example.erp.hr.api;
 
 import com.example.erp.hr.api.dto.EmployeeDto;
 
-public interface HrQueryApi {
+public interface HrApi {
 
     EmployeeDto findById(String id);
 }

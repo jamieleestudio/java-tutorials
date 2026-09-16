@@ -1,6 +1,6 @@
 package com.example.erp.quality.interfaces.web;
 
-import com.example.erp.quality.api.QualityQueryApi;
+import com.example.erp.quality.api.QualityApi;
 import com.example.erp.quality.interfaces.web.dto.QualityReportResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/quality")
 public class QualityReportController {
 
-    private final QualityQueryApi queryService;
+    private final QualityApi queryService;
 
-    public QualityReportController(QualityQueryApi queryService) {
+    public QualityReportController(QualityApi queryService) {
         this.queryService = queryService;
     }
 

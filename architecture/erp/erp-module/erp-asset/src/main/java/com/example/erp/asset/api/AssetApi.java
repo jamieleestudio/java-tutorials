@@ -2,7 +2,7 @@ package com.example.erp.asset.api;
 
 import com.example.erp.asset.api.dto.AssetDto;
 
-public interface AssetQueryApi {
+public interface AssetApi {
 
     AssetDto findById(String id);
 }

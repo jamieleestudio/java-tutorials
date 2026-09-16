@@ -1,7 +1,6 @@
 package com.example.erp.attendance.interfaces.mobile;
 
-import com.example.erp.attendance.api.AttendanceClockApi;
-import com.example.erp.attendance.api.AttendanceQueryApi;
+import com.example.erp.attendance.api.AttendanceApi;
 import com.example.erp.attendance.api.command.ClockInCommand;
 import com.example.erp.attendance.api.dto.AttendanceRecordDto;
 import com.example.erp.attendance.interfaces.mobile.dto.AttendanceMobileResponse;
@@ -17,22 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/mobile/attendance")
 public class AttendanceMobileController {
 
-    private final AttendanceQueryApi queryService;
-    private final AttendanceClockApi clockService;
+    private final AttendanceApi attendanceApi;
 
-    public AttendanceMobileController(AttendanceQueryApi queryService, AttendanceClockApi clockService) {
-        this.queryService = queryService;
-        this.clockService = clockService;
+    public AttendanceMobileController(AttendanceApi attendanceApi) {
+        this.attendanceApi = attendanceApi;
     }
 
     @GetMapping("/{id}")
     public AttendanceMobileResponse get(@PathVariable String id) {
-        return toResponse(queryService.findById(id));
+        return toResponse(attendanceApi.findById(id));
     }
 
     @PostMapping("/clock-in")
     public AttendanceMobileResponse clockIn(@RequestBody MobileClockInRequest request) {
-        return toResponse(clockService.clockIn(new ClockInCommand(request.studentId(), request.clockInTime(), request.faceToken())));
+        return toResponse(attendanceApi.clockIn(new ClockInCommand(request.studentId(), request.clockInTime(), request.faceToken())));
     }
 
     private AttendanceMobileResponse toResponse(AttendanceRecordDto dto) {

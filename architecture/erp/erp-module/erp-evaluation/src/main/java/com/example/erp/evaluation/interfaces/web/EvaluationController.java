@@ -1,6 +1,6 @@
 package com.example.erp.evaluation.interfaces.web;
 
-import com.example.erp.evaluation.api.EvaluationQueryApi;
+import com.example.erp.evaluation.api.EvaluationApi;
 import com.example.erp.evaluation.interfaces.web.dto.EvaluationResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/evaluation")
 public class EvaluationController {
 
-    private final EvaluationQueryApi queryService;
+    private final EvaluationApi queryService;
 
-    public EvaluationController(EvaluationQueryApi queryService) {
+    public EvaluationController(EvaluationApi queryService) {
         this.queryService = queryService;
     }
 

@@ -1,6 +1,6 @@
 package com.example.erp.finance.interfaces.web;
 
-import com.example.erp.finance.api.FinanceQueryApi;
+import com.example.erp.finance.api.FinanceApi;
 import com.example.erp.finance.interfaces.web.dto.BillResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/finance")
 public class BillController {
 
-    private final FinanceQueryApi queryService;
+    private final FinanceApi queryService;
 
-    public BillController(FinanceQueryApi queryService) {
+    public BillController(FinanceApi queryService) {
         this.queryService = queryService;
     }
 

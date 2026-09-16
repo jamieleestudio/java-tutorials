@@ -43,7 +43,7 @@ erp/
 
 ```
 com.example.erp.attendance
-├─ api              AttendanceQueryApi / AttendanceClockApi / dto / command
+├─ api              AttendanceApi（跨域契约，一个域一个）/ dto / command
 ├─ interfaces       web · admin · mobile · openapi · internal · device · mq · job（各带独立 dto）
 ├─ application      AttendanceApplicationService（事务边界 + 用例编排）
 ├─ domain           model / repository（端口）/ service（端口）/ event
@@ -57,7 +57,7 @@ com.example.erp.attendance
 
 | 层 / 类型 | 后缀 | 示例 |
 |---|---|---|
-| api（跨域契约） | `Api` | `AttendanceQueryApi`、`GradeCommandApi` |
+| api（跨域契约） | `Api` | `AttendanceApi`、`GradeApi`（一个域一个接口） |
 | application（用例实现） | `ApplicationService` | `AttendanceApplicationService`、`GradeApplicationService` |
 | domain 领域服务 | 无后缀 | `AttendanceService` |
 | domain 聚合根 / 值对象 | 无 | `AttendanceRecord` |
@@ -73,6 +73,22 @@ com.example.erp.attendance
 
 规则：**层提示只出现一次**——api 用 `Api`、application 用 `ApplicationService`；
 `domain` 包内裸名词一律留给聚合根/值对象，领域服务**不加 `Domain`**。
+
+### 为什么 api 是 `XxxApi`，而不是 `XxxQueryApi` / `XxxCommandApi`
+
+**这不是 CQRS。** 早期曾按读写拆分命名（`GradeQueryApi` + `GradeCommandApi`、`AttendanceQueryApi` + `AttendanceClockApi`），
+现已收敛为「一个域一个 `XxxApi`」。理由：
+
+1. **读写没有真正解耦**：命令与查询共用同一个聚合、同一个 Repository、同一个数据库、同一个事务，
+   只是方法用途不同。拆成两个接口不带来任何隔离收益，只增加文件数与 DTO 维护面。
+2. **真 CQRS 的前提不成立**：CQRS 要求读写模型分离（不同模型 / 不同投影或存储 / 最终一致）。
+   本项目是多端共享同一业务模型的 CRUD 场景，引入 CQRS 只会把复杂度推给调用方。
+3. **契约边界应等于模块边界**：`api` 是「本域对外的唯一契约」，一个域一个接口，调用方（其它域 / 端）
+   依赖面最小且稳定；按读写拆会让依赖方各自挑接口，边界反而更碎。
+4. **命名一致性**：19 个域中 17 个只暴露查询能力，给它们加 `Query` 后缀纯属噪音；
+   而 `attendance` 用用例名 `Clock`、`grade` 用 `Command`，同一架构出现两种风格。
+5. **需要时仍可再拆**：若将来某域确实要读写分离（独立读模型 / 独立部署），
+   再把 `XxxApi` 拆成 `XxxQueryApi` + `XxxCommandApi` 即可——属域内重构，不影响其它域。
 
 ## 依赖方向
 

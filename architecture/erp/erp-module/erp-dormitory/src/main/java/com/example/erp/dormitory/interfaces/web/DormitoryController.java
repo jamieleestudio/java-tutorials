@@ -1,6 +1,6 @@
 package com.example.erp.dormitory.interfaces.web;
 
-import com.example.erp.dormitory.api.DormitoryQueryApi;
+import com.example.erp.dormitory.api.DormitoryApi;
 import com.example.erp.dormitory.interfaces.web.dto.DormitoryResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/dormitory")
 public class DormitoryController {
 
-    private final DormitoryQueryApi queryService;
+    private final DormitoryApi queryService;
 
-    public DormitoryController(DormitoryQueryApi queryService) {
+    public DormitoryController(DormitoryApi queryService) {
         this.queryService = queryService;
     }
 

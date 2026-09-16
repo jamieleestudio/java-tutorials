@@ -1,33 +1,32 @@
 package com.example.erp.grade.application;
 
-import com.example.erp.grade.api.GradeCommandApi;
-import com.example.erp.grade.api.GradeQueryApi;
+import com.example.erp.grade.api.GradeApi;
 import com.example.erp.grade.api.dto.GradeDto;
 import com.example.erp.grade.domain.model.Grade;
 import com.example.erp.grade.domain.repository.GradeRepository;
 import com.example.erp.shared.EntityNotFoundException;
 import com.example.erp.shared.IdGenerator;
-import com.example.erp.system.api.SystemQueryApi;
+import com.example.erp.system.api.SystemApi;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class GradeApplicationService implements GradeQueryApi, GradeCommandApi {
+public class GradeApplicationService implements GradeApi {
 
     private final GradeRepository repository;
-    private final SystemQueryApi systemQueryApi;
+    private final SystemApi systemApi;
 
-    public GradeApplicationService(GradeRepository repository, SystemQueryApi systemQueryApi) {
+    public GradeApplicationService(GradeRepository repository, SystemApi systemApi) {
         this.repository = repository;
-        this.systemQueryApi = systemQueryApi;
+        this.systemApi = systemApi;
     }
 
     @Override
     @Transactional
     public GradeDto create(String studentId, String courseName, double score) {
-        systemQueryApi.currentTenantId();
+        systemApi.currentTenantId();
         Grade grade = new Grade(IdGenerator.next(), studentId, courseName, score);
         return toDto(repository.save(grade));
     }

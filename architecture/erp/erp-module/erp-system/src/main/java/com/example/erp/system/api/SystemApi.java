@@ -2,7 +2,7 @@ package com.example.erp.system.api;
 
 import com.example.erp.system.api.dto.SysUserDto;
 
-public interface SystemQueryApi {
+public interface SystemApi {
 
     String currentTenantId();
 

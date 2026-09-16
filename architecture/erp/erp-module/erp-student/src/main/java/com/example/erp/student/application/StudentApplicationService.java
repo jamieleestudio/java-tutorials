@@ -1,29 +1,29 @@
 package com.example.erp.student.application;
 
-import com.example.erp.student.api.StudentQueryApi;
+import com.example.erp.student.api.StudentApi;
 import com.example.erp.student.api.dto.StudentDto;
 import com.example.erp.student.domain.model.Student;
 import com.example.erp.student.domain.repository.StudentRepository;
 import com.example.erp.shared.EntityNotFoundException;
-import com.example.erp.system.api.SystemQueryApi;
+import com.example.erp.system.api.SystemApi;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class StudentApplicationService implements StudentQueryApi {
+public class StudentApplicationService implements StudentApi {
 
     private final StudentRepository repository;
-    private final SystemQueryApi systemQueryApi;
+    private final SystemApi systemApi;
 
-    public StudentApplicationService(StudentRepository repository, SystemQueryApi systemQueryApi) {
+    public StudentApplicationService(StudentRepository repository, SystemApi systemApi) {
         this.repository = repository;
-        this.systemQueryApi = systemQueryApi;
+        this.systemApi = systemApi;
     }
 
     @Override
     public StudentDto findById(String id) {
-        systemQueryApi.currentTenantId();
+        systemApi.currentTenantId();
         Student aggregate = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found: " + id));
         return new StudentDto(aggregate.id(), aggregate.name());

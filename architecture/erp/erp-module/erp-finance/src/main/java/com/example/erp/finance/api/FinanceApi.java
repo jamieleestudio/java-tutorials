@@ -2,7 +2,7 @@ package com.example.erp.finance.api;
 
 import com.example.erp.finance.api.dto.BillDto;
 
-public interface FinanceQueryApi {
+public interface FinanceApi {
 
     BillDto findById(String id);
 }

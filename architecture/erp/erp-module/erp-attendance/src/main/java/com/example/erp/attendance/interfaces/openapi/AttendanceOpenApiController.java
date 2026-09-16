@@ -1,6 +1,6 @@
 package com.example.erp.attendance.interfaces.openapi;
 
-import com.example.erp.attendance.api.AttendanceQueryApi;
+import com.example.erp.attendance.api.AttendanceApi;
 import com.example.erp.attendance.api.dto.AttendanceRecordDto;
 import com.example.erp.attendance.interfaces.openapi.dto.AttendanceOpenApiResponse;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,20 +15,20 @@ import java.util.List;
 @RequestMapping("/openapi/v1/attendance")
 public class AttendanceOpenApiController {
 
-    private final AttendanceQueryApi queryService;
+    private final AttendanceApi attendanceApi;
 
-    public AttendanceOpenApiController(AttendanceQueryApi queryService) {
-        this.queryService = queryService;
+    public AttendanceOpenApiController(AttendanceApi attendanceApi) {
+        this.attendanceApi = attendanceApi;
     }
 
     @GetMapping("/{id}")
     public AttendanceOpenApiResponse get(@PathVariable String id) {
-        return toResponse(queryService.findById(id));
+        return toResponse(attendanceApi.findById(id));
     }
 
     @GetMapping
     public List<AttendanceOpenApiResponse> byStudent(@RequestParam String studentId) {
-        return queryService.findByStudentId(studentId).stream().map(this::toResponse).toList();
+        return attendanceApi.findByStudentId(studentId).stream().map(this::toResponse).toList();
     }
 
     private AttendanceOpenApiResponse toResponse(AttendanceRecordDto dto) {

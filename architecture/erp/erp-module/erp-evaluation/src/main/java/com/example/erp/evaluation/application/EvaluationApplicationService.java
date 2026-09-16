@@ -1,29 +1,29 @@
 package com.example.erp.evaluation.application;
 
-import com.example.erp.evaluation.api.EvaluationQueryApi;
+import com.example.erp.evaluation.api.EvaluationApi;
 import com.example.erp.evaluation.api.dto.EvaluationDto;
 import com.example.erp.evaluation.domain.model.Evaluation;
 import com.example.erp.evaluation.domain.repository.EvaluationRepository;
 import com.example.erp.shared.EntityNotFoundException;
-import com.example.erp.system.api.SystemQueryApi;
+import com.example.erp.system.api.SystemApi;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class EvaluationApplicationService implements EvaluationQueryApi {
+public class EvaluationApplicationService implements EvaluationApi {
 
     private final EvaluationRepository repository;
-    private final SystemQueryApi systemQueryApi;
+    private final SystemApi systemApi;
 
-    public EvaluationApplicationService(EvaluationRepository repository, SystemQueryApi systemQueryApi) {
+    public EvaluationApplicationService(EvaluationRepository repository, SystemApi systemApi) {
         this.repository = repository;
-        this.systemQueryApi = systemQueryApi;
+        this.systemApi = systemApi;
     }
 
     @Override
     public EvaluationDto findById(String id) {
-        systemQueryApi.currentTenantId();
+        systemApi.currentTenantId();
         Evaluation aggregate = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Evaluation not found: " + id));
         return new EvaluationDto(aggregate.id(), aggregate.name());

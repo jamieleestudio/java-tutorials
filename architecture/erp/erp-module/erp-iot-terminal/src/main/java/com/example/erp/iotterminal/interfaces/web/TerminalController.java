@@ -1,6 +1,6 @@
 package com.example.erp.iotterminal.interfaces.web;
 
-import com.example.erp.iotterminal.api.IotTerminalQueryApi;
+import com.example.erp.iotterminal.api.IotTerminalApi;
 import com.example.erp.iotterminal.interfaces.web.dto.TerminalResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/iot-terminal")
 public class TerminalController {
 
-    private final IotTerminalQueryApi queryService;
+    private final IotTerminalApi queryService;
 
-    public TerminalController(IotTerminalQueryApi queryService) {
+    public TerminalController(IotTerminalApi queryService) {
         this.queryService = queryService;
     }
 

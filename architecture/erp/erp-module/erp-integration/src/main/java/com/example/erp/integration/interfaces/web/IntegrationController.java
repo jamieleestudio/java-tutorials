@@ -1,6 +1,6 @@
 package com.example.erp.integration.interfaces.web;
 
-import com.example.erp.integration.api.IntegrationQueryApi;
+import com.example.erp.integration.api.IntegrationApi;
 import com.example.erp.integration.interfaces.web.dto.IntegrationResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/integration")
 public class IntegrationController {
 
-    private final IntegrationQueryApi queryService;
+    private final IntegrationApi queryService;
 
-    public IntegrationController(IntegrationQueryApi queryService) {
+    public IntegrationController(IntegrationApi queryService) {
         this.queryService = queryService;
     }
 

@@ -1,7 +1,6 @@
 package com.example.erp.attendance.interfaces.web;
 
-import com.example.erp.attendance.api.AttendanceClockApi;
-import com.example.erp.attendance.api.AttendanceQueryApi;
+import com.example.erp.attendance.api.AttendanceApi;
 import com.example.erp.attendance.api.command.ClockInCommand;
 import com.example.erp.attendance.api.dto.AttendanceRecordDto;
 import com.example.erp.attendance.interfaces.web.dto.AttendanceWebResponse;
@@ -20,27 +19,25 @@ import java.util.List;
 @RequestMapping("/api/v1/attendance")
 public class AttendanceWebController {
 
-    private final AttendanceQueryApi queryService;
-    private final AttendanceClockApi clockService;
+    private final AttendanceApi attendanceApi;
 
-    public AttendanceWebController(AttendanceQueryApi queryService, AttendanceClockApi clockService) {
-        this.queryService = queryService;
-        this.clockService = clockService;
+    public AttendanceWebController(AttendanceApi attendanceApi) {
+        this.attendanceApi = attendanceApi;
     }
 
     @GetMapping("/{id}")
     public AttendanceWebResponse get(@PathVariable String id) {
-        return toResponse(queryService.findById(id));
+        return toResponse(attendanceApi.findById(id));
     }
 
     @GetMapping
     public List<AttendanceWebResponse> byStudent(@RequestParam String studentId) {
-        return queryService.findByStudentId(studentId).stream().map(this::toResponse).toList();
+        return attendanceApi.findByStudentId(studentId).stream().map(this::toResponse).toList();
     }
 
     @PostMapping("/clock-in")
     public AttendanceWebResponse clockIn(@RequestBody ClockInWebRequest request) {
-        return toResponse(clockService.clockIn(new ClockInCommand(request.studentId(), request.clockInTime(), request.faceToken())));
+        return toResponse(attendanceApi.clockIn(new ClockInCommand(request.studentId(), request.clockInTime(), request.faceToken())));
     }
 
     private AttendanceWebResponse toResponse(AttendanceRecordDto dto) {

@@ -1,7 +1,6 @@
 package com.example.erp.grade.interfaces.web;
 
-import com.example.erp.grade.api.GradeCommandApi;
-import com.example.erp.grade.api.GradeQueryApi;
+import com.example.erp.grade.api.GradeApi;
 import com.example.erp.grade.api.dto.GradeDto;
 import com.example.erp.grade.interfaces.web.dto.CreateGradeWebRequest;
 import com.example.erp.grade.interfaces.web.dto.GradeResponse;
@@ -19,27 +18,25 @@ import java.util.List;
 @RequestMapping("/api/v1/grades")
 public class GradeController {
 
-    private final GradeQueryApi queryService;
-    private final GradeCommandApi commandService;
+    private final GradeApi gradeApi;
 
-    public GradeController(GradeQueryApi queryService, GradeCommandApi commandService) {
-        this.queryService = queryService;
-        this.commandService = commandService;
+    public GradeController(GradeApi gradeApi) {
+        this.gradeApi = gradeApi;
     }
 
     @PostMapping
     public GradeResponse create(@RequestBody CreateGradeWebRequest request) {
-        return toResponse(commandService.create(request.studentId(), request.courseName(), request.score()));
+        return toResponse(gradeApi.create(request.studentId(), request.courseName(), request.score()));
     }
 
     @GetMapping("/{id}")
     public GradeResponse get(@PathVariable String id) {
-        return toResponse(queryService.findById(id));
+        return toResponse(gradeApi.findById(id));
     }
 
     @GetMapping
     public List<GradeResponse> byStudent(@RequestParam String studentId) {
-        return queryService.findByStudentId(studentId).stream().map(this::toResponse).toList();
+        return gradeApi.findByStudentId(studentId).stream().map(this::toResponse).toList();
     }
 
     private GradeResponse toResponse(GradeDto dto) {

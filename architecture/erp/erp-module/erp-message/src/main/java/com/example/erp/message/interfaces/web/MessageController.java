@@ -1,6 +1,6 @@
 package com.example.erp.message.interfaces.web;
 
-import com.example.erp.message.api.MessageQueryApi;
+import com.example.erp.message.api.MessageApi;
 import com.example.erp.message.interfaces.web.dto.MessageResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/message")
 public class MessageController {
 
-    private final MessageQueryApi queryService;
+    private final MessageApi queryService;
 
-    public MessageController(MessageQueryApi queryService) {
+    public MessageController(MessageApi queryService) {
         this.queryService = queryService;
     }
 
