@@ -19,6 +19,7 @@
         <module>event-driven</module>
         <module>microservices</module>
         <module>cloud-native</module>
+        <module>erp</module>
     </modules>
 
     <properties>

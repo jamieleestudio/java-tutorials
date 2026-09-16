@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.third.li</groupId>
+        <artifactId>erp</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>erp-module</artifactId>
+    <packaging>pom</packaging>
+    <name>erp-module</name>
+    <description>Business domain modules</description>
+
+    <modules>
+        <module>erp-system</module>
+        <module>erp-teaching-plan</module>
+        <module>erp-exam</module>
+        <module>erp-attendance</module>
+        <module>erp-grade</module>
+        <module>erp-student</module>
+        <module>erp-enrollment</module>
+        <module>erp-dormitory</module>
+        <module>erp-moral-education</module>
+        <module>erp-hr</module>
+        <module>erp-finance</module>
+        <module>erp-asset</module>
+        <module>erp-employment</module>
+        <module>erp-evaluation</module>
+        <module>erp-message</module>
+        <module>erp-iot-terminal</module>
+        <module>erp-quality</module>
+        <module>erp-workflow</module>
+        <module>erp-integration</module>
+    </modules>
+</project>

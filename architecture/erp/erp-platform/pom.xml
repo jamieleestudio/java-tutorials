@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.third.li</groupId>
+        <artifactId>erp</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>erp-platform</artifactId>
+    <packaging>pom</packaging>
+    <name>erp-platform</name>
+    <description>Technical platform modules</description>
+
+    <modules>
+        <module>erp-platform-kernel</module>
+        <module>erp-platform-persistence</module>
+        <module>erp-platform-security</module>
+        <module>erp-platform-web</module>
+        <module>erp-platform-messaging</module>
+        <module>erp-platform-integration</module>
+    </modules>
+</project>

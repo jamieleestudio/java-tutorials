@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: erp-app-boot
+  datasource:
+    url: jdbc:h2:mem:erp;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+server:
+  port: 8080
+
+erp:
+  security:
+    enabled: false
