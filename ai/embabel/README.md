@@ -9,7 +9,7 @@
 
 ## 分类与模块
 
-### ① 基础（embabel-basics）
+### ① [基础（embabel-basics）](embabel-basics/README.md)
 
 | 模块 | 端口 | 主题 | 主要接口 |
 |---|---|---|---|
@@ -19,7 +19,7 @@
 | [embabel-structured-output](embabel-basics/embabel-structured-output/README.md) | 8892 | 结构化输出（强类型数据绑定） | `GET /extract` |
 | [embabel-prompts](embabel-basics/embabel-prompts/README.md) | 8921 | 提示词工程（模板 / 人格 / `@Provided`） | `GET /prompts/ask`、`/prompts/provided` |
 
-### ② 上下文工程（embabel-context）
+### ② [上下文工程（embabel-context）](embabel-context/README.md)
 
 | 模块 | 端口 | 主题 | 主要接口 |
 |---|---|---|---|
@@ -27,7 +27,7 @@
 | [embabel-file-tools](embabel-context/embabel-file-tools/README.md) | 8902 | 沙箱文件工具（`FileTools`） | `GET /files/ask` |
 | [embabel-embeddings](embabel-context/embabel-embeddings/README.md) | 8907 | 嵌入与语义检索（需 Docker） | `GET /embeddings/search` |
 
-### ③ 交互与协作（embabel-interaction）
+### ③ [交互与协作（embabel-interaction）](embabel-interaction/README.md)
 
 | 模块 | 端口 | 主题 | 主要接口 |
 |---|---|---|---|
@@ -36,7 +36,7 @@
 | [embabel-conversation](embabel-interaction/embabel-conversation/README.md) | 8897 | 多轮对话与人格 | `POST /chat/{sessionId}` |
 | [embabel-multimodal](embabel-interaction/embabel-multimodal/README.md) | 8908 | 图像理解（需 Docker） | `GET /multimodal/describe` |
 
-### ④ 推理与规划（embabel-reasoning）
+### ④ [推理与规划（embabel-reasoning）](embabel-reasoning/README.md)
 
 | 模块 | 端口 | 主题 | 主要接口 |
 |---|---|---|---|
@@ -44,14 +44,14 @@
 | [embabel-planner-types](embabel-reasoning/embabel-planner-types/README.md) | 8900 | GOAP / UTILITY 规划器对比 | `GET /planner/goap`、`GET /planner/utility` |
 | [embabel-multi-model](embabel-reasoning/embabel-multi-model/README.md) | 8905 | 角色→模型映射与回退 | `GET /multi-model/ask`、`/multi-model/fallback` |
 
-### ⑤ 质量与安全（embabel-safety）
+### ⑤ [质量与安全（embabel-safety）](embabel-safety/README.md)
 
 | 模块 | 端口 | 主题 | 主要接口 |
 |---|---|---|---|
 | [embabel-guardrails](embabel-safety/embabel-guardrails/README.md) | 8898 | 输入/输出护栏 | `GET /guardrails/ask` |
 | [embabel-secure-tools](embabel-safety/embabel-secure-tools/README.md) | 8924 | 工具安全（最小权限 + PII 护栏） | `GET /secure/ask` |
 
-### ⑥ 工程化（embabel-ops）
+### ⑥ [工程化（embabel-ops）](embabel-ops/README.md)
 
 | 模块 | 端口 | 主题 | 主要接口 |
 |---|---|---|---|
@@ -60,7 +60,7 @@
 | [embabel-persistence](embabel-ops/embabel-persistence/README.md) | 8911 | 上下文持久化到 Postgres（需 Docker） | `GET /persistence/save`、`/persistence/load` |
 | [embabel-eval](embabel-ops/embabel-eval/README.md) | 8923 | 评估 harness（数据集 + LLM 评审） | `GET /eval/run` |
 
-### ⑦ 外部集成（embabel-integration）
+### ⑦ [外部集成（embabel-integration）](embabel-integration/README.md)
 
 | 模块 | 端口 | 主题 | 主要接口 |
 |---|---|---|---|
@@ -70,7 +70,7 @@
 | [embabel-ollama](embabel-integration/embabel-ollama/README.md) | 8925 | 本地模型（完全离线，需 Docker） | `GET /ollama/ask`、`/ollama/embed` |
 | [embabel-byok](embabel-integration/embabel-byok/README.md) | 8926 | 多租户模型路由 + 成本治理 | `GET /byok/ask`、`/byok/usage` |
 
-### ⑧ Agent 模式（embabel-patterns）
+### ⑧ [Agent 模式（embabel-patterns）](embabel-patterns/README.md)
 
 | 模块 | 端口 | 模式 | 主要接口 |
 |---|---|---|---|
