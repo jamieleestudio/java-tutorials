@@ -45,7 +45,7 @@ erp/
 com.example.erp.attendance
 ├─ api              AttendanceQueryApi / AttendanceClockApi / dto / command
 ├─ interfaces       web · admin · mobile · openapi · internal · device · mq · job（各带独立 dto）
-├─ application      AttendanceService（事务边界 + 用例编排）
+├─ application      AttendanceApplicationService（事务边界 + 用例编排）
 ├─ domain           model / repository（端口）/ service（端口）/ event
 └─ infrastructure   persistence（Entity + JpaRepository + RepositoryImpl）/ client
 ```
@@ -58,8 +58,8 @@ com.example.erp.attendance
 | 层 / 类型 | 后缀 | 示例 |
 |---|---|---|
 | api（跨域契约） | `Api` | `AttendanceQueryApi`、`GradeCommandApi` |
-| application（用例实现） | `Service` | `AttendanceService`、`GradeService` |
-| domain 领域服务 | `DomainService` | `AttendanceDomainService` |
+| application（用例实现） | `ApplicationService` | `AttendanceApplicationService`、`GradeApplicationService` |
+| domain 领域服务 | 无后缀 | `AttendanceService` |
 | domain 聚合根 / 值对象 | 无 | `AttendanceRecord` |
 | domain 仓储端口 | `Repository` | `AttendanceRecordRepository` |
 | infrastructure 仓储实现 | `RepositoryImpl` | `AttendanceRecordRepositoryImpl` |
@@ -71,8 +71,8 @@ com.example.erp.attendance
 | 端出入参 | `Request` / `Response` | `ClockInWebRequest`、`AttendanceWebResponse` |
 | 领域事件 | `Event` | `AttendanceClockedEvent` |
 
-规则：**层提示只出现一次**——api 用 `Api`、application 用 `Service`、domain 领域服务用 `DomainService`；
-`domain` 包内裸名词一律留给聚合根/值对象，避免与领域服务撞名。
+规则：**层提示只出现一次**——api 用 `Api`、application 用 `ApplicationService`；
+`domain` 包内裸名词一律留给聚合根/值对象，领域服务**不加 `Domain`**。
 
 ## 依赖方向
 

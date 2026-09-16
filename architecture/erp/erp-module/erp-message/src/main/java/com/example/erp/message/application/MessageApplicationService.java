@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class MessageService implements MessageQueryApi {
+public class MessageApplicationService implements MessageQueryApi {
 
     private final MessageRepository repository;
     private final SystemQueryApi systemQueryApi;
 
-    public MessageService(MessageRepository repository, SystemQueryApi systemQueryApi) {
+    public MessageApplicationService(MessageRepository repository, SystemQueryApi systemQueryApi) {
         this.repository = repository;
         this.systemQueryApi = systemQueryApi;
     }

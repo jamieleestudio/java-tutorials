@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class DormitoryService implements DormitoryQueryApi {
+public class DormitoryApplicationService implements DormitoryQueryApi {
 
     private final DormitoryRepository repository;
     private final SystemQueryApi systemQueryApi;
 
-    public DormitoryService(DormitoryRepository repository, SystemQueryApi systemQueryApi) {
+    public DormitoryApplicationService(DormitoryRepository repository, SystemQueryApi systemQueryApi) {
         this.repository = repository;
         this.systemQueryApi = systemQueryApi;
     }

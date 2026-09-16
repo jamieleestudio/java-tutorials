@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class IotTerminalService implements IotTerminalQueryApi {
+public class IotTerminalApplicationService implements IotTerminalQueryApi {
 
     private final TerminalRepository repository;
     private final SystemQueryApi systemQueryApi;
 
-    public IotTerminalService(TerminalRepository repository, SystemQueryApi systemQueryApi) {
+    public IotTerminalApplicationService(TerminalRepository repository, SystemQueryApi systemQueryApi) {
         this.repository = repository;
         this.systemQueryApi = systemQueryApi;
     }

@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class FinanceService implements FinanceQueryApi {
+public class FinanceApplicationService implements FinanceQueryApi {
 
     private final BillRepository repository;
     private final SystemQueryApi systemQueryApi;
 
-    public FinanceService(BillRepository repository, SystemQueryApi systemQueryApi) {
+    public FinanceApplicationService(BillRepository repository, SystemQueryApi systemQueryApi) {
         this.repository = repository;
         this.systemQueryApi = systemQueryApi;
     }

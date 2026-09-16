@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class IntegrationService implements IntegrationQueryApi {
+public class IntegrationApplicationService implements IntegrationQueryApi {
 
     private final IntegrationRepository repository;
     private final SystemQueryApi systemQueryApi;
 
-    public IntegrationService(IntegrationRepository repository, SystemQueryApi systemQueryApi) {
+    public IntegrationApplicationService(IntegrationRepository repository, SystemQueryApi systemQueryApi) {
         this.repository = repository;
         this.systemQueryApi = systemQueryApi;
     }

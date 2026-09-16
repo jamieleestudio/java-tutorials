@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class StudentService implements StudentQueryApi {
+public class StudentApplicationService implements StudentQueryApi {
 
     private final StudentRepository repository;
     private final SystemQueryApi systemQueryApi;
 
-    public StudentService(StudentRepository repository, SystemQueryApi systemQueryApi) {
+    public StudentApplicationService(StudentRepository repository, SystemQueryApi systemQueryApi) {
         this.repository = repository;
         this.systemQueryApi = systemQueryApi;
     }

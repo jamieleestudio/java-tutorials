@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class EnrollmentService implements EnrollmentQueryApi {
+public class EnrollmentApplicationService implements EnrollmentQueryApi {
 
     private final EnrollmentRepository repository;
     private final SystemQueryApi systemQueryApi;
 
-    public EnrollmentService(EnrollmentRepository repository, SystemQueryApi systemQueryApi) {
+    public EnrollmentApplicationService(EnrollmentRepository repository, SystemQueryApi systemQueryApi) {
         this.repository = repository;
         this.systemQueryApi = systemQueryApi;
     }

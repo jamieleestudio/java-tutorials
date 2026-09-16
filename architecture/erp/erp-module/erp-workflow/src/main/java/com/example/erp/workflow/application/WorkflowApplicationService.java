@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class WorkflowService implements WorkflowQueryApi {
+public class WorkflowApplicationService implements WorkflowQueryApi {
 
     private final WorkflowRepository repository;
     private final SystemQueryApi systemQueryApi;
 
-    public WorkflowService(WorkflowRepository repository, SystemQueryApi systemQueryApi) {
+    public WorkflowApplicationService(WorkflowRepository repository, SystemQueryApi systemQueryApi) {
         this.repository = repository;
         this.systemQueryApi = systemQueryApi;
     }

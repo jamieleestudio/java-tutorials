@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class HrService implements HrQueryApi {
+public class HrApplicationService implements HrQueryApi {
 
     private final EmployeeRepository repository;
     private final SystemQueryApi systemQueryApi;
 
-    public HrService(EmployeeRepository repository, SystemQueryApi systemQueryApi) {
+    public HrApplicationService(EmployeeRepository repository, SystemQueryApi systemQueryApi) {
         this.repository = repository;
         this.systemQueryApi = systemQueryApi;
     }

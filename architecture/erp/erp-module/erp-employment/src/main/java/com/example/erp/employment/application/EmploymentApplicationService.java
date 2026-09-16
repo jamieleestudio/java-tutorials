@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class EmploymentService implements EmploymentQueryApi {
+public class EmploymentApplicationService implements EmploymentQueryApi {
 
     private final EmploymentRepository repository;
     private final SystemQueryApi systemQueryApi;
 
-    public EmploymentService(EmploymentRepository repository, SystemQueryApi systemQueryApi) {
+    public EmploymentApplicationService(EmploymentRepository repository, SystemQueryApi systemQueryApi) {
         this.repository = repository;
         this.systemQueryApi = systemQueryApi;
     }

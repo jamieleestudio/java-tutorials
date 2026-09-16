@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class MoralEducationService implements MoralEducationQueryApi {
+public class MoralEducationApplicationService implements MoralEducationQueryApi {
 
     private final MoralActivityRepository repository;
     private final SystemQueryApi systemQueryApi;
 
-    public MoralEducationService(MoralActivityRepository repository, SystemQueryApi systemQueryApi) {
+    public MoralEducationApplicationService(MoralActivityRepository repository, SystemQueryApi systemQueryApi) {
         this.repository = repository;
         this.systemQueryApi = systemQueryApi;
     }

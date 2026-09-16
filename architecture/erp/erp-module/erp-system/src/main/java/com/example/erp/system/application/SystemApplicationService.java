@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class SystemService implements SystemQueryApi {
+public class SystemApplicationService implements SystemQueryApi {
 
     private final SysUserRepository repository;
 
-    public SystemService(SysUserRepository repository) {
+    public SystemApplicationService(SysUserRepository repository) {
         this.repository = repository;
     }
 

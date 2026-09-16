@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class AttendanceService implements AttendanceQueryApi, AttendanceClockApi {
+public class AttendanceApplicationService implements AttendanceQueryApi, AttendanceClockApi {
 
     private final AttendanceRecordRepository repository;
     private final FaceRecognitionPort faceRecognitionPort;
@@ -29,7 +29,7 @@ public class AttendanceService implements AttendanceQueryApi, AttendanceClockApi
     private final GradeQueryApi gradeQueryApi;
     private final MessagePublisher messagePublisher;
 
-    public AttendanceService(AttendanceRecordRepository repository,
+    public AttendanceApplicationService(AttendanceRecordRepository repository,
                                              FaceRecognitionPort faceRecognitionPort,
                                              SystemQueryApi systemQueryApi,
                                              GradeQueryApi gradeQueryApi,

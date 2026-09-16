@@ -14,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class GradeService implements GradeQueryApi, GradeCommandApi {
+public class GradeApplicationService implements GradeQueryApi, GradeCommandApi {
 
     private final GradeRepository repository;
     private final SystemQueryApi systemQueryApi;
 
-    public GradeService(GradeRepository repository, SystemQueryApi systemQueryApi) {
+    public GradeApplicationService(GradeRepository repository, SystemQueryApi systemQueryApi) {
         this.repository = repository;
         this.systemQueryApi = systemQueryApi;
     }

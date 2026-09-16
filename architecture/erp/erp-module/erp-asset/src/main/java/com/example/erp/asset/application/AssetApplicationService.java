@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class AssetService implements AssetQueryApi {
+public class AssetApplicationService implements AssetQueryApi {
 
     private final AssetRepository repository;
     private final SystemQueryApi systemQueryApi;
 
-    public AssetService(AssetRepository repository, SystemQueryApi systemQueryApi) {
+    public AssetApplicationService(AssetRepository repository, SystemQueryApi systemQueryApi) {
         this.repository = repository;
         this.systemQueryApi = systemQueryApi;
     }

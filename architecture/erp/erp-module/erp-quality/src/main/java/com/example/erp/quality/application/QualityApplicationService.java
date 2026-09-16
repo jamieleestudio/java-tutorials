@@ -11,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class QualityService implements QualityQueryApi {
+public class QualityApplicationService implements QualityQueryApi {
 
     private final QualityReportRepository repository;
     private final SystemQueryApi systemQueryApi;
 
-    public QualityService(QualityReportRepository repository, SystemQueryApi systemQueryApi) {
+    public QualityApplicationService(QualityReportRepository repository, SystemQueryApi systemQueryApi) {
         this.repository = repository;
         this.systemQueryApi = systemQueryApi;
     }
