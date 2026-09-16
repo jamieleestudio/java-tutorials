@@ -1,6 +1,5 @@
 package com.example.erp.hr.application;
 
-import com.example.erp.hr.api.HrApi;
 import com.example.erp.hr.api.dto.EmployeeDto;
 import com.example.erp.hr.domain.model.Employee;
 import com.example.erp.hr.domain.repository.EmployeeRepository;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class HrApplicationService implements HrApi {
+public class HrApplicationService {
 
     private final EmployeeRepository repository;
     private final SystemApi systemApi;
@@ -21,7 +20,6 @@ public class HrApplicationService implements HrApi {
         this.systemApi = systemApi;
     }
 
-    @Override
     public EmployeeDto findById(String id) {
         systemApi.currentTenantId();
         Employee aggregate = repository.findById(id)

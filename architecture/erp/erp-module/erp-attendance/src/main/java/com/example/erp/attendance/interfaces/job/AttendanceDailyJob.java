@@ -1,20 +1,20 @@
 package com.example.erp.attendance.interfaces.job;
 
-import com.example.erp.attendance.api.AttendanceApi;
+import com.example.erp.attendance.application.AttendanceApplicationService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AttendanceDailyJob {
 
-    private final AttendanceApi attendanceApi;
+    private final AttendanceApplicationService attendanceApplicationService;
 
-    public AttendanceDailyJob(AttendanceApi attendanceApi) {
-        this.attendanceApi = attendanceApi;
+    public AttendanceDailyJob(AttendanceApplicationService attendanceApplicationService) {
+        this.attendanceApplicationService = attendanceApplicationService;
     }
 
     @Scheduled(cron = "0 0 2 * * *")
     public void run() {
-        attendanceApi.findByStudentId("daily-check");
+        attendanceApplicationService.findByStudentId("daily-check");
     }
 }

@@ -1,6 +1,5 @@
 package com.example.erp.dormitory.application;
 
-import com.example.erp.dormitory.api.DormitoryApi;
 import com.example.erp.dormitory.api.dto.DormitoryDto;
 import com.example.erp.dormitory.domain.model.Dormitory;
 import com.example.erp.dormitory.domain.repository.DormitoryRepository;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class DormitoryApplicationService implements DormitoryApi {
+public class DormitoryApplicationService {
 
     private final DormitoryRepository repository;
     private final SystemApi systemApi;
@@ -21,7 +20,6 @@ public class DormitoryApplicationService implements DormitoryApi {
         this.systemApi = systemApi;
     }
 
-    @Override
     public DormitoryDto findById(String id) {
         systemApi.currentTenantId();
         Dormitory aggregate = repository.findById(id)

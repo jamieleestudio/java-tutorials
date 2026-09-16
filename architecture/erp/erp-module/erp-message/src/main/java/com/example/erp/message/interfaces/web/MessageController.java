@@ -1,6 +1,6 @@
 package com.example.erp.message.interfaces.web;
 
-import com.example.erp.message.api.MessageApi;
+import com.example.erp.message.application.MessageApplicationService;
 import com.example.erp.message.interfaces.web.dto.MessageResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/message")
 public class MessageController {
 
-    private final MessageApi queryService;
+    private final MessageApplicationService applicationService;
 
-    public MessageController(MessageApi queryService) {
-        this.queryService = queryService;
+    public MessageController(MessageApplicationService applicationService) {
+        this.applicationService = applicationService;
     }
 
     @GetMapping("/{id}")
     public MessageResponse get(@PathVariable String id) {
-        var dto = queryService.findById(id);
+        var dto = applicationService.findById(id);
         return new MessageResponse(dto.id(), dto.name());
     }
 }

@@ -1,6 +1,5 @@
 package com.example.erp.evaluation.application;
 
-import com.example.erp.evaluation.api.EvaluationApi;
 import com.example.erp.evaluation.api.dto.EvaluationDto;
 import com.example.erp.evaluation.domain.model.Evaluation;
 import com.example.erp.evaluation.domain.repository.EvaluationRepository;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class EvaluationApplicationService implements EvaluationApi {
+public class EvaluationApplicationService {
 
     private final EvaluationRepository repository;
     private final SystemApi systemApi;
@@ -21,7 +20,6 @@ public class EvaluationApplicationService implements EvaluationApi {
         this.systemApi = systemApi;
     }
 
-    @Override
     public EvaluationDto findById(String id) {
         systemApi.currentTenantId();
         Evaluation aggregate = repository.findById(id)

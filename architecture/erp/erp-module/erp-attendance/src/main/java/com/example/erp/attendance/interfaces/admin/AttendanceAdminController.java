@@ -1,6 +1,6 @@
 package com.example.erp.attendance.interfaces.admin;
 
-import com.example.erp.attendance.api.AttendanceApi;
+import com.example.erp.attendance.application.AttendanceApplicationService;
 import com.example.erp.attendance.api.dto.AttendanceRecordDto;
 import com.example.erp.attendance.interfaces.admin.dto.AttendanceAdminResponse;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,20 +15,20 @@ import java.util.List;
 @RequestMapping("/api/v1/admin/attendance")
 public class AttendanceAdminController {
 
-    private final AttendanceApi attendanceApi;
+    private final AttendanceApplicationService attendanceApplicationService;
 
-    public AttendanceAdminController(AttendanceApi attendanceApi) {
-        this.attendanceApi = attendanceApi;
+    public AttendanceAdminController(AttendanceApplicationService attendanceApplicationService) {
+        this.attendanceApplicationService = attendanceApplicationService;
     }
 
     @GetMapping("/{id}")
     public AttendanceAdminResponse get(@PathVariable String id) {
-        return toResponse(attendanceApi.findById(id));
+        return toResponse(attendanceApplicationService.findById(id));
     }
 
     @GetMapping
     public List<AttendanceAdminResponse> byStudent(@RequestParam String studentId) {
-        return attendanceApi.findByStudentId(studentId).stream().map(this::toResponse).toList();
+        return attendanceApplicationService.findByStudentId(studentId).stream().map(this::toResponse).toList();
     }
 
     private AttendanceAdminResponse toResponse(AttendanceRecordDto dto) {

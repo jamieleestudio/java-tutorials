@@ -1,6 +1,5 @@
 package com.example.erp.exam.application;
 
-import com.example.erp.exam.api.ExamApi;
 import com.example.erp.exam.api.dto.ExamDto;
 import com.example.erp.exam.domain.model.Exam;
 import com.example.erp.exam.domain.repository.ExamRepository;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class ExamApplicationService implements ExamApi {
+public class ExamApplicationService {
 
     private final ExamRepository repository;
     private final SystemApi systemApi;
@@ -21,7 +20,6 @@ public class ExamApplicationService implements ExamApi {
         this.systemApi = systemApi;
     }
 
-    @Override
     public ExamDto findById(String id) {
         systemApi.currentTenantId();
         Exam aggregate = repository.findById(id)

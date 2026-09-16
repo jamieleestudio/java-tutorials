@@ -1,6 +1,5 @@
 package com.example.erp.student.application;
 
-import com.example.erp.student.api.StudentApi;
 import com.example.erp.student.api.dto.StudentDto;
 import com.example.erp.student.domain.model.Student;
 import com.example.erp.student.domain.repository.StudentRepository;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class StudentApplicationService implements StudentApi {
+public class StudentApplicationService {
 
     private final StudentRepository repository;
     private final SystemApi systemApi;
@@ -21,7 +20,6 @@ public class StudentApplicationService implements StudentApi {
         this.systemApi = systemApi;
     }
 
-    @Override
     public StudentDto findById(String id) {
         systemApi.currentTenantId();
         Student aggregate = repository.findById(id)

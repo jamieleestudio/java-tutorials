@@ -1,6 +1,5 @@
 package com.example.erp.iotterminal.application;
 
-import com.example.erp.iotterminal.api.IotTerminalApi;
 import com.example.erp.iotterminal.api.dto.TerminalDto;
 import com.example.erp.iotterminal.domain.model.Terminal;
 import com.example.erp.iotterminal.domain.repository.TerminalRepository;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class IotTerminalApplicationService implements IotTerminalApi {
+public class IotTerminalApplicationService {
 
     private final TerminalRepository repository;
     private final SystemApi systemApi;
@@ -21,7 +20,6 @@ public class IotTerminalApplicationService implements IotTerminalApi {
         this.systemApi = systemApi;
     }
 
-    @Override
     public TerminalDto findById(String id) {
         systemApi.currentTenantId();
         Terminal aggregate = repository.findById(id)

@@ -1,6 +1,5 @@
 package com.example.erp.enrollment.application;
 
-import com.example.erp.enrollment.api.EnrollmentApi;
 import com.example.erp.enrollment.api.dto.EnrollmentDto;
 import com.example.erp.enrollment.domain.model.Enrollment;
 import com.example.erp.enrollment.domain.repository.EnrollmentRepository;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class EnrollmentApplicationService implements EnrollmentApi {
+public class EnrollmentApplicationService {
 
     private final EnrollmentRepository repository;
     private final SystemApi systemApi;
@@ -21,7 +20,6 @@ public class EnrollmentApplicationService implements EnrollmentApi {
         this.systemApi = systemApi;
     }
 
-    @Override
     public EnrollmentDto findById(String id) {
         systemApi.currentTenantId();
         Enrollment aggregate = repository.findById(id)

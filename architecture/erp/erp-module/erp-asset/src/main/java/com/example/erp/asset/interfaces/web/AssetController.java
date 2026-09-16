@@ -1,6 +1,6 @@
 package com.example.erp.asset.interfaces.web;
 
-import com.example.erp.asset.api.AssetApi;
+import com.example.erp.asset.application.AssetApplicationService;
 import com.example.erp.asset.interfaces.web.dto.AssetResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/asset")
 public class AssetController {
 
-    private final AssetApi queryService;
+    private final AssetApplicationService applicationService;
 
-    public AssetController(AssetApi queryService) {
-        this.queryService = queryService;
+    public AssetController(AssetApplicationService applicationService) {
+        this.applicationService = applicationService;
     }
 
     @GetMapping("/{id}")
     public AssetResponse get(@PathVariable String id) {
-        var dto = queryService.findById(id);
+        var dto = applicationService.findById(id);
         return new AssetResponse(dto.id(), dto.name());
     }
 }

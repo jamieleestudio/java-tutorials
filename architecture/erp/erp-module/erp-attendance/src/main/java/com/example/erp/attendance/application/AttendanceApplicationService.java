@@ -1,6 +1,5 @@
 package com.example.erp.attendance.application;
 
-import com.example.erp.attendance.api.AttendanceApi;
 import com.example.erp.attendance.api.AttendanceTopics;
 import com.example.erp.attendance.api.command.ClockInCommand;
 import com.example.erp.attendance.api.dto.AttendanceRecordDto;
@@ -20,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class AttendanceApplicationService implements AttendanceApi {
+public class AttendanceApplicationService {
 
     private final AttendanceRecordRepository repository;
     private final FaceRecognitionPort faceRecognitionPort;
@@ -40,7 +39,6 @@ public class AttendanceApplicationService implements AttendanceApi {
         this.messagePublisher = messagePublisher;
     }
 
-    @Override
     @Transactional
     public AttendanceRecordDto clockIn(ClockInCommand command) {
         systemApi.currentTenantId();
@@ -54,7 +52,6 @@ public class AttendanceApplicationService implements AttendanceApi {
         return toDto(saved);
     }
 
-    @Override
     @Transactional(readOnly = true)
     public AttendanceRecordDto findById(String id) {
         AttendanceRecord record = repository.findById(id)
@@ -62,7 +59,6 @@ public class AttendanceApplicationService implements AttendanceApi {
         return toDto(record);
     }
 
-    @Override
     @Transactional(readOnly = true)
     public List<AttendanceRecordDto> findByStudentId(String studentId) {
         return repository.findByStudentId(studentId).stream().map(this::toDto).toList();

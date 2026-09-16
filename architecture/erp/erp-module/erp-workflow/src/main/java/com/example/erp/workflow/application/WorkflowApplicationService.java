@@ -1,6 +1,5 @@
 package com.example.erp.workflow.application;
 
-import com.example.erp.workflow.api.WorkflowApi;
 import com.example.erp.workflow.api.dto.WorkflowDto;
 import com.example.erp.workflow.domain.model.Workflow;
 import com.example.erp.workflow.domain.repository.WorkflowRepository;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class WorkflowApplicationService implements WorkflowApi {
+public class WorkflowApplicationService {
 
     private final WorkflowRepository repository;
     private final SystemApi systemApi;
@@ -21,7 +20,6 @@ public class WorkflowApplicationService implements WorkflowApi {
         this.systemApi = systemApi;
     }
 
-    @Override
     public WorkflowDto findById(String id) {
         systemApi.currentTenantId();
         Workflow aggregate = repository.findById(id)

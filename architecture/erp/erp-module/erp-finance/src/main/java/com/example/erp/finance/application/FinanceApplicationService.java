@@ -1,6 +1,5 @@
 package com.example.erp.finance.application;
 
-import com.example.erp.finance.api.FinanceApi;
 import com.example.erp.finance.api.dto.BillDto;
 import com.example.erp.finance.domain.model.Bill;
 import com.example.erp.finance.domain.repository.BillRepository;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class FinanceApplicationService implements FinanceApi {
+public class FinanceApplicationService {
 
     private final BillRepository repository;
     private final SystemApi systemApi;
@@ -21,7 +20,6 @@ public class FinanceApplicationService implements FinanceApi {
         this.systemApi = systemApi;
     }
 
-    @Override
     public BillDto findById(String id) {
         systemApi.currentTenantId();
         Bill aggregate = repository.findById(id)

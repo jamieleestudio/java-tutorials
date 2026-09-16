@@ -1,6 +1,6 @@
 package com.example.erp.workflow.interfaces.web;
 
-import com.example.erp.workflow.api.WorkflowApi;
+import com.example.erp.workflow.application.WorkflowApplicationService;
 import com.example.erp.workflow.interfaces.web.dto.WorkflowResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/workflow")
 public class WorkflowController {
 
-    private final WorkflowApi queryService;
+    private final WorkflowApplicationService applicationService;
 
-    public WorkflowController(WorkflowApi queryService) {
-        this.queryService = queryService;
+    public WorkflowController(WorkflowApplicationService applicationService) {
+        this.applicationService = applicationService;
     }
 
     @GetMapping("/{id}")
     public WorkflowResponse get(@PathVariable String id) {
-        var dto = queryService.findById(id);
+        var dto = applicationService.findById(id);
         return new WorkflowResponse(dto.id(), dto.name());
     }
 }

@@ -1,6 +1,6 @@
 package com.example.erp.grade.interfaces.web;
 
-import com.example.erp.grade.api.GradeApi;
+import com.example.erp.grade.application.GradeApplicationService;
 import com.example.erp.grade.api.dto.GradeDto;
 import com.example.erp.grade.interfaces.web.dto.CreateGradeWebRequest;
 import com.example.erp.grade.interfaces.web.dto.GradeResponse;
@@ -18,25 +18,25 @@ import java.util.List;
 @RequestMapping("/api/v1/grades")
 public class GradeController {
 
-    private final GradeApi gradeApi;
+    private final GradeApplicationService gradeApplicationService;
 
-    public GradeController(GradeApi gradeApi) {
-        this.gradeApi = gradeApi;
+    public GradeController(GradeApplicationService gradeApplicationService) {
+        this.gradeApplicationService = gradeApplicationService;
     }
 
     @PostMapping
     public GradeResponse create(@RequestBody CreateGradeWebRequest request) {
-        return toResponse(gradeApi.create(request.studentId(), request.courseName(), request.score()));
+        return toResponse(gradeApplicationService.create(request.studentId(), request.courseName(), request.score()));
     }
 
     @GetMapping("/{id}")
     public GradeResponse get(@PathVariable String id) {
-        return toResponse(gradeApi.findById(id));
+        return toResponse(gradeApplicationService.findById(id));
     }
 
     @GetMapping
     public List<GradeResponse> byStudent(@RequestParam String studentId) {
-        return gradeApi.findByStudentId(studentId).stream().map(this::toResponse).toList();
+        return gradeApplicationService.findByStudentId(studentId).stream().map(this::toResponse).toList();
     }
 
     private GradeResponse toResponse(GradeDto dto) {

@@ -1,6 +1,5 @@
 package com.example.erp.employment.application;
 
-import com.example.erp.employment.api.EmploymentApi;
 import com.example.erp.employment.api.dto.EmploymentDto;
 import com.example.erp.employment.domain.model.Employment;
 import com.example.erp.employment.domain.repository.EmploymentRepository;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class EmploymentApplicationService implements EmploymentApi {
+public class EmploymentApplicationService {
 
     private final EmploymentRepository repository;
     private final SystemApi systemApi;
@@ -21,7 +20,6 @@ public class EmploymentApplicationService implements EmploymentApi {
         this.systemApi = systemApi;
     }
 
-    @Override
     public EmploymentDto findById(String id) {
         systemApi.currentTenantId();
         Employment aggregate = repository.findById(id)

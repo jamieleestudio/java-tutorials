@@ -1,6 +1,6 @@
 package com.example.erp.hr.interfaces.web;
 
-import com.example.erp.hr.api.HrApi;
+import com.example.erp.hr.application.HrApplicationService;
 import com.example.erp.hr.interfaces.web.dto.EmployeeResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/hr")
 public class EmployeeController {
 
-    private final HrApi queryService;
+    private final HrApplicationService applicationService;
 
-    public EmployeeController(HrApi queryService) {
-        this.queryService = queryService;
+    public EmployeeController(HrApplicationService applicationService) {
+        this.applicationService = applicationService;
     }
 
     @GetMapping("/{id}")
     public EmployeeResponse get(@PathVariable String id) {
-        var dto = queryService.findById(id);
+        var dto = applicationService.findById(id);
         return new EmployeeResponse(dto.id(), dto.name());
     }
 }

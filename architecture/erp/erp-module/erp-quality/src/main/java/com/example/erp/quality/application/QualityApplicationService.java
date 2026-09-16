@@ -1,6 +1,5 @@
 package com.example.erp.quality.application;
 
-import com.example.erp.quality.api.QualityApi;
 import com.example.erp.quality.api.dto.QualityReportDto;
 import com.example.erp.quality.domain.model.QualityReport;
 import com.example.erp.quality.domain.repository.QualityReportRepository;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class QualityApplicationService implements QualityApi {
+public class QualityApplicationService {
 
     private final QualityReportRepository repository;
     private final SystemApi systemApi;
@@ -21,7 +20,6 @@ public class QualityApplicationService implements QualityApi {
         this.systemApi = systemApi;
     }
 
-    @Override
     public QualityReportDto findById(String id) {
         systemApi.currentTenantId();
         QualityReport aggregate = repository.findById(id)

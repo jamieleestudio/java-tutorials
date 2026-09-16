@@ -1,6 +1,6 @@
 package com.example.erp.attendance.interfaces.internal;
 
-import com.example.erp.attendance.api.AttendanceApi;
+import com.example.erp.attendance.application.AttendanceApplicationService;
 import com.example.erp.attendance.api.dto.AttendanceRecordDto;
 import com.example.erp.attendance.interfaces.internal.dto.AttendanceInternalResponse;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/internal/v1/attendance")
 public class AttendanceInternalController {
 
-    private final AttendanceApi attendanceApi;
+    private final AttendanceApplicationService attendanceApplicationService;
 
-    public AttendanceInternalController(AttendanceApi attendanceApi) {
-        this.attendanceApi = attendanceApi;
+    public AttendanceInternalController(AttendanceApplicationService attendanceApplicationService) {
+        this.attendanceApplicationService = attendanceApplicationService;
     }
 
     @GetMapping("/{id}")
     public AttendanceInternalResponse get(@PathVariable String id) {
-        AttendanceRecordDto dto = attendanceApi.findById(id);
+        AttendanceRecordDto dto = attendanceApplicationService.findById(id);
         return new AttendanceInternalResponse(dto.id(), dto.studentId());
     }
 }

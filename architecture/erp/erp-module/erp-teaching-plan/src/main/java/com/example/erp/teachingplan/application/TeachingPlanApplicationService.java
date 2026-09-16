@@ -1,6 +1,5 @@
 package com.example.erp.teachingplan.application;
 
-import com.example.erp.teachingplan.api.TeachingPlanApi;
 import com.example.erp.teachingplan.api.dto.TeachingPlanDto;
 import com.example.erp.teachingplan.domain.model.TeachingPlan;
 import com.example.erp.teachingplan.domain.repository.TeachingPlanRepository;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class TeachingPlanApplicationService implements TeachingPlanApi {
+public class TeachingPlanApplicationService {
 
     private final TeachingPlanRepository repository;
     private final SystemApi systemApi;
@@ -21,7 +20,6 @@ public class TeachingPlanApplicationService implements TeachingPlanApi {
         this.systemApi = systemApi;
     }
 
-    @Override
     public TeachingPlanDto findById(String id) {
         systemApi.currentTenantId();
         TeachingPlan aggregate = repository.findById(id)

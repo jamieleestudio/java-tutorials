@@ -1,6 +1,6 @@
 package com.example.erp.evaluation.interfaces.web;
 
-import com.example.erp.evaluation.api.EvaluationApi;
+import com.example.erp.evaluation.application.EvaluationApplicationService;
 import com.example.erp.evaluation.interfaces.web.dto.EvaluationResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/evaluation")
 public class EvaluationController {
 
-    private final EvaluationApi queryService;
+    private final EvaluationApplicationService applicationService;
 
-    public EvaluationController(EvaluationApi queryService) {
-        this.queryService = queryService;
+    public EvaluationController(EvaluationApplicationService applicationService) {
+        this.applicationService = applicationService;
     }
 
     @GetMapping("/{id}")
     public EvaluationResponse get(@PathVariable String id) {
-        var dto = queryService.findById(id);
+        var dto = applicationService.findById(id);
         return new EvaluationResponse(dto.id(), dto.name());
     }
 }

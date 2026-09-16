@@ -1,6 +1,6 @@
 package com.example.erp.grade.interfaces.internal;
 
-import com.example.erp.grade.api.GradeApi;
+import com.example.erp.grade.application.GradeApplicationService;
 import com.example.erp.grade.api.dto.GradeDto;
 import com.example.erp.grade.interfaces.internal.dto.GradeInternalResponse;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/internal/v1/grades")
 public class GradeInternalController {
 
-    private final GradeApi gradeApi;
+    private final GradeApplicationService gradeApplicationService;
 
-    public GradeInternalController(GradeApi gradeApi) {
-        this.gradeApi = gradeApi;
+    public GradeInternalController(GradeApplicationService gradeApplicationService) {
+        this.gradeApplicationService = gradeApplicationService;
     }
 
     @GetMapping("/{id}")
     public GradeInternalResponse get(@PathVariable String id) {
-        GradeDto dto = gradeApi.findById(id);
+        GradeDto dto = gradeApplicationService.findById(id);
         return new GradeInternalResponse(dto.id(), dto.studentId(), dto.courseName());
     }
 }

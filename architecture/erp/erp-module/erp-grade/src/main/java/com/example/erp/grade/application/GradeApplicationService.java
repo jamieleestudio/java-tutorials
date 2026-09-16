@@ -1,6 +1,5 @@
 package com.example.erp.grade.application;
 
-import com.example.erp.grade.api.GradeApi;
 import com.example.erp.grade.api.dto.GradeDto;
 import com.example.erp.grade.domain.model.Grade;
 import com.example.erp.grade.domain.repository.GradeRepository;
@@ -13,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class GradeApplicationService implements GradeApi {
+public class GradeApplicationService {
 
     private final GradeRepository repository;
     private final SystemApi systemApi;
@@ -23,7 +22,6 @@ public class GradeApplicationService implements GradeApi {
         this.systemApi = systemApi;
     }
 
-    @Override
     @Transactional
     public GradeDto create(String studentId, String courseName, double score) {
         systemApi.currentTenantId();
@@ -31,7 +29,6 @@ public class GradeApplicationService implements GradeApi {
         return toDto(repository.save(grade));
     }
 
-    @Override
     @Transactional(readOnly = true)
     public GradeDto findById(String id) {
         Grade grade = repository.findById(id)
@@ -39,7 +36,6 @@ public class GradeApplicationService implements GradeApi {
         return toDto(grade);
     }
 
-    @Override
     @Transactional(readOnly = true)
     public List<GradeDto> findByStudentId(String studentId) {
         return repository.findByStudentId(studentId).stream().map(this::toDto).toList();

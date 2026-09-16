@@ -1,6 +1,5 @@
 package com.example.erp.integration.application;
 
-import com.example.erp.integration.api.IntegrationApi;
 import com.example.erp.integration.api.dto.IntegrationDto;
 import com.example.erp.integration.domain.model.Integration;
 import com.example.erp.integration.domain.repository.IntegrationRepository;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class IntegrationApplicationService implements IntegrationApi {
+public class IntegrationApplicationService {
 
     private final IntegrationRepository repository;
     private final SystemApi systemApi;
@@ -21,7 +20,6 @@ public class IntegrationApplicationService implements IntegrationApi {
         this.systemApi = systemApi;
     }
 
-    @Override
     public IntegrationDto findById(String id) {
         systemApi.currentTenantId();
         Integration aggregate = repository.findById(id)

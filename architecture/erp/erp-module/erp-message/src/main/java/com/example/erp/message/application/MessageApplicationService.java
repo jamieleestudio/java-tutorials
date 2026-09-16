@@ -1,6 +1,5 @@
 package com.example.erp.message.application;
 
-import com.example.erp.message.api.MessageApi;
 import com.example.erp.message.api.dto.MessageDto;
 import com.example.erp.message.domain.model.Message;
 import com.example.erp.message.domain.repository.MessageRepository;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class MessageApplicationService implements MessageApi {
+public class MessageApplicationService {
 
     private final MessageRepository repository;
     private final SystemApi systemApi;
@@ -21,7 +20,6 @@ public class MessageApplicationService implements MessageApi {
         this.systemApi = systemApi;
     }
 
-    @Override
     public MessageDto findById(String id) {
         systemApi.currentTenantId();
         Message aggregate = repository.findById(id)

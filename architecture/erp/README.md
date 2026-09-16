@@ -43,9 +43,10 @@ erp/
 
 ```
 com.example.erp.attendance
-├─ api              AttendanceApi（跨域契约，一个域一个）/ dto / command
+├─ api              AttendanceApi（跨域发布契约，一个域一个）/ dto / command
 ├─ interfaces       web · admin · mobile · openapi · internal · device · mq · job（各带独立 dto）
-├─ application      AttendanceApplicationService（事务边界 + 用例编排）
+│                   provider/  AttendanceApiProvider（进程内实现发布契约，委托 application）
+├─ application      AttendanceApplicationService（本地用例，供本域 controller 使用）
 ├─ domain           model / repository（端口）/ service（端口）/ event
 └─ infrastructure   persistence（Entity + JpaRepository + RepositoryImpl）/ client
 ```
@@ -57,8 +58,9 @@ com.example.erp.attendance
 
 | 层 / 类型 | 后缀 | 示例 |
 |---|---|---|
-| api（跨域契约） | `Api` | `AttendanceApi`、`GradeApi`（一个域一个接口） |
-| application（用例实现） | `ApplicationService` | `AttendanceApplicationService`、`GradeApplicationService` |
+| api（跨域发布契约） | `Api` | `AttendanceApi`、`GradeApi`（一个域一个接口） |
+| api 契约的进程内实现 | `ApiProvider` | `AttendanceApiProvider`（放 `interfaces/provider`） |
+| application（本地用例） | `ApplicationService` | `AttendanceApplicationService`、`GradeApplicationService` |
 | domain 领域服务 | 无后缀 | `AttendanceService` |
 | domain 聚合根 / 值对象 | 无 | `AttendanceRecord` |
 | domain 仓储端口 | `Repository` | `AttendanceRecordRepository` |
@@ -90,6 +92,31 @@ com.example.erp.attendance
 5. **需要时仍可再拆**：若将来某域确实要读写分离（独立读模型 / 独立部署），
    再把 `XxxApi` 拆成 `XxxQueryApi` + `XxxCommandApi` 即可——属域内重构，不影响其它域。
 
+### api 与 application 的关系：独立，不是实现关系
+
+| | `api/XxxApi` | `application/XxxApplicationService` |
+|---|---|---|
+| 定位 | **发布契约**——给其它模块 / 未来微服务 RPC 客户端 | **本地用例**——给本域 controller |
+| 消费者 | 其它域、RPC 客户端 | 本域 `interfaces/*` 的 Controller / Job |
+| 形状 | 粗粒度、稳定、可版本化 | 可带分页、表单字段、本地校验 |
+| 实现者 | `interfaces/provider/XxxApiProvider` | 自己（`@Service`） |
+
+关键点：**`application` 不 `implements api`**。理由：
+
+1. **两个消费者，两个契约**：发布给其它模块的接口不一定适合 controller（如批量、幂等、粗粒度接口）；
+   反之 controller 需要的本地用例（分页 / 表单 / 本地校验）也不该进入发布契约。
+2. **变更节奏不同**：本地用例跟着需求天天改；发布契约要稳定，改一次要通知所有依赖方。
+3. **微服务拆分时映射才正确**：拆出后 `api` 由**调用方**的 RPC 客户端实现
+   （`AttendanceApiRpcClient implements AttendanceApi`），被调用方只加一个薄 RPC 控制器转发到
+   `AttendanceApplicationService`。若 `application` 现在就 `implements api`，等于提前把本地实现钉成发布契约。
+4. **让分层依赖变成真实依赖**：controller 依赖 `application` 类，`interfaces → application` 不再是一条空规则。
+
+代价：每域多一个 `XxxApiProvider`（纯委托）。这是**进程内**实现发布契约的最薄适配器；
+将来引入 RPC 时，它被 RPC 控制器取代即可，`application` 不动。
+
+> DTO 目前 `application` 与 `api` 共用（`XxxDto` / `XxxCommand`）：形状一致时共用最省。
+> 一旦发布契约的形状需要独立演进（版本、粗粒度、批量），就在 `application/dto` 里分家，由 `XxxApiProvider` 做映射。
+
 ## 依赖方向
 
 ```
@@ -97,6 +124,11 @@ erp-app-*         →  erp-module/erp-*  →  erp-platform-*  →  erp-shared-ke
                                               ↘ erp-shared-kernel
 erp-<domain>      →  其它域仅允许 import 其 ..api.. 包
 erp-system        →  不依赖任何业务域（纯提供方）
+
+域内：
+interfaces/{web,admin,mobile,…}  →  application          （本地用例，controller 用）
+interfaces/provider              →  application + api    （实现发布契约）
+application                      →  domain + 其它域 api   （用例编排）
 ```
 
 ## ArchUnit 护栏（`erp-architecture-test`）
@@ -104,6 +136,7 @@ erp-system        →  不依赖任何业务域（纯提供方）
 | 测试 | 规则 |
 |---|---|
 | `LayerRulesTest` | 分层依赖方向；`api` 不依赖实现层 |
+| `ApiContractRulesTest` | `..api..` 接口只允许由 `..interfaces.provider..` 实现 |
 | `DomainPurityRulesTest` | `..domain..` 零框架依赖、不依赖其它层 |
 | `DomainIsolationRulesTest` | 跨域只走 `api`；域切片无循环 |
 | `EntityLeakageRulesTest` | `..infrastructure.persistence..` 不外泄；Controller 不碰仓储 |
@@ -114,7 +147,7 @@ erp-system        →  不依赖任何业务域（纯提供方）
 
 ```bash
 cd architecture/erp
-mvn test                                     # 17 个测试：4 集成 + 13 ArchUnit
+mvn test                                     # 18 个测试：4 集成 + 14 ArchUnit
 
 mvn -pl erp-app/erp-app-boot spring-boot:run # :8080 全部端
 mvn -pl erp-app/erp-app-openapi spring-boot:run  # :8083 仅 openapi + device
