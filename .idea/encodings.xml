@@ -76,6 +76,12 @@
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-supervisor/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tools-advanced/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tools-advanced/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-agentic-tools/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-agentic-tools/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-debate/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-debate/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tree-of-thoughts/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tree-of-thoughts/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-trigger/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-trigger/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-workflows/src/main/kotlin" charset="UTF-8" />

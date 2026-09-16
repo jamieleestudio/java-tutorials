@@ -34,6 +34,9 @@
 |---|---|---|
 | [embabel-subagent](../embabel-patterns/embabel-subagent/README.md) | 8893 | 子 Agent / handoff 委派 |
 | [embabel-tools-advanced](../embabel-patterns/embabel-tools-advanced/README.md) | 8922 | 渐进式工具 + 工具循环回调 + 工具名纠正 |
+| [embabel-agentic-tools](../embabel-patterns/embabel-agentic-tools/README.md) | 8928 | Agent 自省工具（查看黑板与进程状态） |
+| [embabel-debate](../embabel-patterns/embabel-debate/README.md) | 8930 | 多 Agent 辩论（对立视角 + 裁判综合） |
+| [embabel-tree-of-thoughts](../embabel-patterns/embabel-tree-of-thoughts/README.md) | 8931 | 思维树（分支生成 + 评分 + 剪枝 + 取最优） |
 
 ## 建议阅读顺序
 
@@ -49,5 +52,4 @@
 - **`embabel-hitl`（③）与 `embabel-trigger`（本章）**：前者是"等人输入"，后者是"动作触发时机"。
 - **`embabel-subagent`（本章，进程内委派）与 `embabel-a2a`（⑦，跨进程协议）**：粒度不同。
 - **待补模式**：`embabel-state-machine`（`@State` + StateMachineTool + PlaybookTool）、
-  `embabel-agentic-tools`（自省工具组）、`embabel-debate`（多 Agent 辩论）、
-  `embabel-tree-of-thoughts`（多分支搜索）、`embabel-programmatic-dsl`（Kotlin 分支/聚合）。
+  `embabel-programmatic-dsl`（Kotlin 分支/聚合）。

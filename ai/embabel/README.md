@@ -1,7 +1,7 @@
 # Embabel Agent Framework 示例集
 
 用 **Java 21 + Spring Boot 3.5 + Embabel 1.0.0** 演示 Embabel 的核心能力。
-共 39 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
+共 42 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
 默认 LLM 接入 **DeepSeek**（OpenAI 兼容接口），需要嵌入/视觉时经 LiteLLM 接入本地 Ollama。
 
 > Embabel 是 Spring 创始人 Rod Johnson 发起的 JVM Agent 框架：用强类型领域模型 + 可复用 *Action* + GOAP 规划器，
@@ -80,6 +80,9 @@
 | [embabel-orchestrator-workers](embabel-patterns/embabel-orchestrator-workers/README.md) | 8919 | 编排者-工人（动态拆解） | `GET /orchestrator/ask` |
 | [embabel-autonomous-agent](embabel-patterns/embabel-autonomous-agent/README.md) | 8920 | 自主 Agent（工具循环 + 错误恢复） | `GET /autonomous/ask` |
 | [embabel-tools-advanced](embabel-patterns/embabel-tools-advanced/README.md) | 8922 | 工具进阶（渐进式工具 / 循环回调） | `GET /tools-advanced/ask` |
+| [embabel-agentic-tools](embabel-patterns/embabel-agentic-tools/README.md) | 8928 | Agent 自省工具（黑板 / 进程状态） | `GET /agentic-tools/ask` |
+| [embabel-debate](embabel-patterns/embabel-debate/README.md) | 8930 | 多 Agent 辩论（对立视角 + 裁判） | `GET /debate/ask` |
+| [embabel-tree-of-thoughts](embabel-patterns/embabel-tree-of-thoughts/README.md) | 8931 | 思维树（分支 + 评分 + 剪枝） | `GET /tot/ask` |
 | [embabel-supervisor](embabel-patterns/embabel-supervisor/README.md) | 8912 | 主管调度（LLM 编排动作） | `GET /supervisor/ask` |
 | [embabel-trigger](embabel-patterns/embabel-trigger/README.md) | 8913 | 反应式触发（`trigger`） | `GET /trigger/ask` |
 | [embabel-replanning](embabel-patterns/embabel-replanning/README.md) | 8914 | 动态重规划（工具失败换路） | `GET /replan/ask` |
