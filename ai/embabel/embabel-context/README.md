@@ -13,18 +13,24 @@
 | [embabel-file-tools](../embabel-context/embabel-file-tools/README.md) | 8902 | 沙箱文件工具（`FileTools.readOnly/readWrite`） |
 | [embabel-embeddings](../embabel-context/embabel-embeddings/README.md) | 8907 | 嵌入与语义检索（`EmbeddingService` + 余弦相似度；需 Docker） |
 | [embabel-vector-store](../embabel-context/embabel-vector-store/README.md) | 8933 | pgvector 持久化向量检索（HNSW 索引 + 元数据过滤 + 阈值；需 Docker） |
+| [embabel-document-ingest](../embabel-context/embabel-document-ingest/README.md) | 8937 | 文档摄入流水线（md/txt/pdf → 段落感知分块 → 嵌入 → 增量；需 Docker） |
 
 ## 建议阅读顺序
 
 1. `embabel-references` —— 先理解"参考资料如何进入提示词"，以及"内容全量注入"的代价
 2. `embabel-embeddings` —— 知识变大后，改成"只注入最相关的片段"（内存版）
 3. `embabel-vector-store` —— 语料再大就得上向量库（持久化 + HNSW + SQL 过滤）
-4. `embabel-file-tools` —— 让模型自己去读文件（而不是把内容塞进提示词）
+4. `embabel-document-ingest` —— 把**真实文档**喂进去：分块策略、PDF 抽取、增量摄入
+5. `embabel-file-tools` —— 让模型自己去读文件（而不是把内容塞进提示词）
 
 ## 与相邻分类的边界
 
-- **`embabel-embeddings` vs `embabel-vector-store`**：都是"嵌入 + 检索"，区别在**存储与规模**——
-  前者内存里每次重算（几十条够用），后者落 Postgres + pgvector（百万级 + 元数据过滤）。
+- **`embabel-embeddings` vs `embabel-vector-store` vs `embabel-document-ingest`**：
+  依次是"内存检索（几十条）"→"向量库检索（百万级）"→"**怎么把语料放进去**"。
+  前两者关注检索，第三者关注摄取。
+- **`embabel-vector-store` vs `embabel-document-ingest` 的表名不能相同**：
+  两者共用同一个 Postgres 库，若都用 `doc_chunk`，`CREATE TABLE IF NOT EXISTS` 会静默跳过，
+  随后在旧结构上建索引就失败（本模块踩过）。所以后者用 `ingest_*` 前缀。
 - **协议化的外部上下文**（如 MCP 提供的文件/检索工具） → 见 ⑦ `embabel-mcp`。
 - **长期记忆（跨会话记住用户）** → 待补（`embabel-memory`）；当前可用
   `embabel-conversation`（会话内记忆）+ `embabel-persistence`（上下文落库）。

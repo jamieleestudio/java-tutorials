@@ -1,0 +1,44 @@
+server:
+  port: 8937
+
+# 需要 Postgres（pgvector 镜像）+ LiteLLM + Ollama：
+#   cd ai/embabel/docker && docker compose up -d postgres litellm ollama
+#   docker compose exec ollama ollama pull nomic-embed-text
+#
+# DeepSeek 没有 embedding 接口，嵌入必须走 LiteLLM -> 本地 Ollama。
+# 重要：Embabel 的 OpenAI starter **环境变量优先于 yml**（OPENAI_BASE_URL / OPENAI_API_KEY），
+# 所以运行本模块时必须把这两个变量指向 LiteLLM：
+#   PowerShell:  $env:OPENAI_BASE_URL="http://localhost:4000"; $env:OPENAI_API_KEY="sk-1234"
+spring:
+  datasource:
+    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5433/embabel}
+    username: ${POSTGRES_USER:embabel}
+    password: ${POSTGRES_PASSWORD:embabel}
+
+app:
+  ingest:
+    # 待摄入目录。默认放在系统临时目录，首次运行会自动写入 3 个示例 .md 文件。
+    dir: ${INGEST_DIR:${java.io.tmpdir}/embabel-ingest-docs}
+    # 分块目标大小（字符数）与相邻块重叠
+    chunk-size: 300
+    chunk-overlap: 60
+  vector:
+    dim: 768
+    # 注意：表名必须与 embabel-vector-store 区分开——多个示例共用同一个 Postgres 库时，
+    # 如果表名相同，CREATE TABLE IF NOT EXISTS 会静默跳过（表已存在但结构不同），
+    # 后续建索引/写数据就会失败。所以这里用独立前缀 ingest_。
+    table: ingest_chunk
+    doc-table: ingest_doc
+
+embabel:
+  models:
+    default-llm: deepseek-flash
+    default-embedding-model: nomic-embed-text
+  agent:
+    platform:
+      models:
+        openai:
+          base-url: ${OPENAI_BASE_URL:http://localhost:4000}
+          completions: /chat/completions
+          embeddings-path: /v1/embeddings
+          api-key: ${LITELLM_API_KEY:sk-1234}

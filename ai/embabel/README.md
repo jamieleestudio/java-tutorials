@@ -1,18 +1,18 @@
 # Embabel Agent Framework 示例集
 
 用 **Java 21 + Spring Boot 3.5 + Embabel 1.0.0** 演示 Embabel 的核心能力。
-共 45 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
+共 46 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
 默认 LLM 接入 **DeepSeek**（OpenAI 兼容接口），需要嵌入/视觉时经 LiteLLM 接入本地 Ollama。
 
 > Embabel 是 Spring 创始人 Rod Johnson 发起的 JVM Agent 框架：用强类型领域模型 + 可复用 *Action* + GOAP 规划器，
 > 让智能体围绕"目标"动态推导执行步骤，而不是写死工作流。
 
-## 按目的选路线（45 个模块太多，从这里进）
+## 按目的选路线（46 个模块太多，从这里进）
 
 | 我想… | 路线 |
 |---|---|
 | **快速跑通第一个 Agent** | `embabel-chat` → `embabel-planning` → `embabel-tools` → `embabel-structured-output` |
-| **做一个 RAG 应用** | `embabel-references`（全量注入）→ `embabel-embeddings`（内存检索）→ `embabel-vector-store`（pgvector 持久化）→ `embabel-tool-chaining`（工具链） |
+| **做一个 RAG 应用** | `embabel-references`（全量注入）→ `embabel-embeddings`（内存检索）→ `embabel-vector-store`（pgvector 持久化）→ `embabel-document-ingest`（真实文档摄入）→ `embabel-tool-chaining`（工具链） |
 | **实现一个能自主决策的 Agent** | `embabel-autonomous-agent` → `embabel-tools-advanced` → `embabel-replanning` → `embabel-stuck-handler` → `embabel-budget` |
 | **把 Agent 接进产品** | `embabel-hitl` → `embabel-conversation`（含流式）→ `embabel-multimodal` → `embabel-guardrails` → `embabel-secure-tools` |
 | **多 Agent 协作** | `embabel-subagent` → `embabel-supervisor` → `embabel-parallelization` → `embabel-debate` → `embabel-orchestrator-workers` → `embabel-a2a` |
@@ -39,6 +39,7 @@
 | [embabel-file-tools](embabel-context/embabel-file-tools/README.md) | 8902 | 沙箱文件工具（`FileTools`） | `GET /files/ask` |
 | [embabel-embeddings](embabel-context/embabel-embeddings/README.md) | 8907 | 嵌入与语义检索（内存，需 Docker） | `GET /embeddings/search` |
 | [embabel-vector-store](embabel-context/embabel-vector-store/README.md) | 8933 | pgvector 持久化向量检索（HNSW + 元数据过滤，需 Docker） | `GET /vector/search`、`/vector/ask` |
+| [embabel-document-ingest](embabel-context/embabel-document-ingest/README.md) | 8937 | 文档摄入（md/txt/pdf → 分块 → 嵌入 → 增量，需 Docker） | `POST /ingest/run`、`/ingest/demo-pdf` |
 
 ### ③ [交互与协作（embabel-interaction）](embabel-interaction/README.md)
 
@@ -265,8 +266,8 @@ embabel:
 | 8904 | embabel-testing | 8934 | embabel-budget |
 | 8905 | embabel-multi-model | 8935 | embabel-stuck-handler |
 | 8906 | *(已并入 8918 embabel-parallelization)* | 8936 | embabel-tool-chaining |
-| 8907 | embabel-embeddings | 8937+ | *(空闲)* |
-| 8908 | embabel-multimodal | | |
+| 8907 | embabel-embeddings | 8937 | embabel-document-ingest |
+| 8908 | embabel-multimodal | 8938+ | *(空闲)* |
 | 8909 | embabel-mcp | | |
 | 8910 | embabel-a2a | | |
 | 8911 | embabel-persistence | | |
@@ -286,5 +287,5 @@ mvn package                          # 全部模块 + 各模块单测
 mvn -pl :embabel-testing test        # 只跑测试示例模块（无需 API Key）
 ```
 
-CI：`.github/workflows/build.yml` 会在 `ai/embabel/**` 变更时全量构建 45 个模块，
+CI：`.github/workflows/build.yml` 会在 `ai/embabel/**` 变更时全量构建 46 个模块，
 并单独跑 `embabel-testing` 的免 Key 测试（不调用真实 LLM）。

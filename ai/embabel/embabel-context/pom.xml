@@ -20,6 +20,7 @@
         <module>embabel-file-tools</module>
         <module>embabel-embeddings</module>
         <module>embabel-vector-store</module>
+        <module>embabel-document-ingest</module>
     </modules>
 
 </project>
