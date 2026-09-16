@@ -1,7 +1,7 @@
 # Embabel Agent Framework 示例集
 
 用 **Java 21 + Spring Boot 3.5 + Embabel 1.0.0** 演示 Embabel 的核心能力。
-共 42 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
+共 44 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
 默认 LLM 接入 **DeepSeek**（OpenAI 兼容接口），需要嵌入/视觉时经 LiteLLM 接入本地 Ollama。
 
 > Embabel 是 Spring 创始人 Rod Johnson 发起的 JVM Agent 框架：用强类型领域模型 + 可复用 *Action* + GOAP 规划器，
@@ -83,6 +83,8 @@
 | [embabel-agentic-tools](embabel-patterns/embabel-agentic-tools/README.md) | 8928 | Agent 自省工具（黑板 / 进程状态） | `GET /agentic-tools/ask` |
 | [embabel-debate](embabel-patterns/embabel-debate/README.md) | 8930 | 多 Agent 辩论（对立视角 + 裁判） | `GET /debate/ask` |
 | [embabel-tree-of-thoughts](embabel-patterns/embabel-tree-of-thoughts/README.md) | 8931 | 思维树（分支 + 评分 + 剪枝） | `GET /tot/ask` |
+| [embabel-state-machine](embabel-patterns/embabel-state-machine/README.md) | 8929 | 状态机（按状态收敛工具集 + 显式转移） | `GET /state-machine/process` |
+| [embabel-programmatic-dsl](embabel-patterns/embabel-programmatic-dsl/README.md) | 8932 | 编程式 DSL（Kotlin：agent / flow / aggregate） | `GET /dsl/pipeline`、`/dsl/digest` |
 | [embabel-supervisor](embabel-patterns/embabel-supervisor/README.md) | 8912 | 主管调度（LLM 编排动作） | `GET /supervisor/ask` |
 | [embabel-trigger](embabel-patterns/embabel-trigger/README.md) | 8913 | 反应式触发（`trigger`） | `GET /trigger/ask` |
 | [embabel-replanning](embabel-patterns/embabel-replanning/README.md) | 8914 | 动态重规划（工具失败换路） | `GET /replan/ask` |
@@ -105,6 +107,7 @@
 | **Workflow: Orchestrator-workers** | `embabel-orchestrator-workers` |
 | **Workflow: Evaluator-optimizer** | `embabel-refinement` |
 | **Agents**（自主循环、环境反馈、错误恢复、停止条件） | `embabel-autonomous-agent`、`embabel-tools`、`embabel-hitl`（人工检查点）、`embabel-guardrails`（护栏） |
+| **（文章之外）** 状态机 / 多 Agent 辩论 / 思维树 / 编程式构建 | `embabel-state-machine`、`embabel-debate`、`embabel-tree-of-thoughts`、`embabel-programmatic-dsl` |
 
 > 文章的核心建议——**先找最简单的方案**，只在确有收益时增加复杂度——同样适用于本仓库：
 > 从 `embabel-chat` 开始，需要时再逐步引入上表中的模式。

@@ -25,6 +25,8 @@
         <module>embabel-agentic-tools</module>
         <module>embabel-debate</module>
         <module>embabel-tree-of-thoughts</module>
+        <module>embabel-programmatic-dsl</module>
+        <module>embabel-state-machine</module>
         <module>embabel-supervisor</module>
         <module>embabel-trigger</module>
         <module>embabel-replanning</module>

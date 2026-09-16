@@ -37,19 +37,22 @@
 | [embabel-agentic-tools](../embabel-patterns/embabel-agentic-tools/README.md) | 8928 | Agent 自省工具（查看黑板与进程状态） |
 | [embabel-debate](../embabel-patterns/embabel-debate/README.md) | 8930 | 多 Agent 辩论（对立视角 + 裁判综合） |
 | [embabel-tree-of-thoughts](../embabel-patterns/embabel-tree-of-thoughts/README.md) | 8931 | 思维树（分支生成 + 评分 + 剪枝 + 取最优） |
+| [embabel-state-machine](../embabel-patterns/embabel-state-machine/README.md) | 8929 | 状态机（按状态收敛工具集 + 显式转移） |
+| [embabel-programmatic-dsl](../embabel-patterns/embabel-programmatic-dsl/README.md) | 8932 | 编程式 DSL（Kotlin：agent/promptedTransformer/flow/aggregate） |
 
 ## 建议阅读顺序
 
 1. **先看清"结构"**：`prompt-chaining` → `routing` → `parallelization` → `orchestrator-workers`
    （从固定路径到动态拆解）
 2. **再看"自主"**：`autonomous-agent` → `supervisor` → `replanning`
-3. **最后补"协作与工具"**：`subagent` → `tools-advanced`
+3. **最后补"协作与工具"**：`subagent` → `tools-advanced` → `agentic-tools`
 4. 想深入"迭代改进"看 `refinement`；想用原语自己拼看 `workflows`（Kotlin）
+5. 想加"硬约束"看 `state-machine`；想不用注解、纯代码构建 Agent 看 `programmatic-dsl`（Kotlin）
 
 ## 与相邻分类的边界
 
 - **本章是"结构模式"**；④ `embabel-reasoning` 是"引擎参数"（规划器类型、模型选择）。
 - **`embabel-hitl`（③）与 `embabel-trigger`（本章）**：前者是"等人输入"，后者是"动作触发时机"。
 - **`embabel-subagent`（本章，进程内委派）与 `embabel-a2a`（⑦，跨进程协议）**：粒度不同。
-- **待补模式**：`embabel-state-machine`（`@State` + StateMachineTool + PlaybookTool）、
-  `embabel-programmatic-dsl`（Kotlin 分支/聚合）。
+- **`embabel-guardrails`/`embabel-secure-tools`（⑤）与 `embabel-state-machine`（本章）**：
+  前两者在**执行前后**做校验与权限拦截；状态机是**按阶段**收敛工具的可见性。
