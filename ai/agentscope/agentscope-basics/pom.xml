@@ -17,6 +17,7 @@
 
     <modules>
         <module>agentscope-chat</module>
+        <module>agentscope-tools</module>
     </modules>
 
 </project>
