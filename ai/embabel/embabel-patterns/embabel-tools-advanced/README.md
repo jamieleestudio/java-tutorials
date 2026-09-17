@@ -84,3 +84,18 @@ mvn -pl :embabel-tools-advanced spring-boot:run
   共用同一目标类型会命中歧义。所以这里 `Reply` 与 `Introspection` 是两个类型。
 - `GoalTool` / `AgentTool` 可把"某个目标 / 另一个 Agent"包装成工具（需注入 `Autonomy`），
   适合"让 Agent 自主调度其它目标/Agent"；进程内委派的更简单做法见 `embabel-subagent`。
+
+
+## 附：工具循环的三个控制工具（未单独建模块）
+
+本模块讲了"循环回调"（观测/改写）。框架还提供三个**控制**工具：
+
+| 工具 | 作用 | 典型场景 |
+|---|---|---|
+| `OneShotPerLoopTool` | 包装后，该工具在**同一轮工具循环里只能被调用一次** | 防止模型反复调同一个"下单"工具造成重复副作用 |
+| `LoopMemo` / `LoopMemoKt` | 在循环内**记忆/去重**（相同入参不重复执行） | 重复查询同一订单时直接返回缓存结果 |
+| `ProgressTool` | 让工具上报**进度**（配合 `ProgressUpdateEvent`） | 长任务给用户可见进度 |
+
+它们与"回调"的区别：回调是**只读观测**，这三个会**改变循环行为**。
+如果发现模型在同一轮里重复调同一个工具，先考虑 `OneShotPerLoopTool` 或 `LoopMemo`，
+而不是改提示词求它"别重复调"。

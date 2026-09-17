@@ -60,3 +60,19 @@ mvn -pl :embabel-autonomous-agent spring-boot:run
   以及成本/步数上限（`EarlyTerminationPolicy`、`Budget`）。
 - 与 `embabel-tools` 的区别：tools 模块演示"怎么挂工具"；本模块演示"自主循环 + 错误恢复 + 停止条件"。
 - 文章的三个原则同样适用：保持简单、让规划步骤透明（日志）、认真设计"Agent-计算机接口"（工具文档）。
+
+
+## 附：从工具内部主动终止（未单独建模块）
+
+本模块用"最大迭代次数 + 目标达成"作为停止条件。工具内部还可以**主动终止**：
+
+| API | 作用 |
+|---|---|
+| `TerminateAgentException` | 从工具里抛出，终止**整个 Agent 进程** |
+| `TerminateActionException` | 只终止**当前动作**（进程继续规划） |
+| `TerminationSignal` / `TerminationScope` | 终止信号与其作用域（AGENT / ACTION） |
+| `ToolControlFlowSignal` | 上面这些异常的公共父类型（框架据此区分"控制流"与"真错误"） |
+
+什么时候用：工具发现"再继续下去没有意义"（例如库存为 0，任何后续动作都会失败），
+此时主动终止比让模型继续试错更省钱。它和 `embabel-budget` 的区别是
+**主动（业务判断）vs 被动（资源上限）**，两者常一起用。

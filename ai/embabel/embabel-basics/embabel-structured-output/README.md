@@ -46,3 +46,18 @@ mvn -pl :embabel-structured-output spring-boot:run
   本模块的 `models/openai-models.yml` 关闭了原生结构化输出（`supported: false`），
   Embabel 自动回退为"提示词 + 解析"的方案，用法不变。
 - `withValidation` 与 `withProperties/withoutProperties` 可精细控制生成字段。
+
+
+## 附：字段级校验（未单独建模块）
+
+本模块讲"把模型输出绑定到强类型"。绑定的对象还可以带**字段级校验规则**：
+
+| API | 作用 |
+|---|---|
+| `PropertyValidationRule` | `isValid(String)` + `failureReason(String)`，逐字段校验 |
+| `ValidatedPropertyDefinition` | 带校验规则的字段定义（`ValuePropertyDefinition` 的扩展） |
+| `PropertyDefinition.getMetadata()` | 语义元数据（`@Semantics`/`@With` 填充） |
+
+用法：把校验规则放进 `ValidatedPropertyDefinition`，绑定失败时能给出**字段级**错误
+（而不是笼统的"解析失败"），UX 层就能精确地高亮出错字段。
+"校验失败 → 让模型重试"这条链路在 `embabel-hitl-advanced` 的 `ValidationError` 里能看到同样的思路。

@@ -21,6 +21,7 @@
         <module>embabel-embeddings</module>
         <module>embabel-vector-store</module>
         <module>embabel-document-ingest</module>
+        <module>embabel-memory</module>
     </modules>
 
 </project>

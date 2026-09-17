@@ -73,3 +73,20 @@ mvn -pl :embabel-mcp-server spring-boot:run
   对比 Embabel 的 `@LlmTool`（自动生成 schema）。
 - 生产上还应加：鉴权（`ServerTransportSecurityValidator`）、工具白名单、
   以及把危险工具排除在外（见 `embabel-secure-tools`）。
+
+
+## 附：MCP 的 resources / prompts（本模块只暴露了 tools）
+
+MCP 协议除 `tools` 外还有两类能力，本模块**只实现了 tools**：
+
+| 能力 | 用途 | 在 `McpServer` 上的注册方式 |
+|---|---|---|
+| `tools` | 模型可调用的函数 | `.tool(...)`（本模块已实现） |
+| `resources` | 只读的"资源"（文件内容、数据库行等），由客户端拉取或订阅 | `.resources(...)` |
+| `prompts` | 服务端预置的提示词模板，供客户端选用 | `.prompts(...)` |
+
+什么时候需要它们：如果你的"工具"其实是**只读数据源**（比如把内部文档暴露给 IDE），
+用 `resources` 比 `tools` 更贴协议语义（客户端可以直接列出/订阅，而不是让模型去调函数）。
+
+> 本模块用 `mcp-core` 的 server 端类手工装配，因为
+> `embabel-agent-starter-mcp-server` 在 1.0.0 的 m2 里只有 `.lastUpdated`（不可用）。

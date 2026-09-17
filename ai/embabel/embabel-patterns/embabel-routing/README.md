@@ -46,3 +46,19 @@ mvn -pl :embabel-routing spring-boot:run
   这样更健壮。
 - 文章提到的进阶用法：把"简单/常见问题"路由到**便宜的小模型**、"困难/罕见问题"路由到强模型——
   在 Embabel 里可用 `ai.withLlmByRole(...)` 实现（见 `embabel-multi-model`）。
+
+
+## 附：复合条件（未单独建模块）
+
+本模块用 `@Condition` + 单个谓词做路由。条件本身可以组合：
+
+| API | 作用 |
+|---|---|
+| `AndCondition(a, b, ...)` | 全部满足 |
+| `OrCondition(a, b, ...)` | 任一满足 |
+| `NotCondition(c)` | 取反 |
+| `ComputedBooleanCondition(name, evaluator)` | 用代码计算（`(blackboard, condition) -> Boolean`） |
+| `UnknownCondition` | 显式表示"未知"，让规划器去做信息收集 |
+
+`ComputedBooleanCondition` 是 `embabel-parallelization` 的 `aggregate` 内部在用的机制
+（"所有分片都完成了吗"），所以它不只是"条件组合"，也是**自定义规划前提**的入口。

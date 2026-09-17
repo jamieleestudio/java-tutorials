@@ -44,14 +44,16 @@ public class StreamingController {
     @GetMapping(value = "/{sessionId}/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<String> stream(
             @PathVariable String sessionId,
-            @RequestParam(value = "message") String message) {
+            @RequestParam(value = "message") String message,
+            @RequestParam(value = "persona", required = false) String persona) {
         return Flux.defer(() -> {
             InMemoryConversation conversation = store.get(sessionId);
             conversation.addMessage(new UserMessage(message));
 
             PromptRunner runner = aiBuilder.ai()
                     .withDefaultLlm()
-                    .withSystemPrompt(ChatController.SYSTEM_PROMPT);
+                    .withSystemPrompt(persona == null || persona.isBlank()
+                            ? ChatController.SYSTEM_PROMPT : persona);
 
             // 不支持流式：降级为一次性返回，但仍然记住上下文
             if (!runner.supportsStreaming()) {

@@ -11,8 +11,9 @@
 
 | 我想… | 路线 |
 |---|---|
+| **先看一个完整系统** | `embabel-capstone`（端到端：护栏 → 政策 → 工具 → HITL → 预算 → 观测），再按需拆开学 |
 | **快速跑通第一个 Agent** | `embabel-chat` → `embabel-planning` → `embabel-tools` → `embabel-structured-output` |
-| **做一个 RAG 应用** | `embabel-references`（全量注入）→ `embabel-embeddings`（内存检索）→ `embabel-vector-store`（pgvector 持久化）→ `embabel-document-ingest`（真实文档摄入）→ `embabel-tool-chaining`（工具链） |
+| **做一个 RAG 应用** | `embabel-references`（全量注入）→ `embabel-embeddings`（内存检索）→ `embabel-vector-store`（pgvector 持久化）→ `embabel-document-ingest`（真实文档摄入）→ `embabel-memory`（跨会话记忆）→ `embabel-tool-chaining`（工具链） |
 | **实现一个能自主决策的 Agent** | `embabel-autonomous-agent` → `embabel-tools-advanced` → `embabel-replanning` → `embabel-stuck-handler` → `embabel-budget` |
 | **把 Agent 接进产品** | `embabel-hitl` → `embabel-hitl-advanced` → `embabel-conversation`（含流式）→ `embabel-multimodal` → `embabel-guardrails` → `embabel-secure-tools` → `embabel-identity` |
 | **多 Agent 协作** | `embabel-subagent` → `embabel-supervisor` → `embabel-parallelization` → `embabel-debate` → `embabel-orchestrator-workers` → `embabel-a2a` |
@@ -40,6 +41,7 @@
 | [embabel-embeddings](embabel-context/embabel-embeddings/README.md) | 8907 | 嵌入与语义检索（内存，需 Docker） | `GET /embeddings/search` |
 | [embabel-vector-store](embabel-context/embabel-vector-store/README.md) | 8933 | pgvector 持久化向量检索（HNSW + 元数据过滤 + 两阶段重排，需 Docker） | `GET /vector/search`、`/vector/compare` |
 | [embabel-document-ingest](embabel-context/embabel-document-ingest/README.md) | 8937 | 文档摄入（md/txt/pdf → 分块 → 嵌入 → 增量，需 Docker） | `POST /ingest/run`、`/ingest/demo-pdf` |
+| [embabel-memory](embabel-context/embabel-memory/README.md) | 8945 | **跨会话长期记忆**（按用户召回偏好/事实，需 Docker） | `GET /memory/answer` |
 
 ### ③ [交互与协作（embabel-interaction）](embabel-interaction/README.md)
 
@@ -47,8 +49,7 @@
 |---|---|---|---|
 | [embabel-hitl](embabel-interaction/embabel-hitl/README.md) | 8894 | 人机协同（确认 / 表单，暂停与恢复） | `GET /hitl/review`、`POST /hitl/{id}/confirm` |
 | [embabel-hitl-advanced](embabel-interaction/embabel-hitl-advanced/README.md) | 8938 | 工具级 HITL（按需索要强类型输入） | `GET /hitl-advanced/refund` |
-| [embabel-web-ui](embabel-interaction/embabel-web-ui/README.md) | 8943 | 最小 Web UI（静态页 + SSE，浏览器可点） | 打开 `http://localhost:8943/` |
-| [embabel-conversation](embabel-interaction/embabel-conversation/README.md) | 8897 | 多轮对话与人格 + SSE 流式输出 | `POST /chat/{sessionId}`、`GET /chat/{sessionId}/stream` |
+| [embabel-conversation](embabel-interaction/embabel-conversation/README.md) | 8897 | 多轮对话 + SSE 流式 + **Web UI**（打开 `http://localhost:8897/`） | `POST /chat/{sessionId}`、`GET /chat/{sessionId}/stream` |
 | [embabel-multimodal](embabel-interaction/embabel-multimodal/README.md) | 8908 | 图像理解（需 Docker） | `GET /multimodal/describe` |
 
 ### ④ [推理与规划（embabel-reasoning）](embabel-reasoning/README.md)
@@ -56,8 +57,7 @@
 | 模块 | 端口 | 主题 | 主要接口 |
 |---|---|---|---|
 | [embabel-thinking](embabel-reasoning/embabel-thinking/README.md) | 8896 | 推理过程提取（thinking） | `GET /thinking/ask` |
-| [embabel-planner-types](embabel-reasoning/embabel-planner-types/README.md) | 8900 | GOAP / UTILITY 规划器对比 | `GET /planner/goap`、`GET /planner/utility` |
-| [embabel-dynamic-types](embabel-reasoning/embabel-dynamic-types/README.md) | 8941 | 运行时领域类型（`DynamicType` + `DataDictionary`） | `GET /types/build`、`/types/dictionary` |
+| [embabel-planner-types](embabel-reasoning/embabel-planner-types/README.md) | 8900 | GOAP / UTILITY 规划器对比 + 运行时类型（`DynamicType`） | `GET /planner/goap`、`/planner/types/build` |
 | [embabel-multi-model](embabel-reasoning/embabel-multi-model/README.md) | 8905 | 角色→模型映射与回退 | `GET /multi-model/ask`、`/multi-model/fallback` |
 
 ### ⑤ [质量与安全（embabel-safety）](embabel-safety/README.md)
@@ -103,6 +103,7 @@
 | [embabel-tools-advanced](embabel-patterns/embabel-tools-advanced/README.md) | 8922 | 工具进阶（渐进式工具 / 循环回调 / 自省工具） | `GET /tools-advanced/ask`、`/tools-advanced/inspect` |
 | [embabel-tool-chaining](embabel-patterns/embabel-tool-chaining/README.md) | 8936 | 工具链式展开（artifacts：对象出现即解锁其工具） | `GET /tool-chaining/ask`、`/artifacts/sink` |
 | [embabel-playbook](embabel-patterns/embabel-playbook/README.md) | 8940 | 解锁条件式工具集（前置步骤没做完就看不到后续工具） | `GET /playbook/release` |
+| [embabel-capstone](embabel-patterns/embabel-capstone/README.md) | 8944 | **端到端综合示例**（护栏 → 政策 → 工具 → HITL → 预算 → 观测） | `GET /capstone/handle` |
 | [embabel-debate](embabel-patterns/embabel-debate/README.md) | 8930 | 多 Agent 辩论（对立视角 + 裁判） | `GET /debate/ask` |
 | [embabel-tree-of-thoughts](embabel-patterns/embabel-tree-of-thoughts/README.md) | 8931 | 思维树（分支 + 评分 + 剪枝） | `GET /tot/ask` |
 | [embabel-state-machine](embabel-patterns/embabel-state-machine/README.md) | 8929 | 状态机（按状态收敛工具集 + 显式转移） | `GET /state-machine/process` |
@@ -280,12 +281,12 @@ embabel:
 | 8908 | embabel-multimodal | 8938 | embabel-hitl-advanced |
 | 8909 | embabel-mcp | 8939 | embabel-identity |
 | 8910 | embabel-a2a | 8940 | embabel-playbook |
-| 8911 | embabel-persistence | 8941 | embabel-dynamic-types |
+| 8911 | embabel-persistence | 8941 | *(已并入 8900 planner-types)* |
 | 8912 | embabel-supervisor | 8942 | embabel-otel |
-| 8913 | embabel-trigger | 8943 | embabel-web-ui |
-| 8914 | embabel-replanning | 8944+ | *(空闲)* |
-| 8915 | embabel-multi-goal | | |
-| 8916 | embabel-prompt-chaining | | |
+| 8913 | embabel-trigger | 8943 | *(已并入 8897 conversation)* |
+| 8914 | embabel-replanning | 8944 | embabel-capstone |
+| 8915 | embabel-multi-goal | 8945 | embabel-memory |
+| 8916 | embabel-prompt-chaining | 8946+ | *(空闲)* |
 | 8917 | embabel-routing | | |
 | 8918 | embabel-parallelization | | |
 
@@ -297,5 +298,21 @@ mvn package                          # 全部模块 + 各模块单测
 mvn -pl :embabel-testing test        # 只跑测试示例模块（无需 API Key）
 ```
 
+### 一键脚本（52 个端口，手工起很痛苦）
+
+```bash
+# 列出所有模块与端口
+./run.ps1 list          # Windows / PowerShell
+./run.sh list           # bash
+
+# 启动 Docker 组件（Postgres + LiteLLM + Ollama）并拉取模型
+./run.ps1 docker
+
+# 启动某个模块（会自动判断是否需要把 OPENAI_BASE_URL 指向 LiteLLM）
+./run.ps1 capstone
+./run.sh  vector-store
+```
+
 CI：`.github/workflows/build.yml` 会在 `ai/embabel/**` 变更时全量构建 52 个模块，
-并单独跑 `embabel-testing` 的免 Key 测试（不调用真实 LLM）。
+并跑**免 Key 的确定性测试**（`embabel-testing` / `document-ingest` / `tool-chaining` / `identity`，
+不调用真实 LLM）。

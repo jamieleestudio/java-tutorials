@@ -10,7 +10,6 @@
 |---|---|---|
 | [embabel-thinking](../embabel-reasoning/embabel-thinking/README.md) | 8896 | 推理过程提取（`Thinking.withExtraction()` + `<think>` 标签） |
 | [embabel-planner-types](../embabel-reasoning/embabel-planner-types/README.md) | 8900 | 规划器对比（`PlannerType.GOAP` vs `UTILITY`，含 `@Cost` 动态价值） |
-| [embabel-dynamic-types](../embabel-reasoning/embabel-dynamic-types/README.md) | 8941 | 运行时领域类型（`DynamicType` + `PropertyDefinition` + `DataDictionary`） |
 | [embabel-multi-model](../embabel-reasoning/embabel-multi-model/README.md) | 8905 | 角色→模型映射与回退（`withLlmByRole` / `withFirstAvailableLlmOf`） |
 
 ## 建议阅读顺序

@@ -14,6 +14,7 @@
 | [embabel-embeddings](../embabel-context/embabel-embeddings/README.md) | 8907 | 嵌入与语义检索（`EmbeddingService` + 余弦相似度；需 Docker） |
 | [embabel-vector-store](../embabel-context/embabel-vector-store/README.md) | 8933 | pgvector 持久化向量检索（HNSW + 元数据过滤 + 阈值 + **两阶段重排**；需 Docker） |
 | [embabel-document-ingest](../embabel-context/embabel-document-ingest/README.md) | 8937 | 文档摄入流水线（md/txt/pdf → 段落感知分块 → 嵌入 → 增量；需 Docker） |
+| [embabel-memory](../embabel-context/embabel-memory/README.md) | 8945 | 跨会话长期记忆（按用户召回偏好/事实，需 Docker） |
 
 ## 建议阅读顺序
 

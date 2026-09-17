@@ -53,3 +53,19 @@ mvn -pl :embabel-secure-tools spring-boot:run
 - PII 检测用正则只是示例；生产上应结合实体识别（NER）与业务字段白名单。
 - 与 `embabel-guardrails` 的分工：那里演示"注入攻击 + 敏感输出"的通用护栏机制，
   本模块聚焦"最小权限 + PII"这一组安全实践。
+
+
+## 附：工具分组与权限（未单独建模块）
+
+本模块讲"只暴露该暴露的工具"。框架还提供了**声明式**的分组与权限标记：
+
+| API | 作用 |
+|---|---|
+| `ToolGroup` / `ToolGroupMetadata` | 把一组工具声明为一个具名分组（`ToolPublisher` 可发布） |
+| `ToolGroupRequirement` | 动作声明"我需要哪个工具组" |
+| `ToolGroupPermission` | 目前只有两个值：`HOST_ACCESS`（访问宿主机）、`INTERNET_ACCESS`（访问网络） |
+| `CoreToolGroups` | 框架内置的分组常量 |
+| `@ToolGroup` 注解 | 在类上声明该工具类属于哪个组 |
+
+注意 `ToolGroupPermission` **只有 HOST/INTERNET 两个值**——它表达的是"这类工具会触碰什么外部资源"，
+不是读/写权限。读写级别的权限要自己在工具实现里控制（本模块的做法）。

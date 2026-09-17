@@ -56,3 +56,18 @@ mvn -pl :embabel-replanning spring-boot:run
 - 想主动要求重规划，直接在动作里抛 `ReplanRequestedException`；工具循环里还有 `ReplanningTools` 可用。
 - 与"重试"的区别：`@Action(actionRetryPolicy=...)` 是**同一动作重试**（幂等失败恢复）；
   重规划是**重新规划路径**（换动作/换顺序）。
+
+
+## 附：重规划的其他三个变体（未单独建模块）
+
+本模块用 `Tool.replanWhen(artifact -> Boolean)`。同一个工厂还提供：
+
+| API | 作用 | 与 `replanWhen` 的区别 |
+|---|---|---|
+| `Tool.conditionalReplan(tool, (artifact, ReplanContext) -> ReplanDecision)` | 用 `ReplanContext` 做**更复杂的判断** | `replanWhen` 只拿 artifact；这个还能看当前进程状态与历史 |
+| `Tool.replanAndAdd(tool, artifact -> Object)` | 换路的同时**把新信息加进黑板** | `replanWhen` 只是"要求重规划"，不补信息 |
+| `Tool.replanAlways(tool)` | 无条件重规划 | 适合"这个工具的结果必然改变前提"的场景 |
+| `ReplanningToolBlackboardUpdater` | 控制重规划时黑板如何更新 | 需要自定义黑板变更策略时用 |
+
+`conditionalReplan` 的 `ReplanDecision` 支持"部分重规划"（只重规划某一部分），
+是这组 API 里最强也最难用的一个；本模块的 `replanWhen` 覆盖了 80% 的场景。

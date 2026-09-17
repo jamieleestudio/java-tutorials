@@ -48,3 +48,20 @@ mvn -pl :embabel-refinement spring-boot:run
 - 这是 Anthropic "Building Effective Agents" 里的 Evaluator-Optimizer 模式。
 - 每轮会多一次（或多次）LLM 调用，注意成本：可用更便宜的模型做评审，或设置更小的轮数上限。
 - 评分本身也是 LLM 输出，可能有波动；生产环境常配合"取历史最优"（框架原语内置 `bestSoFar()`）。
+
+
+## 附：框架自带的循环原语（未单独建模块）
+
+本模块手写了 evaluator-optimizer 循环（critique → revise → 再 critique）。
+框架还提供了两个**现成的循环 builder**：
+
+| Builder | 作用 |
+|---|---|
+| `RepeatUntilBuilder` | 重复某段流程直到谓词满足（`Looper` + `Emitter`） |
+| `RepeatUntilAcceptableBuilder` | 重复直到"评审者认为可接受"（内置 `Critiquer` / `Evaluator`） |
+
+`RepeatUntilAcceptableBuilder` 与本模块做的事**基本等价**，区别是：
+- 用 builder：少写代码，但循环控制（迭代上限、接受标准）要按它的约定来；
+- 手写（本模块）：控制更细（比如"评分连续两轮不提升就停"），也更容易加预算约束（见 `embabel-budget`）。
+
+**选择建议**：先用 builder，发现它的约定不够用再手写。

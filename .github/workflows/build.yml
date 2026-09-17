@@ -51,8 +51,8 @@ jobs:
             exit 1
           fi
 
-  test-embabel-testing:
-    name: Run keyless tests (embabel-testing)
+  test-keyless:
+    name: Run keyless tests (no API key needed)
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -66,7 +66,10 @@ jobs:
           java-version: '21'
           cache: maven
 
-      # embabel-testing 的测试不依赖任何 API Key（mock LLM / 规划校验），可以进 CI
-      - name: Run embabel-testing tests
+      # 这些模块的测试都是纯逻辑（分块 / artifact sink / 租户隔离 / mock LLM），不需要 Key
+      - name: Run keyless tests
         working-directory: ai/embabel
-        run: mvn -B -pl :embabel-testing test
+        run: >
+          mvn -B
+          -pl :embabel-testing,:embabel-document-ingest,:embabel-tool-chaining,:embabel-identity
+          test

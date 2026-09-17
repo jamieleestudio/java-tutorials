@@ -47,11 +47,13 @@ public class ChatController {
     @PostMapping("/{sessionId}")
     public ChatResult chat(
             @PathVariable String sessionId,
-            @RequestParam(value = "message") String message) {
+            @RequestParam(value = "message") String message,
+            @RequestParam(value = "persona", required = false) String persona) {
         InMemoryConversation conversation = store.get(sessionId);
         conversation.addMessage(new UserMessage(message));
 
-        PromptRunner runner = aiBuilder.ai().withDefaultLlm().withSystemPrompt(SYSTEM_PROMPT);
+        PromptRunner runner = aiBuilder.ai().withDefaultLlm()
+                .withSystemPrompt(persona == null || persona.isBlank() ? SYSTEM_PROMPT : persona);
         AssistantMessage reply = runner.respond(conversation.getMessages());
         conversation.addMessage(reply);
 

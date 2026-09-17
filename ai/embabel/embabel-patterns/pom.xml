@@ -24,6 +24,7 @@
         <module>embabel-tools-advanced</module>
         <module>embabel-tool-chaining</module>
         <module>embabel-playbook</module>
+        <module>embabel-capstone</module>
         <module>embabel-debate</module>
         <module>embabel-tree-of-thoughts</module>
         <module>embabel-programmatic-dsl</module>
