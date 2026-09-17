@@ -3,7 +3,7 @@ package com.third.li;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
-/** chatui 示例入口。 */
+/** agentscope-chatui 示例入口。 */
 @SpringBootApplication
 public class ChatuiApplication {
     public static void main(String[] args) {

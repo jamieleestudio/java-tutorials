@@ -3,7 +3,7 @@ package com.third.li;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
-/** scheduler 示例入口。 */
+/** agentscope-scheduler 示例入口。 */
 @SpringBootApplication
 public class SchedulerApplication {
     public static void main(String[] args) {
