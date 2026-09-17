@@ -1,0 +1,11 @@
+server:
+  port: 9104
+
+agentscope:
+  model:
+    # 主模型：DeepSeek Flash（快、便宜）
+    name: deepseek-v4-flash
+    base-url: https://api.deepseek.com
+    # 备用模型：DeepSeek Pro（更强但更贵）
+    fallback-name: deepseek-v4-pro
+    fallback-base-url: https://api.deepseek.com

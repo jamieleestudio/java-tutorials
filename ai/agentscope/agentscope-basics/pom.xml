@@ -20,6 +20,7 @@
         <module>agentscope-tools</module>
         <module>agentscope-structured-output</module>
         <module>agentscope-streaming</module>
+        <module>agentscope-model-providers</module>
     </modules>
 
 </project>
