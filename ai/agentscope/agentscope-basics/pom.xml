@@ -18,6 +18,8 @@
     <modules>
         <module>agentscope-chat</module>
         <module>agentscope-tools</module>
+        <module>agentscope-structured-output</module>
+        <module>agentscope-streaming</module>
     </modules>
 
 </project>
