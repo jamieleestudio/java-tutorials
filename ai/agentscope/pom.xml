@@ -2,66 +2,53 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>4.0.3</version>
+        <relativePath/> <!-- 直接从仓库取 Boot 4，不走根 pom 的 Boot 3.3.3 -->
     </parent>
 
+    <!-- AgentScope 教程的根聚合器。各叶子模块的 parent 指向这里，
+         这样它们共用 Boot 4.0.3 + AgentScope BOM 2.0.3 的版本管理。 -->
     <groupId>com.third.li</groupId>
     <artifactId>agentscope</artifactId>
     <version>1.0</version>
+    <packaging>pom</packaging>
     <name>agentscope</name>
-    <description>Demo project for AgentScope Java Agent Framework</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
+    <description>AgentScope Java 教程：用 io.agentscope 2.0.3 + Spring Boot 4.0.3 演示 AgentScope 的核心能力与独有特性</description>
 
     <properties>
         <java.version>21</java.version>
-        <agentscope.version>2.0.1</agentscope.version>
+        <agentscope.version>2.0.3</agentscope.version>
     </properties>
 
-    <dependencies>
-        <!-- AgentScope Harness：在 ReActAgent 之上提供 workspace / memory / subagent / 中间件等工程化能力 -->
-        <dependency>
-            <groupId>io.agentscope</groupId>
-            <artifactId>agentscope-harness</artifactId>
-            <version>${agentscope.version}</version>
-        </dependency>
-        <!-- OpenAI 兼容模型 Provider 扩展，用于构建 DeepSeek（OpenAI 兼容接口）模型 -->
-        <dependency>
-            <groupId>io.agentscope</groupId>
-            <artifactId>agentscope-extensions-model-openai</artifactId>
-            <version>${agentscope.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <!-- AgentScope BOM：统一管理所有 io.agentscope:* 的版本 -->
+            <dependency>
+                <groupId>io.agentscope</groupId>
+                <artifactId>agentscope-bom</artifactId>
+                <version>${agentscope.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>agentscope-basics</module>
+    </modules>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <release>${java.version}</release>
+                </configuration>
             </plugin>
         </plugins>
     </build>

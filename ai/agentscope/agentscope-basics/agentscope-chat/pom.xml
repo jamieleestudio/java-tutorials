@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.third.li</groupId>
+        <artifactId>agentscope-basics</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>agentscope-chat</artifactId>
+    <name>agentscope-chat</name>
+    <description>AgentScope Java: 最小聊天 Agent（HarnessAgent + DeepSeek）</description>
+
+    <dependencies>
+        <!-- AgentScope Spring Boot Starter：自动配置 AgentScope 核心组件 -->
+        <dependency>
+            <groupId>io.agentscope</groupId>
+            <artifactId>agentscope-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- OpenAI 兼容模型 Provider（DeepSeek 走 OpenAI 兼容接口） -->
+        <dependency>
+            <groupId>io.agentscope</groupId>
+            <artifactId>agentscope-openai-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- Harness：starter 把 core 标为 provided，harness 不在传递依赖里，需要显式加 -->
+        <dependency>
+            <groupId>io.agentscope</groupId>
+            <artifactId>agentscope-harness</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- Boot 4 的 starter-web 不再传递 logback；显式加回，否则 SLF4J 走 NOP 看不到任何日志 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

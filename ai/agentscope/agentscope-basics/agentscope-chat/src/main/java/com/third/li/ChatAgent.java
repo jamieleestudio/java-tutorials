@@ -12,8 +12,8 @@ import java.nio.file.Paths;
 /**
  * 使用 AgentScope Java HarnessAgent 实现的聊天 Agent。
  *
- * <p>{@link HarnessAgent} 在 ReActAgent 之上提供 workspace、分层记忆、
- * 子 Agent 编排、中间件等工程化能力。
+ * <p>{@link HarnessAgent} 在 ReActAgent 上提供 workspace、分层记忆、
+ * Agent 编排、中间件等工程化能力。
  *
  * <p>模型采用 DeepSeek（OpenAI 兼容接口），通过 {@link OpenAIChatModel}
  * 直接构建：apiKey 从环境变量 {@code OPENAI_API_KEY} 读取，
