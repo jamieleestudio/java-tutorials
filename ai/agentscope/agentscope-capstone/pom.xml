@@ -10,14 +10,14 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>agentscope-middleware</artifactId>
+    <artifactId>agentscope-capstone</artifactId>
     <packaging>pom</packaging>
-    <name>agentscope-middleware</name>
-    <description>② 中间件 ★</description>
+    <name>agentscope-capstone</name>
+    <description>⑧ 综合</description>
 
     <modules>
-        <module>agentscope-context-compaction</module>
-        <module>agentscope-custom-budget</module>
+        <module>agentscope-coding-agent</module>
+        <module>agentscope-capstone-e2e</module>
     </modules>
 
 </project>

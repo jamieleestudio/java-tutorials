@@ -40,6 +40,12 @@
     <modules>
         <module>agentscope-basics</module>
         <module>agentscope-middleware</module>
+        <module>agentscope-tools-skills</module>
+        <module>agentscope-permission</module>
+        <module>agentscope-workspace</module>
+        <module>agentscope-memory-rag</module>
+        <module>agentscope-service</module>
+        <module>agentscope-capstone</module>
     </modules>
 
     <build>

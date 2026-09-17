@@ -1,0 +1,7 @@
+server:
+  port: 9122
+
+agentscope:
+  model:
+    name: deepseek-v4-flash
+    base-url: https://api.deepseek.com

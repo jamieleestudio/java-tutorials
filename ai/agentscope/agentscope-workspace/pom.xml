@@ -10,14 +10,17 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>agentscope-middleware</artifactId>
+    <artifactId>agentscope-workspace</artifactId>
     <packaging>pom</packaging>
-    <name>agentscope-middleware</name>
-    <description>② 中间件 ★</description>
+    <name>agentscope-workspace</name>
+    <description>⑤ 工作区与沙箱 ★</description>
 
     <modules>
-        <module>agentscope-context-compaction</module>
-        <module>agentscope-custom-budget</module>
+        <module>agentscope-local-workspace</module>
+        <module>agentscope-docker-sandbox</module>
+        <module>agentscope-remote-filesystem</module>
+        <module>agentscope-workspace-snapshot</module>
+        <module>agentscope-plan-mode</module>
     </modules>
 
 </project>

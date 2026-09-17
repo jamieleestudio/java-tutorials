@@ -10,14 +10,19 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>agentscope-middleware</artifactId>
+    <artifactId>agentscope-tools-skills</artifactId>
     <packaging>pom</packaging>
-    <name>agentscope-middleware</name>
-    <description>② 中间件 ★</description>
+    <name>agentscope-tools-skills</name>
+    <description>③ 工具与技能 ★</description>
 
     <modules>
-        <module>agentscope-context-compaction</module>
-        <module>agentscope-custom-budget</module>
+        <module>agentscope-toolkit-groups</module>
+        <module>agentscope-coding-tools</module>
+        <module>agentscope-mcp</module>
+        <module>agentscope-skills</module>
+        <module>agentscope-skill-curator</module>
+        <module>agentscope-subagent</module>
+        <module>agentscope-background-tasks</module>
     </modules>
 
 </project>

@@ -10,14 +10,17 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>agentscope-middleware</artifactId>
+    <artifactId>agentscope-memory-rag</artifactId>
     <packaging>pom</packaging>
-    <name>agentscope-middleware</name>
-    <description>② 中间件 ★</description>
+    <name>agentscope-memory-rag</name>
+    <description>⑥ 记忆与知识</description>
 
     <modules>
-        <module>agentscope-context-compaction</module>
-        <module>agentscope-custom-budget</module>
+        <module>agentscope-memory</module>
+        <module>agentscope-longterm-memory</module>
+        <module>agentscope-rag</module>
+        <module>agentscope-rag-backends</module>
+        <module>agentscope-persistence</module>
     </modules>
 
 </project>

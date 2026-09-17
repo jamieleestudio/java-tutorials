@@ -10,14 +10,16 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>agentscope-middleware</artifactId>
+    <artifactId>agentscope-permission</artifactId>
     <packaging>pom</packaging>
-    <name>agentscope-middleware</name>
-    <description>② 中间件 ★</description>
+    <name>agentscope-permission</name>
+    <description>④ 权限与 HITL ★</description>
 
     <modules>
-        <module>agentscope-context-compaction</module>
-        <module>agentscope-custom-budget</module>
+        <module>agentscope-permission-modes</module>
+        <module>agentscope-permission-rules</module>
+        <module>agentscope-hitl-confirm</module>
+        <module>agentscope-interrupt</module>
     </modules>
 
 </project>

@@ -10,14 +10,17 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>agentscope-middleware</artifactId>
+    <artifactId>agentscope-service</artifactId>
     <packaging>pom</packaging>
-    <name>agentscope-middleware</name>
-    <description>② 中间件 ★</description>
+    <name>agentscope-service</name>
+    <description>⑦ 服务与渠道 ★</description>
 
     <modules>
-        <module>agentscope-context-compaction</module>
-        <module>agentscope-custom-budget</module>
+        <module>agentscope-gateway</module>
+        <module>agentscope-chatui</module>
+        <module>agentscope-channels</module>
+        <module>agentscope-scheduler</module>
+        <module>agentscope-a2a</module>
     </modules>
 
 </project>
