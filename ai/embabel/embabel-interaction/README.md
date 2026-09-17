@@ -11,6 +11,7 @@ Agent 与**人**、与**前端**怎么交互：什么时候停下来等人、怎
 |---|---|---|
 | [embabel-hitl](../embabel-interaction/embabel-hitl/README.md) | 8894 | 人机协同（`WaitFor.confirmation` / `formSubmission`，暂停与恢复） |
 | [embabel-hitl-advanced](../embabel-interaction/embabel-hitl-advanced/README.md) | 8938 | 工具级 HITL（`ConditionalAwaitingTool` + `AwaitDecider` + `TypeRequest`，按需索要强类型输入） |
+| [embabel-web-ui](../embabel-interaction/embabel-web-ui/README.md) | 8943 | 最小 Web UI（静态页 + SSE，浏览器可点；无前端构建） |
 | [embabel-conversation](../embabel-interaction/embabel-conversation/README.md) | 8897 | 多轮对话与人格 + SSE 流式输出（`Conversation` + `respond(history)` / `Flux`） |
 | [embabel-multimodal](../embabel-interaction/embabel-multimodal/README.md) | 8908 | 图像理解（`AgentImage` + `MultimodalContent`；需 Docker） |
 

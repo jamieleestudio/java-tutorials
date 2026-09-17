@@ -19,6 +19,7 @@
         <module>embabel-thinking</module>
         <module>embabel-planner-types</module>
         <module>embabel-multi-model</module>
+        <module>embabel-dynamic-types</module>
     </modules>
 
 </project>

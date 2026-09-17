@@ -1,13 +1,13 @@
 # Embabel Agent Framework 示例集
 
 用 **Java 21 + Spring Boot 3.5 + Embabel 1.0.0** 演示 Embabel 的核心能力。
-共 48 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
+共 52 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
 默认 LLM 接入 **DeepSeek**（OpenAI 兼容接口），需要嵌入/视觉时经 LiteLLM 接入本地 Ollama。
 
 > Embabel 是 Spring 创始人 Rod Johnson 发起的 JVM Agent 框架：用强类型领域模型 + 可复用 *Action* + GOAP 规划器，
 > 让智能体围绕"目标"动态推导执行步骤，而不是写死工作流。
 
-## 按目的选路线（48 个模块太多，从这里进）
+## 按目的选路线（52 个模块太多，从这里进）
 
 | 我想… | 路线 |
 |---|---|
@@ -47,6 +47,7 @@
 |---|---|---|---|
 | [embabel-hitl](embabel-interaction/embabel-hitl/README.md) | 8894 | 人机协同（确认 / 表单，暂停与恢复） | `GET /hitl/review`、`POST /hitl/{id}/confirm` |
 | [embabel-hitl-advanced](embabel-interaction/embabel-hitl-advanced/README.md) | 8938 | 工具级 HITL（按需索要强类型输入） | `GET /hitl-advanced/refund` |
+| [embabel-web-ui](embabel-interaction/embabel-web-ui/README.md) | 8943 | 最小 Web UI（静态页 + SSE，浏览器可点） | 打开 `http://localhost:8943/` |
 | [embabel-conversation](embabel-interaction/embabel-conversation/README.md) | 8897 | 多轮对话与人格 + SSE 流式输出 | `POST /chat/{sessionId}`、`GET /chat/{sessionId}/stream` |
 | [embabel-multimodal](embabel-interaction/embabel-multimodal/README.md) | 8908 | 图像理解（需 Docker） | `GET /multimodal/describe` |
 
@@ -56,6 +57,7 @@
 |---|---|---|---|
 | [embabel-thinking](embabel-reasoning/embabel-thinking/README.md) | 8896 | 推理过程提取（thinking） | `GET /thinking/ask` |
 | [embabel-planner-types](embabel-reasoning/embabel-planner-types/README.md) | 8900 | GOAP / UTILITY 规划器对比 | `GET /planner/goap`、`GET /planner/utility` |
+| [embabel-dynamic-types](embabel-reasoning/embabel-dynamic-types/README.md) | 8941 | 运行时领域类型（`DynamicType` + `DataDictionary`） | `GET /types/build`、`/types/dictionary` |
 | [embabel-multi-model](embabel-reasoning/embabel-multi-model/README.md) | 8905 | 角色→模型映射与回退 | `GET /multi-model/ask`、`/multi-model/fallback` |
 
 ### ⑤ [质量与安全（embabel-safety）](embabel-safety/README.md)
@@ -65,6 +67,7 @@
 | [embabel-guardrails](embabel-safety/embabel-guardrails/README.md) | 8898 | 输入/输出护栏 | `GET /guardrails/ask` |
 | [embabel-secure-tools](embabel-safety/embabel-secure-tools/README.md) | 8924 | 工具安全（最小权限 + PII 护栏） | `GET /secure/ask` |
 | [embabel-identity](embabel-safety/embabel-identity/README.md) | 8939 | 身份与租户隔离（`ToolCallContext` 透传到工具） | `GET /identity/orders` |
+| [embabel-identity](embabel-safety/embabel-identity/README.md) | 8939 | 身份与租户隔离（`ToolCallContext` 透传到工具） | `GET /identity/orders` |
 
 ### ⑥ [工程化（embabel-ops）](embabel-ops/README.md)
 
@@ -73,6 +76,7 @@
 | [embabel-observability](embabel-ops/embabel-observability/README.md) | 8903 | 事件监听 + 成本/Token 统计 | `GET /observability/run` |
 | [embabel-budget](embabel-ops/embabel-budget/README.md) | 8934 | 运行预算与熔断（动作/token/成本三重上限 + 限速） | `GET /budget/run`、`/budget/compare` |
 | [embabel-stuck-handler](embabel-ops/embabel-stuck-handler/README.md) | 8935 | 卡住兜底（自定义 `StuckHandler`：补前提后重规划） | `GET /stuck/recover`、`/stuck/no-handler` |
+| [embabel-otel](embabel-ops/embabel-otel/README.md) | 8942 | 可观测性接入点（`AgentInstrumentation` → Micrometer span） | `GET /observability/run` |
 | [embabel-testing](embabel-ops/embabel-testing/README.md) | 8904 | 无需 API Key 的确定性测试 | `mvn -pl :embabel-testing test` |
 | [embabel-persistence](embabel-ops/embabel-persistence/README.md) | 8911 | 上下文持久化到 Postgres（需 Docker） | `GET /persistence/save`、`/persistence/load` |
 | [embabel-eval](embabel-ops/embabel-eval/README.md) | 8923 | 评估 harness（数据集 + LLM 评审） | `GET /eval/run` |
@@ -98,6 +102,7 @@
 | [embabel-autonomous-agent](embabel-patterns/embabel-autonomous-agent/README.md) | 8920 | 自主 Agent（工具循环 + 错误恢复） | `GET /autonomous/ask` |
 | [embabel-tools-advanced](embabel-patterns/embabel-tools-advanced/README.md) | 8922 | 工具进阶（渐进式工具 / 循环回调 / 自省工具） | `GET /tools-advanced/ask`、`/tools-advanced/inspect` |
 | [embabel-tool-chaining](embabel-patterns/embabel-tool-chaining/README.md) | 8936 | 工具链式展开（artifacts：对象出现即解锁其工具） | `GET /tool-chaining/ask`、`/artifacts/sink` |
+| [embabel-playbook](embabel-patterns/embabel-playbook/README.md) | 8940 | 解锁条件式工具集（前置步骤没做完就看不到后续工具） | `GET /playbook/release` |
 | [embabel-debate](embabel-patterns/embabel-debate/README.md) | 8930 | 多 Agent 辩论（对立视角 + 裁判） | `GET /debate/ask` |
 | [embabel-tree-of-thoughts](embabel-patterns/embabel-tree-of-thoughts/README.md) | 8931 | 思维树（分支 + 评分 + 剪枝） | `GET /tot/ask` |
 | [embabel-state-machine](embabel-patterns/embabel-state-machine/README.md) | 8929 | 状态机（按状态收敛工具集 + 显式转移） | `GET /state-machine/process` |
@@ -243,6 +248,9 @@ embabel:
 | `ProcessOptions.withBudget(...)` 后预算不生效 | `withBudget` 只设置 budget 字段；终止策略只在**构造时**派生，需显式把 `budget.earlyTerminationPolicy()` 接进 `ProcessControl`（见 embabel-budget） |
 | 同一模块两个 Agent 都被调用/报目标歧义 | `AgentInvocation.create(platform, X.class)` 按**目标类型**选 Agent，两个 Agent 不能共用同一目标类型（见 embabel-tools-advanced） |
 | Kotlin 注释里写路径报 `Unclosed comment` | Kotlin 支持**嵌套块注释**，注释里出现 `/*` 会打开嵌套注释（见 embabel-parallelization） |
+| 为什么每个模块都要带一份 `models/openai-models.yml` | 框架的 `embabel-agent-openai-autoconfigure` **自带** 273 行 OpenAI 配置（`structured_output.supported: true`）；应用 classpath 资源优先于依赖 jar，所以我们用 30 行本地副本**覆盖**成 DeepSeek。放进共享 jar 会让两者处于同一 classpath 层级、优先级不确定，所以这份重复是**必要**的 |
+| 接 OTel 时 Bean 名冲突启动失败 | 框架已注册名为 `agentInstrumentation` 的 no-op Bean；自己的实现要**换名 + `@Primary`**（见 embabel-otel） |
+| 工具级 HITL 恢复后变 STUCK | 动作必须 `canRerun = true`，否则恢复后不会重跑（见 embabel-hitl-advanced） |
 
 ## 端口登记表
 
@@ -271,11 +279,11 @@ embabel:
 | 8907 | embabel-embeddings | 8937 | embabel-document-ingest |
 | 8908 | embabel-multimodal | 8938 | embabel-hitl-advanced |
 | 8909 | embabel-mcp | 8939 | embabel-identity |
-| 8910 | embabel-a2a | 8940+ | *(空闲)* |
-| 8911 | embabel-persistence | | |
-| 8912 | embabel-supervisor | | |
-| 8913 | embabel-trigger | | |
-| 8914 | embabel-replanning | | |
+| 8910 | embabel-a2a | 8940 | embabel-playbook |
+| 8911 | embabel-persistence | 8941 | embabel-dynamic-types |
+| 8912 | embabel-supervisor | 8942 | embabel-otel |
+| 8913 | embabel-trigger | 8943 | embabel-web-ui |
+| 8914 | embabel-replanning | 8944+ | *(空闲)* |
 | 8915 | embabel-multi-goal | | |
 | 8916 | embabel-prompt-chaining | | |
 | 8917 | embabel-routing | | |
@@ -289,5 +297,5 @@ mvn package                          # 全部模块 + 各模块单测
 mvn -pl :embabel-testing test        # 只跑测试示例模块（无需 API Key）
 ```
 
-CI：`.github/workflows/build.yml` 会在 `ai/embabel/**` 变更时全量构建 48 个模块，
+CI：`.github/workflows/build.yml` 会在 `ai/embabel/**` 变更时全量构建 52 个模块，
 并单独跑 `embabel-testing` 的免 Key 测试（不调用真实 LLM）。

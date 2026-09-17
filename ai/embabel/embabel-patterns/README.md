@@ -34,6 +34,7 @@
 | [embabel-subagent](../embabel-patterns/embabel-subagent/README.md) | 8893 | 子 Agent / handoff 委派 |
 | [embabel-tools-advanced](../embabel-patterns/embabel-tools-advanced/README.md) | 8922 | 渐进式工具 + 工具循环回调 + 工具名纠正 + 自省工具 |
 | [embabel-tool-chaining](../embabel-patterns/embabel-tool-chaining/README.md) | 8936 | 工具链式展开（artifacts：领域对象出现即解锁其专属工具） |
+| [embabel-playbook](../embabel-patterns/embabel-playbook/README.md) | 8940 | 解锁条件式工具集（按前置工具是否已执行收敛） |
 | [embabel-debate](../embabel-patterns/embabel-debate/README.md) | 8930 | 多 Agent 辩论（对立视角 + 裁判综合） |
 | [embabel-tree-of-thoughts](../embabel-patterns/embabel-tree-of-thoughts/README.md) | 8931 | 思维树（分支生成 + 评分 + 剪枝 + 取最优） |
 | [embabel-state-machine](../embabel-patterns/embabel-state-machine/README.md) | 8929 | 状态机（按状态收敛工具集 + 显式转移） |

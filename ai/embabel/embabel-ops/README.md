@@ -12,6 +12,7 @@
 | [embabel-observability](../embabel-ops/embabel-observability/README.md) | 8903 | 事件监听 + 成本/Token 统计（`AgenticEventListener`、`totalCost()`） |
 | [embabel-budget](../embabel-ops/embabel-budget/README.md) | 8934 | 运行预算与熔断（`Budget` / `EarlyTerminationPolicy` / 限速） |
 | [embabel-stuck-handler](../embabel-ops/embabel-stuck-handler/README.md) | 8935 | 卡住兜底（`StuckHandler`：补前提后 `REPLAN`） |
+| [embabel-otel](../embabel-ops/embabel-otel/README.md) | 8942 | 可观测性接入点（`AgentInstrumentation` → Micrometer/OTel span） |
 | [embabel-testing](../embabel-ops/embabel-testing/README.md) | 8904 | 无需 API Key 的确定性测试（规划校验 / Mockito / 上下文启动） |
 | [embabel-persistence](../embabel-ops/embabel-persistence/README.md) | 8911 | 上下文持久化到 Postgres（类型保真 JSON；需 Docker） |
 | [embabel-eval](../embabel-ops/embabel-eval/README.md) | 8923 | 评估 harness（数据集 + LLM 评审 + 通过率报告） |
