@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/** 接口。 */
+/** 编码 Agent 接口。 */
 @RestController
 public class CodingCapstoneAgentController {
 
@@ -14,9 +14,9 @@ public class CodingCapstoneAgentController {
         this.agent = agent;
     }
 
-    @GetMapping("/coding-agent/ask")
+    @GetMapping("/capstone/coding")
     public String ask(
-            @RequestParam(value = "message", defaultValue = "编码 Agent：shell+file+todo+plan mode 串起来") String message) {
+            @RequestParam(value = "message", defaultValue = "创建一个 Hello World Java 项目并编译运行") String message) {
         return agent.chat(message);
     }
 }

@@ -2,41 +2,41 @@ package com.third.li;
 
 import io.agentscope.core.agent.RuntimeContext;
 import io.agentscope.core.message.UserMessage;
+import io.agentscope.core.rag.Knowledge;
+import io.agentscope.core.rag.model.Document;
+import io.agentscope.core.rag.model.RetrieveConfig;
+import io.agentscope.core.tool.Toolkit;
 import io.agentscope.extensions.model.openai.OpenAIChatModel;
 import io.agentscope.harness.agent.HarnessAgent;
-import io.agentscope.harness.agent.bus.MessageBus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
- * 调度器（WakeupDispatcher + MessageBus）。
+ * RAG 后端选择（InMemory / Qdrant / Milvus / Chroma）。
  *
- * <p>AgentScope 的调度系统支持<b>定时唤醒</b> Agent：
+ * <p>AgentScope 的 {@link Knowledge} 接口有多种后端实现：
  * <ul>
- *   <li>{@link MessageBus} — 消息总线，支持 queue/log/pub-sub</li>
- *   <li>{@link io.agentscope.harness.agent.gateway.WakeupDispatcher} — 监听总线事件，唤醒 Agent</li>
+ *   <li><b>InMemory</b> — 开发/测试用，无持久化</li>
+ *   <li><b>Qdrant</b> — 生产级向量数据库（推荐）</li>
+ *   <li><b>Milvus</b> — 大规模向量数据库</li>
+ *   <li><b>Chroma</b> — 轻量级向量数据库</li>
  * </ul>
  *
- * <p>工作流：
- * <ol>
- *   <li>外部系统向 MessageBus publish 事件</li>
- *   <li>WakeupDispatcher 收到事件，调用 Agent 执行</li>
- *   <li>Agent 执行后回复到 Channel</li>
- * </ol>
- *
- * <p>适合定时任务、Webhook 触发、后台事件驱动的 Agent。
+ * <p>所有后端实现相同的 {@link Knowledge} 接口，切换只需改构造。
+ * 本模块演示 InMemory 实现 + 描述如何切换到 Qdrant。
  */
 @Component
-public class SchedulerAgent {
+public class RagBackendsAgent {
 
     private final String modelName;
     private final String apiKey;
     private final String baseUrl;
     private volatile HarnessAgent agent;
 
-    public SchedulerAgent(
+    public RagBackendsAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
             @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
             @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
@@ -49,20 +49,20 @@ public class SchedulerAgent {
         return agent().call(new UserMessage(message), runtimeContext()).block().getTextContent();
     }
 
-    /** 模拟事件触发（实际通过 MessageBus）。 */
-    public String describeScheduling() {
+    public String describeBackends() {
         return """
-                调度器架构：
-                1. MessageBus — 消息总线（queue/log/pub-sub）
-                   bus.publish("wakeup", Map.of("sessionId", "sess-1"))
-                2. WakeupDispatcher — 监听总线，唤醒 Agent
-                   new WakeupDispatcher(bus, gateway)
-                3. Agent 被唤醒后从上下文恢复，执行任务
+                RAG 后端选择：
+                1. InMemory（开发）——无持久化，重启丢失
+                   new InMemoryKnowledge()
+                2. Qdrant（推荐）——Docker 部署，高性能
+                   // 需要 agentscope-qdrant 依赖
+                   new QdrantKnowledge(host, port, collectionName)
+                3. Milvus（大规模）——适合亿级向量
+                   new MilvusKnowledge(host, port)
+                4. Chroma（轻量）——适合小型项目
+                   new ChromaKnowledge(path)
 
-                触发方式：
-                - 定时任务（ScheduledExecutorService）
-                - Webhook 接收 → bus.publish
-                - 后台任务完成 → bus.publish
+                切换只需改 Knowledge 构造，接口不变。
                 """;
     }
 
@@ -75,10 +75,10 @@ public class SchedulerAgent {
                     OpenAIChatModel model = OpenAIChatModel.builder()
                             .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
                     local = HarnessAgent.builder()
-                            .name("scheduler-agent")
-                            .sysPrompt("你是一个事件驱动的助手。你被事件唤醒后执行任务。")
+                            .name("rag-backends")
+                            .sysPrompt("你是一个知识问答助手。")
                             .model(model)
-                            .workspace(Paths.get(".agentscope/workspace-scheduler"))
+                            .workspace(Paths.get(".agentscope/workspace-rag-backends"))
                             .build();
                     agent = local;
                 }
@@ -89,6 +89,6 @@ public class SchedulerAgent {
 
     private RuntimeContext runtimeContext() {
         return RuntimeContext.builder()
-                .sessionId("scheduler-demo").userId("alice").build();
+                .sessionId("rag-backends-demo").userId("alice").build();
     }
 }

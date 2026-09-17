@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/** 接口。 */
+/** Docker 沙箱接口。 */
 @RestController
 public class DockerSandboxAgentController {
 
@@ -14,9 +14,15 @@ public class DockerSandboxAgentController {
         this.agent = agent;
     }
 
-    @GetMapping("/workspace/docker")
+    @GetMapping("/sandbox/ask")
     public String ask(
-            @RequestParam(value = "message", defaultValue = "Docker 沙箱：在容器里执行 Shell 命令，隔离主机环境") String message) {
+            @RequestParam(value = "message", defaultValue = "在沙箱中执行 Java 代码") String message) {
         return agent.chat(message);
+    }
+
+    /** 查看 Docker 沙箱配置。 */
+    @GetMapping("/sandbox/config")
+    public String config() {
+        return agent.describeSandbox();
     }
 }

@@ -4,42 +4,38 @@ import io.agentscope.core.agent.RuntimeContext;
 import io.agentscope.core.message.UserMessage;
 import io.agentscope.extensions.model.openai.OpenAIChatModel;
 import io.agentscope.harness.agent.HarnessAgent;
-import io.agentscope.harness.agent.memory.MemoryConfig;
+import io.agentscope.harness.agent.filesystem.remote.RemoteFilesystem;
+import io.agentscope.harness.agent.filesystem.remote.store.InMemoryStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;
 
 /**
- * 对话记忆（Memory + MemoryConfig + MemoryFlushMiddleware）。
+ * 远程文件系统（RemoteFilesystem + BaseStore）。
  *
- * <p>AgentScope 的记忆系统分三层：
- * <ol>
- *   <li><b>短期记忆</b> — 当前对话的消息历史（在 AgentState 中）</li>
- *   <li><b>中期记忆</b> — 对话摘要（MemoryFlushMiddleware 自动写入 memory.md）</li>
- *   <li><b>长期记忆</b> — 跨会话的知识（LongTermMemory，见 longterm-memory 模块）</li>
- * </ol>
+ * <p>AgentScope 的远程文件系统通过 {@link RemoteFilesystem} 实现，
+ * 文件存储在 {@code BaseStore}（如 InMemoryStore / RedisStore / S3Store）中，
+ * 而不是本地磁盘。
  *
- * <p>本模块演示短期+中期记忆：
+ * <p>用途：
  * <ul>
- *   <li>{@link MemoryConfig} — 配置 flush prompt / consolidation prompt / 保留天数</li>
- *   <li>通过 {@code .memory(config)} 注入 MemoryFlushMiddleware + MemoryMaintenanceMiddleware</li>
- *   <li>Agent 对话结束后自动把重要信息 flush 到 memory.md</li>
+ *   <li>多 Agent 共享文件（分布式场景）</li>
+ *   <li>远程 Agent（容器化）访问持久化存储</li>
+ *   <li>试隔离（InMemoryStore）</li>
  * </ul>
  *
- * <p>与 Embabel 的差异：Embabel 没有内置记忆系统——
- * 它的 process 是无状态的（每次调用独立）。
- * AgentScope 有完整的会话记忆+自动 flush。
+ * <p>本模块用 {@link InMemoryStore} 演示（生产用 RedisStore 等）。
  */
 @Component
-public class MemoryAgent {
+public class RemoteFilesystemAgent {
 
     private final String modelName;
     private final String apiKey;
     private final String baseUrl;
     private volatile HarnessAgent agent;
 
-    public MemoryAgent(
+    public RemoteFilesystemAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
             @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
             @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
@@ -60,17 +56,15 @@ public class MemoryAgent {
                 if (local == null) {
                     OpenAIChatModel model = OpenAIChatModel.builder()
                             .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
-                    MemoryConfig memoryConfig = MemoryConfig.builder()
-                            .model(model)
-                            .sessionRetentionDays(30)
-                            .dailyFileRetentionDays(7)
-                            .build();
+                    InMemoryStore store = new InMemoryStore();
+                    RemoteFilesystem remoteFs = new RemoteFilesystem(store);
                     local = HarnessAgent.builder()
-                            .name("memory")
-                            .sysPrompt("你是一个有记忆的助手。你会记住用户的偏好和之前对话的重要内容。")
+                            .name("remote-filesystem")
+                            .sysPrompt("你是一个文件管理助手。你的文件存储在远程存储中。" +
+                                    "你可以读写文件和列出目录。")
                             .model(model)
-                            .memory(memoryConfig)
-                            .workspace(Paths.get(".agentscope/workspace-memory"))
+                            .abstractFilesystem(remoteFs)
+                            .workspace(Paths.get(".agentscope/workspace-remote-fs"))
                             .build();
                     agent = local;
                 }
@@ -81,6 +75,6 @@ public class MemoryAgent {
 
     private RuntimeContext runtimeContext() {
         return RuntimeContext.builder()
-                .sessionId("memory-demo").userId("alice").build();
+                .sessionId("remote-fs-demo").userId("alice").build();
     }
 }

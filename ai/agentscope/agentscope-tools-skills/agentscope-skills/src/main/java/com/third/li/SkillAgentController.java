@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/** 接口。 */
+/** 技能系统接口。 */
 @RestController
 public class SkillAgentController {
 
@@ -16,7 +16,19 @@ public class SkillAgentController {
 
     @GetMapping("/skills/ask")
     public String ask(
-            @RequestParam(value = "message", defaultValue = "技能系统：从文件加载技能定义，动态注入提示词") String message) {
+            @RequestParam(value = "message", defaultValue = "帮我提交代码") String message) {
         return agent.chat(message);
+    }
+
+    /** 列出已注册的技能。 */
+    @GetMapping("/skills/list")
+    public String list() {
+        return agent.listSkills();
+    }
+
+    /** 注入示例技能。 */
+    @GetMapping("/skills/seed")
+    public String seed() {
+        return agent.seedSkill();
     }
 }

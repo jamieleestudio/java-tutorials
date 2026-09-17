@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/** 接口。 */
+/** 计划模式接口。 */
 @RestController
 public class PlanModeAgentController {
 
@@ -14,9 +14,18 @@ public class PlanModeAgentController {
         this.agent = agent;
     }
 
-    @GetMapping("/workspace/plan")
+    @GetMapping("/plan/ask")
     public String ask(
-            @RequestParam(value = "message", defaultValue = "计划模式：先规划再执行（类似 Claude Code 的 plan mode）") String message) {
+            @RequestParam(value = "message", defaultValue = "分析这个项目的架构并制定重构计划") String message) {
         return agent.chat(message);
     }
+
+    @GetMapping("/plan/enter")
+    public String enter() { return agent.enterPlanMode(); }
+
+    @GetMapping("/plan/exit")
+    public String exit() { return agent.exitPlanMode(); }
+
+    @GetMapping("/plan/status")
+    public String status() { return agent.checkPlanMode(); }
 }

@@ -1,26 +1,32 @@
-# agentscope-context-compaction — 上下文压缩（CompactionMiddleware + TokenCounter）
+# agentscope-context-compaction — 上下文压缩
+
+AgentScope 内置 `CompactionMiddleware`，当对话历史超过阈值时自动用模型生成摘要。
 
 ## 演示内容
 
-上下文压缩（CompactionMiddleware + TokenCounter）
+通过 `CompactionConfig` 配置压缩阈值，Agent 自动压缩长对话。
 
 ```bash
-curl -G --data-urlencode "message=你好" http://localhost:9105/compaction/ask
+curl -G --data-urlencode "message=用一句话介绍上下文压缩" http://localhost:9107/compaction/ask
 ```
 
-> ⚠️ 当前 DeepSeek 余额不足（HTTP 402），LLM 调用会返回 500。
-> 代码结构已就绪，充值后即可正常返回。
+> 连续调用多次，观察日志中的 compaction 触发（消息数 > 8 或 token > 2000 时）
 
 ## 代码结构
 
-- `agentscope-context-compactionAgent.java` — HarnessAgent + DeepSeek
-- `Controller` — `GET /compaction/ask`
+- `ContextCompactionAgent.java` — 配置 CompactionConfig 并通过 `.compaction(config)` 注入
+- `ContextCompactionAgentController.java` — 端点
 
-## 要点
+## 关键配置
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+```java
+CompactionConfig config = CompactionConfig.builder()
+    .triggerMessages(8)      // 消息数阈值
+    .triggerTokens(2000)     // token 数阈值
+    .keepMessages(4)         // 保留最近几条
+    .keepTokensRatio(0.3)    // 保留比例
+    .build();
+```
 
 ## 运行
 
@@ -28,5 +34,3 @@ curl -G --data-urlencode "message=你好" http://localhost:9105/compaction/ask
 cd ai
 mvn -pl :agentscope-context-compaction spring-boot:run
 ```
-
-> 需要 `OPENAI_API_KEY` 环境变量（DeepSeek key）。
