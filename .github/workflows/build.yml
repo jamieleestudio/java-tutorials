@@ -1,6 +1,6 @@
 ﻿name: build
 
-# 46 个模块一次全量构建。
+# 48 个模块一次全量构建。
 # 注意：这里**只做编译/打包**（-DskipTests），不调用任何真实 LLM —— 所有模块都需要
 # 外部 API Key（DeepSeek / LiteLLM / Ollama / Postgres），不适合在 CI 里跑。
 # 需要真实 LLM 的确定性测试见 embabel-testing（用 mock，无需 Key），可单独加一个 job。
@@ -18,7 +18,7 @@ on:
 
 jobs:
   build-embabel:
-    name: Build ai/embabel (46 modules)
+    name: Build ai/embabel (48 modules)
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -46,8 +46,8 @@ jobs:
         run: |
           count=$(find . -name '*.jar' -path '*/target/*' ! -name '*.original' | wc -l)
           echo "built jars: $count"
-          if [ "$count" -lt 46 ]; then
-            echo "::error::expected at least 46 module jars, got $count"
+          if [ "$count" -lt 48 ]; then
+            echo "::error::expected at least 48 module jars, got $count"
             exit 1
           fi
 

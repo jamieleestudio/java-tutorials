@@ -18,6 +18,7 @@
     <modules>
         <module>embabel-guardrails</module>
         <module>embabel-secure-tools</module>
+        <module>embabel-identity</module>
     </modules>
 
 </project>

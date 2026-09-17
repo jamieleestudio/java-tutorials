@@ -17,6 +17,7 @@
 
     <modules>
         <module>embabel-hitl</module>
+        <module>embabel-hitl-advanced</module>
         <module>embabel-conversation</module>
         <module>embabel-multimodal</module>
     </modules>

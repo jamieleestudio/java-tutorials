@@ -1,20 +1,20 @@
 # Embabel Agent Framework 示例集
 
 用 **Java 21 + Spring Boot 3.5 + Embabel 1.0.0** 演示 Embabel 的核心能力。
-共 46 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
+共 48 个**自包含**子模块，按能力分为 8 类；每个模块是一个独立可运行的 Spring Boot 应用，
 默认 LLM 接入 **DeepSeek**（OpenAI 兼容接口），需要嵌入/视觉时经 LiteLLM 接入本地 Ollama。
 
 > Embabel 是 Spring 创始人 Rod Johnson 发起的 JVM Agent 框架：用强类型领域模型 + 可复用 *Action* + GOAP 规划器，
 > 让智能体围绕"目标"动态推导执行步骤，而不是写死工作流。
 
-## 按目的选路线（46 个模块太多，从这里进）
+## 按目的选路线（48 个模块太多，从这里进）
 
 | 我想… | 路线 |
 |---|---|
 | **快速跑通第一个 Agent** | `embabel-chat` → `embabel-planning` → `embabel-tools` → `embabel-structured-output` |
 | **做一个 RAG 应用** | `embabel-references`（全量注入）→ `embabel-embeddings`（内存检索）→ `embabel-vector-store`（pgvector 持久化）→ `embabel-document-ingest`（真实文档摄入）→ `embabel-tool-chaining`（工具链） |
 | **实现一个能自主决策的 Agent** | `embabel-autonomous-agent` → `embabel-tools-advanced` → `embabel-replanning` → `embabel-stuck-handler` → `embabel-budget` |
-| **把 Agent 接进产品** | `embabel-hitl` → `embabel-conversation`（含流式）→ `embabel-multimodal` → `embabel-guardrails` → `embabel-secure-tools` |
+| **把 Agent 接进产品** | `embabel-hitl` → `embabel-hitl-advanced` → `embabel-conversation`（含流式）→ `embabel-multimodal` → `embabel-guardrails` → `embabel-secure-tools` → `embabel-identity` |
 | **多 Agent 协作** | `embabel-subagent` → `embabel-supervisor` → `embabel-parallelization` → `embabel-debate` → `embabel-orchestrator-workers` → `embabel-a2a` |
 | **按 Anthropic 模式系统学** | 见下方[模式对照表](#与-anthropicbuilding-effective-agents的模式对照)，从 `embabel-prompt-chaining` 顺序往下 |
 | **上线前补齐工程化** | `embabel-testing` → `embabel-eval` → `embabel-observability` → `embabel-budget` → `embabel-stuck-handler` → `embabel-persistence` |
@@ -46,6 +46,7 @@
 | 模块 | 端口 | 主题 | 主要接口 |
 |---|---|---|---|
 | [embabel-hitl](embabel-interaction/embabel-hitl/README.md) | 8894 | 人机协同（确认 / 表单，暂停与恢复） | `GET /hitl/review`、`POST /hitl/{id}/confirm` |
+| [embabel-hitl-advanced](embabel-interaction/embabel-hitl-advanced/README.md) | 8938 | 工具级 HITL（按需索要强类型输入） | `GET /hitl-advanced/refund` |
 | [embabel-conversation](embabel-interaction/embabel-conversation/README.md) | 8897 | 多轮对话与人格 + SSE 流式输出 | `POST /chat/{sessionId}`、`GET /chat/{sessionId}/stream` |
 | [embabel-multimodal](embabel-interaction/embabel-multimodal/README.md) | 8908 | 图像理解（需 Docker） | `GET /multimodal/describe` |
 
@@ -63,6 +64,7 @@
 |---|---|---|---|
 | [embabel-guardrails](embabel-safety/embabel-guardrails/README.md) | 8898 | 输入/输出护栏 | `GET /guardrails/ask` |
 | [embabel-secure-tools](embabel-safety/embabel-secure-tools/README.md) | 8924 | 工具安全（最小权限 + PII 护栏） | `GET /secure/ask` |
+| [embabel-identity](embabel-safety/embabel-identity/README.md) | 8939 | 身份与租户隔离（`ToolCallContext` 透传到工具） | `GET /identity/orders` |
 
 ### ⑥ [工程化（embabel-ops）](embabel-ops/README.md)
 
@@ -267,9 +269,9 @@ embabel:
 | 8905 | embabel-multi-model | 8935 | embabel-stuck-handler |
 | 8906 | *(已并入 8918 embabel-parallelization)* | 8936 | embabel-tool-chaining |
 | 8907 | embabel-embeddings | 8937 | embabel-document-ingest |
-| 8908 | embabel-multimodal | 8938+ | *(空闲)* |
-| 8909 | embabel-mcp | | |
-| 8910 | embabel-a2a | | |
+| 8908 | embabel-multimodal | 8938 | embabel-hitl-advanced |
+| 8909 | embabel-mcp | 8939 | embabel-identity |
+| 8910 | embabel-a2a | 8940+ | *(空闲)* |
 | 8911 | embabel-persistence | | |
 | 8912 | embabel-supervisor | | |
 | 8913 | embabel-trigger | | |
@@ -287,5 +289,5 @@ mvn package                          # 全部模块 + 各模块单测
 mvn -pl :embabel-testing test        # 只跑测试示例模块（无需 API Key）
 ```
 
-CI：`.github/workflows/build.yml` 会在 `ai/embabel/**` 变更时全量构建 46 个模块，
+CI：`.github/workflows/build.yml` 会在 `ai/embabel/**` 变更时全量构建 48 个模块，
 并单独跑 `embabel-testing` 的免 Key 测试（不调用真实 LLM）。
