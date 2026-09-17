@@ -39,6 +39,7 @@
 
     <modules>
         <module>agentscope-basics</module>
+        <module>agentscope-middleware</module>
     </modules>
 
     <build>
