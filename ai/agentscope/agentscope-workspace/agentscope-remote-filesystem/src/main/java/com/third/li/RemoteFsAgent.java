@@ -4,17 +4,33 @@ import io.agentscope.core.agent.RuntimeContext;
 import io.agentscope.core.message.UserMessage;
 import io.agentscope.extensions.model.openai.OpenAIChatModel;
 import io.agentscope.harness.agent.HarnessAgent;
+import io.agentscope.harness.agent.filesystem.remote.store.InMemoryStore;
+import io.agentscope.harness.agent.filesystem.spec.RemoteFilesystemSpec;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Paths;
+
 /**
- * 远程文件系统抽象
+ * 远程文件系统 Agent：用 {@link RemoteFilesystemSpec} 把工作区后端换成远程存储。
  *
- * <p>本模块演示 AgentScope 的特定能力。由于 DeepSeek 余额不足（HTTP 402），
- * LLM 调用可能失败——代码结构已就绪，充值后即可验证。
+ * <p>{@link RemoteFilesystemSpec} 把文件操作路由到一个 {@code BaseStore}（键值存储抽象），
+ * 而不是本地磁盘。本例用内存版 {@link InMemoryStore} 演示；生产环境可换成
+ * Redis / S3 / 数据库 backed 的 store。
+ *
+ * <p>关键点：
+ * <ul>
+ *   <li>{@code new RemoteFilesystemSpec(baseStore)} —— 指定后端 store</li>
+ *   <li>{@code addSharedPrefix(String)} —— 声明跨会话共享的路径前缀</li>
+ *   <li>{@code anonymousUserId(String)} —— 匿名用户标识</li>
+ * </ul>
+ *
+ * <p>通过 {@code HarnessAgent.Builder.filesystem(RemoteFilesystemSpec)} 注入。
  */
 @Component
 public class RemoteFsAgent {
+
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-remote-filesystem";
 
     private final String modelName;
     private final String apiKey;
@@ -40,13 +56,19 @@ public class RemoteFsAgent {
             synchronized (this) {
                 local = agent;
                 if (local == null) {
+                    InMemoryStore store = new InMemoryStore();
+                    RemoteFilesystemSpec remoteSpec = new RemoteFilesystemSpec(store)
+                            .addSharedPrefix("shared/")
+                            .anonymousUserId("demo-user");
+
                     OpenAIChatModel model = OpenAIChatModel.builder()
                             .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
                     local = HarnessAgent.builder()
                             .name("remote-filesystem")
-                            .sysPrompt("你是一个乐于助人的中文智能助手。")
+                            .sysPrompt("你是一个远程工作区助手，文件存储在远程后端。")
                             .model(model)
-                            .workspace(java.nio.file.Paths.get(".agentscope/workspace-remote-filesystem"))
+                            .filesystem(remoteSpec)
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
                     agent = local;
                 }
@@ -57,6 +79,6 @@ public class RemoteFsAgent {
 
     private RuntimeContext runtimeContext() {
         return RuntimeContext.builder()
-                .sessionId("demo").userId("alice").build();
+                .sessionId("remote-fs-demo").userId("alice").build();
     }
 }

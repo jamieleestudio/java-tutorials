@@ -1,17 +1,33 @@
 package com.third.li;
 
-import io.agentscope.core.agent.RuntimeContext;
-import io.agentscope.core.message.UserMessage;
 import io.agentscope.extensions.model.openai.OpenAIChatModel;
-import io.agentscope.harness.agent.HarnessAgent;
+import io.agentscope.extensions.scheduler.AgentScheduler;
+import io.agentscope.extensions.scheduler.ScheduleAgentTask;
+import io.agentscope.extensions.scheduler.config.AgentConfig;
+import io.agentscope.extensions.scheduler.config.ModelConfig;
+import io.agentscope.extensions.scheduler.config.ScheduleConfig;
+import io.agentscope.extensions.scheduler.quartz.QuartzAgentScheduler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
- * 定时调度（extensions-scheduler-quartz）
+ * 定时调度 Agent：用 {@link QuartzAgentScheduler}（Quartz 实现）定时触发 Agent 执行任务。
  *
- * <p>本模块演示 AgentScope 的特定能力。由于 DeepSeek 余额不足（HTTP 402），
- * LLM 调用可能失败——代码结构已就绪，充值后即可验证。
+ * <p>调度两层配置：
+ * <ul>
+ *   <li>{@link AgentConfig} —— Agent 定义（name / sysPrompt / modelConfig）</li>
+ *   <li>{@link ScheduleConfig} —— 调度策略（cron / fixedRate / fixedDelay）</li>
+ * </ul>
+ *
+ * <p>{@code scheduler.schedule(agentConfig, scheduleConfig)} 注册一个定时任务，
+ * 到点 Quartz 会触发 Agent 运行。
+ *
+ * <p>本例注册一个每分钟运行的定时 Agent（cron = "0 * * * * ?"）。
  */
 @Component
 public class SchedulerAgent {
@@ -19,7 +35,7 @@ public class SchedulerAgent {
     private final String modelName;
     private final String apiKey;
     private final String baseUrl;
-    private volatile HarnessAgent agent;
+    private AgentScheduler scheduler;
 
     public SchedulerAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
@@ -31,32 +47,55 @@ public class SchedulerAgent {
     }
 
     public String chat(String message) {
-        return agent().call(new UserMessage(message), runtimeContext()).block().getTextContent();
+        return "调度器已启动。定时任务列表：" + scheduledTasks();
     }
 
-    private HarnessAgent agent() {
-        HarnessAgent local = agent;
-        if (local == null) {
-            synchronized (this) {
-                local = agent;
-                if (local == null) {
-                    OpenAIChatModel model = OpenAIChatModel.builder()
-                            .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
-                    local = HarnessAgent.builder()
-                            .name("scheduler")
-                            .sysPrompt("你是一个乐于助人的中文智能助手。")
-                            .model(model)
-                            .workspace(java.nio.file.Paths.get(".agentscope/workspace-scheduler"))
-                            .build();
-                    agent = local;
-                }
+    public List<String> scheduledTasks() {
+        if (scheduler == null) return List.of();
+        return scheduler.getAllScheduleAgentTasks().stream()
+                .map(t -> {
+                    String cron = "";
+                    if (t instanceof io.agentscope.extensions.scheduler.BaseScheduleAgentTask base) {
+                        cron = base.getScheduleConfig().getCronExpression();
+                    }
+                    return t.getName() + " @ " + cron;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @PostConstruct
+    void init() {
+        scheduler = QuartzAgentScheduler.builder()
+                .schedulerId("demo-scheduler")
+                .autoStart(true)
+                .build();
+        ModelConfig modelConfig = new ModelConfig() {
+            @Override
+            public String getModelName() {
+                return modelName;
             }
-        }
-        return local;
+
+            @Override
+            public OpenAIChatModel createModel() {
+                return OpenAIChatModel.builder()
+                        .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
+            }
+        };
+        AgentConfig agentCfg = AgentConfig.builder()
+                .name("scheduled-agent")
+                .sysPrompt("你是一个定时助手，每分钟被触发一次，简短报告当前时间。")
+                .modelConfig(modelConfig)
+                .build();
+        ScheduleConfig scheduleCfg = ScheduleConfig.builder()
+                .cron("0 * * * * ?")
+                .build();
+        scheduler.schedule(agentCfg, scheduleCfg);
     }
 
-    private RuntimeContext runtimeContext() {
-        return RuntimeContext.builder()
-                .sessionId("demo").userId("alice").build();
+    @PreDestroy
+    void shutdown() {
+        if (scheduler != null) {
+            scheduler.shutdown();
+        }
     }
 }

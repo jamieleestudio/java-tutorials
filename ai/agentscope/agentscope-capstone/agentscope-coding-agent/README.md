@@ -13,14 +13,15 @@ curl -G --data-urlencode "message=你好" http://localhost:9134/coding-agent/ask
 
 ## 代码结构
 
-- `agentscope-coding-agentAgent.java` — HarnessAgent + DeepSeek
+- `CodingCapstoneAgent.java` — 编码工具 + 计划模式 + 任务列表 + 权限 + 压缩
 - `Controller` — `GET /coding-agent/ask`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- 综合演示：ShellCommandTool + ReadFile/WriteFile + TodoTools + enablePlanMode + enableTaskList。
+- 权限规则：删除操作 DENY、写操作 ASK，stopOnReject。
+- 上下文压缩：CompactionConfig 长对话自动摘要。
+- Claude Code 式工作方式：先规划再执行。
 
 ## 运行
 

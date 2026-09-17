@@ -1,20 +1,35 @@
 package com.third.li;
 
+import io.agentscope.core.agent.Agent;
+import io.agentscope.core.agent.Event;
 import io.agentscope.core.agent.RuntimeContext;
+import io.agentscope.core.agent.StreamOptions;
 import io.agentscope.core.message.UserMessage;
 import io.agentscope.extensions.model.openai.OpenAIChatModel;
 import io.agentscope.harness.agent.HarnessAgent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Paths;
+import java.util.concurrent.atomic.AtomicReference;
+
 /**
- * 实时打断（Agent.interrupt + InterruptControl）
+ * 实时打断 Agent：演示 {@link Agent#interrupt()} 能力——
+ * Agent 运行中可被外部打断，立即中止当前 ReAct 循环。
  *
- * <p>本模块演示 AgentScope 的特定能力。由于 DeepSeek 余额不足（HTTP 402），
- * LLM 调用可能失败——代码结构已就绪，充值后即可验证。
+ * <p>{@link io.agentscope.core.agent.Agent} 接口提供两个打断方法：
+ * <ul>
+ *   <li>{@code interrupt()} —— 无消息打断</li>
+ *   <li>{@code interrupt(Msg)} —— 带用户消息打断（打断后可追加一条消息）</li>
+ * </ul>
+ *
+ * <p>本例用流式调用（{@code stream}）演示：在另一个线程里启动 Agent，
+ * 主线程调用 {@code interrupt()} 中止它，观察流提前结束。
  */
 @Component
 public class InterruptAgent {
+
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-interrupt";
 
     private final String modelName;
     private final String apiKey;
@@ -34,6 +49,23 @@ public class InterruptAgent {
         return agent().call(new UserMessage(message), runtimeContext()).block().getTextContent();
     }
 
+    /**
+     * 流式调用并在收到第一个事件后立即 interrupt，
+     * 演示运行时打断能力。
+     */
+    public String chatAndInterrupt(String message) {
+        HarnessAgent a = agent();
+        AtomicReference<String> firstEvent = new AtomicReference<>("（未产生事件即被打断）");
+        reactor.core.publisher.Flux<Event> stream = a.stream(
+                java.util.List.of(new UserMessage(message)), StreamOptions.defaults(), runtimeContext());
+        try {
+            stream.take(1).doOnNext(e -> firstEvent.set(e.getType().name())).blockLast();
+        } finally {
+            a.interrupt();
+        }
+        return "首个事件类型：" + firstEvent.get() + "，已发出 interrupt()";
+    }
+
     private HarnessAgent agent() {
         HarnessAgent local = agent;
         if (local == null) {
@@ -43,10 +75,10 @@ public class InterruptAgent {
                     OpenAIChatModel model = OpenAIChatModel.builder()
                             .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
                     local = HarnessAgent.builder()
-                            .name("interrupt")
-                            .sysPrompt("你是一个乐于助人的中文智能助手。")
+                            .name("interrupt-agent")
+                            .sysPrompt("你是一个智能助手。运行中可被外部打断。")
                             .model(model)
-                            .workspace(java.nio.file.Paths.get(".agentscope/workspace-interrupt"))
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
                     agent = local;
                 }
@@ -57,6 +89,6 @@ public class InterruptAgent {
 
     private RuntimeContext runtimeContext() {
         return RuntimeContext.builder()
-                .sessionId("demo").userId("alice").build();
+                .sessionId("interrupt-demo").userId("alice").build();
     }
 }

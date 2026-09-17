@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9128/persistence/ask
 
 ## 代码结构
 
-- `agentscope-persistenceAgent.java` — HarnessAgent + DeepSeek
+- `PersistenceAgent.java` — HarnessAgent + DeepSeek + JsonFileAgentStateStore
 - `Controller` — `GET /persistence/ask`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `stateStore(JsonFileAgentStateStore)` 把 AgentState 持久化到磁盘 JSON 文件。
+- 重启后同 sessionId/userId 能恢复会话上下文。
+- 对照组 `disableSessionPersistence()` 关闭持久化，重启即丢。
 
 ## 运行
 

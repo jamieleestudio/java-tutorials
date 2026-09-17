@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9121/workspace/remote
 
 ## 代码结构
 
-- `agentscope-remote-filesystemAgent.java` — HarnessAgent + DeepSeek
+- `RemoteFsAgent.java` — HarnessAgent + DeepSeek + RemoteFilesystemSpec
 - `Controller` — `GET /workspace/remote`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `RemoteFilesystemSpec(BaseStore)` 把文件操作路由到远程存储后端。
+- 本例用 `InMemoryStore` 演示；生产可换 Redis/S3/DB backed store。
+- `addSharedPrefix` 声明跨会话共享路径前缀。
 
 ## 运行
 

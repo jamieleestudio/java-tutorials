@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9135/capstone/ask
 
 ## 代码结构
 
-- `agentscope-capstone-e2eAgent.java` — HarnessAgent + DeepSeek
+- `CapstoneE2eAgent.java` — RAG + 记忆 + 工具 + 持久化 + 压缩
 - `Controller` — `GET /capstone/ask`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- 综合五大能力：GenericRAGHook 检索 + MemoryConfig 记忆 + Toolkit 工具 + JsonFileAgentStateStore 持久化 + CompactionConfig 压缩。
+- 灌入知识库文档，回答时自动检索注入。
+- 教程集大成模块，演示 AgentScope 完整工程化范式。
 
 ## 运行
 

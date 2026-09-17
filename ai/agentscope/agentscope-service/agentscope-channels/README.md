@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9131/channels/ask
 
 ## 代码结构
 
-- `agentscope-channelsAgent.java` — HarnessAgent + DeepSeek
+- `ChannelAgent.java` — HarnessGateway + DingTalk/Feishu/WeCom
 - `Controller` — `GET /channels/ask`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `DingTalkChannel.fromProperties` / `FeishuChannel.fromProperties` / `WeComChannel.fromProperties` 创建 IM 渠道。
+- 凭据从配置读，未配置时跳过该渠道。
+- 三渠道注册到同一网关，消息统一路由给主 Agent。
 
 ## 运行
 

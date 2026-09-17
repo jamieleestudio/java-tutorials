@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9125/longterm/ask
 
 ## 代码结构
 
-- `agentscope-longterm-memoryAgent.java` — HarnessAgent + DeepSeek
+- `LongTermMemoryAgent.java` — HarnessAgent + DeepSeek + StaticLongTermMemoryHook
 - `Controller` — `GET /longterm/ask`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `LongTermMemory` 接口（record/retrieve），本例用内存实现演示。
+- `StaticLongTermMemoryHook` 把记录/检索接入 PreCall/PostCall 钩子。
+- 生产环境可换 Mem0/ReMe/向量库实现。
 
 ## 运行
 

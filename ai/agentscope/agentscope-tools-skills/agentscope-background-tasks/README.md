@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9114/background/ask
 
 ## 代码结构
 
-- `agentscope-background-tasksAgent.java` — HarnessAgent + DeepSeek
+- `BackgroundTaskAgent.java` — HarnessAgent + DeepSeek + enableTaskList
 - `Controller` — `GET /background/ask`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `enableTaskList()` 注册内置 TaskTool，Agent 可创建/查询/取消后台任务。
+- `asyncToolTimeout(Duration)` 设置异步工具超时，超时则转入后台。
+- 底层由 `TaskRepository` 持久化任务记录到工作区。
 
 ## 运行
 
