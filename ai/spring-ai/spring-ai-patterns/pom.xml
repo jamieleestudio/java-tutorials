@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.third.li</groupId>
+        <artifactId>spring-ai</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>spring-ai-patterns</artifactId>
+    <packaging>pom</packaging>
+    <name>spring-ai-patterns</name>
+    <description>编排模式：与 Embabel/AgentScope patterns 对照</description>
+
+    <modules>
+        <module>spring-ai-prompt-chaining</module>
+        <module>spring-ai-routing</module>
+        <module>spring-ai-parallelization</module>
+        <module>spring-ai-orchestrator-workers</module>
+        <module>spring-ai-refinement</module>
+        <module>spring-ai-multi-agent-debate</module>
+        <module>spring-ai-tree-of-thoughts</module>
+        <module>spring-ai-self-reflection</module>
+        <module>spring-ai-state-machine</module>
+        <module>spring-ai-capstone-patterns</module>
+    </modules>
+
+</project>
