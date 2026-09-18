@@ -14,7 +14,7 @@ AgentScope 是另一种范式：**ReAct 循环 + Middleware 链 + Permission 引
 
 两者用不同的 Spring Boot 版本（Embabel 3.5 / AgentScope 4.0.3），互不影响。
 
-## 分类与模块（36 模块 / 8 分类，全部编译通过）
+## 分类与模块（55 模块 / 9 分类，全部编译通过）
 
 ### ① [基础（agentscope-basics）](agentscope-basics/README.md)
 
@@ -91,6 +91,44 @@ AgentScope 是另一种范式：**ReAct 循环 + Middleware 链 + Permission 引
 |---|---|---|---|
 | [agentscope-coding-agent](agentscope-capstone/agentscope-coding-agent/README.md) | 9134 | 编码 Agent（整合 Shell+File+Compaction+Memory+Permission） | `GET /capstone/coding` |
 | [agentscope-capstone-e2e](agentscope-capstone/agentscope-capstone-e2e/README.md) | 9135 | 端到端多 Agent 系统（Subagent+Memory+Gateway） | `GET /capstone/e2e` |
+
+### ⑨ 编排模式 ★ [agentscope-patterns](agentscope-patterns/README.md)
+
+与 `ai/embabel/embabel-patterns`（19 模块）**1:1 对照**：同一个模式用 AgentScope 的 ReAct + Middleware + Subagent + Permission 范式重新实现。
+
+#### 工作流模式（9200-9204）
+
+| 模块 | 端口 | 模式 | 接口 |
+|---|---|---|---|
+| [agentscope-prompt-chaining](agentscope-patterns/agentscope-prompt-chaining/README.md) | 9200 | Prompt chaining + 关卡（多次 call + gate 短路） | `GET /patterns/prompt-chain/ask` |
+| [agentscope-routing](agentscope-patterns/agentscope-routing/README.md) | 9201 | 路由（结构化输出分类 → 分发专用 Agent） | `GET /patterns/routing/ask` |
+| [agentscope-parallelization](agentscope-patterns/agentscope-parallelization/README.md) | 9202 | 并行（Sectioning / Voting，Flux.merge） | `GET /patterns/parallel/ask` |
+| [agentscope-orchestrator-workers](agentscope-patterns/agentscope-orchestrator-workers/README.md) | 9203 | 编排者-工人（SubagentDeclaration 动态拆解） | `GET /patterns/orchestrator/ask` |
+| [agentscope-refinement](agentscope-patterns/agentscope-refinement/README.md) | 9204 | 自评迭代（生成→评估→改进，评分达标） | `GET /patterns/refinement/ask` |
+
+#### Agent 模式（9205-9209）
+
+| 模块 | 端口 | 模式 | 接口 |
+|---|---|---|---|
+| [agentscope-autonomous-agent](agentscope-patterns/agentscope-autonomous-agent/README.md) | 9205 | 自主 Agent（ReAct 循环 + 工具 + maxIters + 重试） | `GET /patterns/autonomous/ask` |
+| [agentscope-supervisor](agentscope-patterns/agentscope-supervisor/README.md) | 9206 | 主管编排（supervisor 管理多个子 Agent） | `GET /patterns/supervisor/ask` |
+| [agentscope-replanning](agentscope-patterns/agentscope-replanning/README.md) | 9207 | 动态重规划（Middleware 拦截错误换路径） | `GET /patterns/replanning/ask` |
+| [agentscope-multi-goal](agentscope-patterns/agentscope-multi-goal/README.md) | 9208 | 多目标选择（多 JsonNode schema 结构化输出） | `GET /patterns/multi-goal/definition` |
+| [agentscope-trigger](agentscope-patterns/agentscope-trigger/README.md) | 9209 | 反应式触发（Hook.onEvent 拦截注入） | `GET /patterns/trigger/ask` |
+
+#### 协作与工具模式（9210-9218）
+
+| 模块 | 端口 | 模式 | 接口 |
+|---|---|---|---|
+| [agentscope-subagent-handoff](agentscope-patterns/agentscope-subagent-handoff/README.md) | 9210 | 子 Agent 委派（handoff 全权转交） | `GET /patterns/subagent/ask` |
+| [agentscope-tools-advanced](agentscope-patterns/agentscope-tools-advanced/README.md) | 9211 | 渐进式工具 + 自省 + 工具名纠正 | `GET /patterns/tools-advanced/ask` |
+| [agentscope-tool-chaining](agentscope-patterns/agentscope-tool-chaining/README.md) | 9212 | 工具链式展开（artifacts 解锁专属工具） | `GET /patterns/tool-chaining/ask` |
+| [agentscope-playbook](agentscope-patterns/agentscope-playbook/README.md) | 9213 | 剧本（SkillBox 条件式技能集） | `GET /patterns/playbook/ask` |
+| [agentscope-capstone-patterns](agentscope-patterns/agentscope-capstone-patterns/README.md) | 9214 | 模式综合（自主+链+委派+权限+压缩） | `GET /patterns/capstone/ask` |
+| [agentscope-debate](agentscope-patterns/agentscope-debate/README.md) | 9215 | 多 Agent 辩论（正反方并发 + 裁判） | `GET /patterns/debate/ask` |
+| [agentscope-tree-of-thoughts](agentscope-patterns/agentscope-tree-of-thoughts/README.md) | 9216 | 思维树（分支生成 + 评分 + 深化） | `GET /patterns/tot/ask` |
+| [agentscope-state-machine](agentscope-patterns/agentscope-state-machine/README.md) | 9217 | 状态机（PlanMode 阶段收敛工具） | `GET /patterns/state-machine/plan` |
+| [agentscope-programmatic-dsl](agentscope-patterns/agentscope-programmatic-dsl/README.md) | 9218 | 编程式 DSL（纯 Java Builder 链，对照 Kotlin DSL） | `GET /patterns/dsl/ask` |
 
 ## 快速开始
 

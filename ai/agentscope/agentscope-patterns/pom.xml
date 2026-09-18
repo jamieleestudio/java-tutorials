@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.third.li</groupId>
+        <artifactId>agentscope</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>agentscope-patterns</artifactId>
+    <packaging>pom</packaging>
+    <name>agentscope-patterns</name>
+    <description>AgentScope examples: agent patterns (prompt chaining, routing, parallelization, orchestrator-workers, autonomous, supervisor, replanning, multi-goal, trigger, subagent, debate, tree-of-thoughts, state-machine, programmatic DSL)</description>
+
+    <modules>
+        <module>agentscope-prompt-chaining</module>
+        <module>agentscope-routing</module>
+        <module>agentscope-parallelization</module>
+        <module>agentscope-orchestrator-workers</module>
+        <module>agentscope-refinement</module>
+        <module>agentscope-autonomous-agent</module>
+        <module>agentscope-supervisor</module>
+        <module>agentscope-replanning</module>
+        <module>agentscope-multi-goal</module>
+        <module>agentscope-trigger</module>
+        <module>agentscope-subagent-handoff</module>
+        <module>agentscope-tools-advanced</module>
+        <module>agentscope-tool-chaining</module>
+        <module>agentscope-playbook</module>
+        <module>agentscope-capstone-patterns</module>
+        <module>agentscope-debate</module>
+        <module>agentscope-tree-of-thoughts</module>
+        <module>agentscope-state-machine</module>
+        <module>agentscope-programmatic-dsl</module>
+    </modules>
+
+</project>

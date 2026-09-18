@@ -46,6 +46,7 @@
         <module>agentscope-memory-rag</module>
         <module>agentscope-service</module>
         <module>agentscope-capstone</module>
+        <module>agentscope-patterns</module>
     </modules>
 
     <build>
