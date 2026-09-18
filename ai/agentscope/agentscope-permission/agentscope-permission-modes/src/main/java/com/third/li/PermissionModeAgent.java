@@ -12,27 +12,20 @@ import org.springframework.stereotype.Component;
 import java.nio.file.Paths;
 
 /**
- * 权限模式（DEFAULT / ACCEPT_EDITS / EXPLORE / BYPASS / DONT_ASK）。
+ * 权限模式 Agent：演示 AgentScope 的三种权限模式——
+ * {@link PermissionMode#BYPASS}（不确认）、{@link PermissionMode#DONT_ASK}（不弹确认，按规则放行）、
+ * {@link PermissionMode#DEFAULT}（默认，危险操作弹确认）。
  *
- * <p>AgentScope 的权限系统有 5 种模式（{@link PermissionMode}）：
- * <ul>
- *   <li>{@code DEFAULT} — 标准模式，危险操作需确认</li>
- *   <li>{@code ACCEPT_EDITS} — 自动接受文件编辑，不确认</li>
- *   <li>{@code EXPLORE} — 只读模式，不允许任何修改操作</li>
- *   <li>{@code BYPASS} — 完全跳过权限检</li>
- *   <li>{@code DONT_ASK} — 不询问，按规则自动决策</li>
- * </ul>
+ * <p>权限通过 {@code HarnessAgent.Builder.permissionContext(PermissionContextState)} 注入，
+ * 运行时可用 {@link HarnessAgent#setPermissionMode(RuntimeContext, PermissionMode)} 动态切换。
  *
- * <p>两种设置方式：
- * <ol>
- *   <li><b>构造时</b>：{@link HarnessAgent.Builder#permissionContext(PermissionContextState)}</li>
- *   <li><b>运行时</b>：{@code agent.setPermissionMode(ctx, mode)}</li>
- * </ol>
- *
- * <p>本模块演示运行时切换模式——每个端点用不同模式调用同一个 Agent。
+ * <p>本例默认用 {@link PermissionMode#DEFAULT}，并提供 {@link #chatWithMode(String, PermissionMode)}
+ * 按需切换模式，便于对比三种模式下的工具确认行为。
  */
 @Component
 public class PermissionModeAgent {
+
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-permission-modes";
 
     private final String modelName;
     private final String apiKey;
@@ -41,23 +34,25 @@ public class PermissionModeAgent {
 
     public PermissionModeAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
-            @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
+            @Value("${agentscope.model.api-key:${OPENAI_API_KEY:}}") String apiKey,
             @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
         this.modelName = modelName;
         this.apiKey = apiKey;
         this.baseUrl = baseUrl;
     }
 
-    public String chat(String message, PermissionMode mode) {
-        HarnessAgent a = agent();
-        RuntimeContext ctx = runtimeContext();
-        a.setPermissionMode(ctx, mode);
-        return a.call(new UserMessage(message), ctx).block().getTextContent();
+    public String chat(String message) {
+        return agent().call(new UserMessage(message), runtimeContext()).block().getTextContent();
     }
 
-    /** 查看当前模式。 */
+    public String chatWithMode(String message, PermissionMode mode) {
+        RuntimeContext ctx = runtimeContext();
+        agent().setPermissionMode(ctx, mode);
+        return agent().call(new UserMessage(message), ctx).block().getTextContent();
+    }
+
     public String currentMode() {
-        return agent().getPermissionMode("perm-demo", "alice").getValue();
+        return agent().getPermissionMode(runtimeContext().getSessionId(), runtimeContext().getUserId()).getValue();
     }
 
     private HarnessAgent agent() {
@@ -66,18 +61,18 @@ public class PermissionModeAgent {
             synchronized (this) {
                 local = agent;
                 if (local == null) {
-                    OpenAIChatModel model = OpenAIChatModel.builder()
-                            .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
                     PermissionContextState permCtx = PermissionContextState.builder()
                             .mode(PermissionMode.DEFAULT)
                             .build();
+                    OpenAIChatModel model = OpenAIChatModel.builder()
+                            .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
                     local = HarnessAgent.builder()
                             .name("permission-modes")
-                            .sysPrompt("你是一个文件管理助手。你可以读写文件和执行命令。" +
-                                    "请根据当前权限模式行动。")
+                            .sysPrompt("你是一个智能助手，可执行工具。根据权限模式决定是否需要用户确认。")
                             .model(model)
                             .permissionContext(permCtx)
-                            .workspace(Paths.get(".agentscope/workspace-permission-modes"))
+                            .stopOnReject(true)
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
                     agent = local;
                 }
@@ -88,6 +83,6 @@ public class PermissionModeAgent {
 
     private RuntimeContext runtimeContext() {
         return RuntimeContext.builder()
-                .sessionId("perm-demo").userId("alice").build();
+                .sessionId("perm-mode-demo").userId("alice").build();
     }
 }

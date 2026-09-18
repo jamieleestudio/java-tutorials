@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9108/toolgroup/ask
 
 ## 代码结构
 
-- `agentscope-toolkit-groupsAgent.java` — HarnessAgent + DeepSeek
+- `ToolGroupAgent.java` — HarnessAgent + DeepSeek + ToolGroup
 - `Controller` — `GET /toolgroup/ask`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- 用 `ToolGroup.builder()` 创建工具组，`Toolkit.registerToolGroup` 注册。
+- `Toolkit.setActiveGroups(...)` 切换激活组，只有激活组内工具暴露给模型。
+- 两组：`time-group`（默认激活）、`order-group`（按需切换）。
 
 ## 运行
 

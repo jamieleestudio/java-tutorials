@@ -3,41 +3,30 @@ package com.third.li;
 import io.agentscope.core.agent.Agent;
 import io.agentscope.core.agent.RuntimeContext;
 import io.agentscope.core.message.UserMessage;
-import io.agentscope.core.tool.subagent.SubAgentConfig;
-import io.agentscope.core.tool.subagent.SubAgentProvider;
-import io.agentscope.core.tool.subagent.SubAgentTool;
 import io.agentscope.extensions.model.openai.OpenAIChatModel;
 import io.agentscope.harness.agent.HarnessAgent;
-import io.agentscope.harness.agent.subagent.SubagentDeclaration;
-import io.agentscope.harness.agent.subagent.WorkspaceMode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;
 
 /**
- * 子代理（SubAgentTool + SubagentDeclaration）。
+ * 子代理（SubAgent）Agent：通过 {@code HarnessAgent.Builder.subagentFactory(name, factory)}
+ * 注册一个子 Agent 工厂，主 Agent 在 ReAct 循环中可"调用子 Agent"作为工具。
  *
- * <p>AgentScope 的子代理机制把另一个 Agent 包装成<b>工具</b>，
- * 让主 Agent 可以委派子任务给专业化的子 Agent。
+ * <p>这是 AgentScope 的编排能力——主 Agent 把子 Agent 当成一个工具调用：
+ * <ul>
+ *   <li>{@code subagentFactory(String name, Function<String, Agent> factory)} ——
+ *       注册一个按需创建子 Agent 的工厂，{@code name} 是暴露给主 Agent 的工具名</li>
+ *   <li>主 Agent 决定何时调用子 Agent传什么消息，子 Agent 独立运行后返回结果</li>
+ * </ul>
  *
- * <p>两种方式：
- * <ol>
- *   <li><b>声明式</b>：通过 {@link HarnessAgent.Builder#subagent(SubagentDeclaration)}
- *       声明子 Agent 的配置（name, description, model, maxIters），框架自动创建</li>
- *   <li><b>编程式</b>：通过 {@link SubAgentTool} 直接包装一个 {@link SubAgentProvider}</li>
- * </ol>
- *
- * <p>本模块演示声明式（推荐）：主 Agent 是"翻译协调员"，
- * 子 Agent 是"专业翻译"（English→Chinese）。
- *
- * <p>与 Embabel 的差异：Embabel 没有"子 Agent"概念——
- * 它通过 @Action 委派给其他 Process，但不是"把 Agent 当工具"。
- * AgentScope 的 SubAgentTool 是"Agent-as-Tool"模式，
- * 类似 Claude Code 的 subagent。
+ * <p>本例注册一个"翻译子 Agent"：主 Agent 收到翻译请求时，调用子 Agent 完成翻译。
  */
 @Component
 public class SubagentAgent {
+
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-subagent";
 
     private final String modelName;
     private final String apiKey;
@@ -46,7 +35,7 @@ public class SubagentAgent {
 
     public SubagentAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
-            @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
+            @Value("${agentscope.model.api-key:${OPENAI_API_KEY:}}") String apiKey,
             @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
         this.modelName = modelName;
         this.apiKey = apiKey;
@@ -65,27 +54,29 @@ public class SubagentAgent {
                 if (local == null) {
                     OpenAIChatModel model = OpenAIChatModel.builder()
                             .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
-
-                    SubagentDeclaration translator = SubagentDeclaration.builder()
-                            .name("translator")
-                            .description("专业英译中翻译子 Agent。当需要翻译英文文本为中文时委派给它。")
-                            .workspaceMode(WorkspaceMode.SHARED)
-                            .maxIters(2)
-                            .build();
-
                     local = HarnessAgent.builder()
-                            .name("subagent-coordinator")
-                            .sysPrompt("你是一个翻译协调员。当用户需要翻译英文为中文时，" +
-                                    "委派给 translator 子 Agent 执行翻译。对于其他问题，直接回答。")
+                            .name("subagent-parent")
+                            .sysPrompt("你是一个任务协调助手。遇到翻译任务时，调用 translate 子代理完成。")
                             .model(model)
-                            .subagent(translator)
-                            .workspace(Paths.get(".agentscope/workspace-subagent"))
+                            .subagentFactory("translate", prompt -> buildTranslateSubAgent(prompt))
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
                     agent = local;
                 }
             }
         }
         return local;
+    }
+
+    private Agent buildTranslateSubAgent(String prompt) {
+        OpenAIChatModel model = OpenAIChatModel.builder()
+                .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
+        return HarnessAgent.builder()
+                .name("translate-subagent")
+                .sysPrompt("你是一个专业翻译。请将用户给定的文本翻译成目标语言，只输出译文。")
+                .model(model)
+                .workspace(Paths.get(WORKSPACE_DIR + "/translate"))
+                .build();
     }
 
     private RuntimeContext runtimeContext() {

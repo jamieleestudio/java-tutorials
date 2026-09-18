@@ -1,32 +1,33 @@
 package com.third.li;
 
-import io.agentscope.core.agent.RuntimeContext;
-import io.agentscope.core.message.UserMessage;
 import io.agentscope.extensions.model.openai.OpenAIChatModel;
-import io.agentscope.harness.agent.HarnessAgent;
-import io.agentscope.harness.agent.bus.MessageBus;
+import io.agentscope.extensions.scheduler.AgentScheduler;
+import io.agentscope.extensions.scheduler.ScheduleAgentTask;
+import io.agentscope.extensions.scheduler.config.AgentConfig;
+import io.agentscope.extensions.scheduler.config.ModelConfig;
+import io.agentscope.extensions.scheduler.config.ScheduleConfig;
+import io.agentscope.extensions.scheduler.quartz.QuartzAgentScheduler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.nio.file.Paths;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * 调度器（WakeupDispatcher + MessageBus）。
+ * 定时调度 Agent：用 {@link QuartzAgentScheduler}（Quartz 实现）定时触发 Agent 执行任务。
  *
- * <p>AgentScope 的调度系统支持<b>定时唤醒</b> Agent：
+ * <p>调度两层配置：
  * <ul>
- *   <li>{@link MessageBus} — 消息总线，支持 queue/log/pub-sub</li>
- *   <li>{@link io.agentscope.harness.agent.gateway.WakeupDispatcher} — 监听总线事件，唤醒 Agent</li>
+ *   <li>{@link AgentConfig} —— Agent 定义（name / sysPrompt / modelConfig）</li>
+ *   <li>{@link ScheduleConfig} —— 调度策略（cron / fixedRate / fixedDelay）</li>
  * </ul>
  *
- * <p>工作流：
- * <ol>
- *   <li>外部系统向 MessageBus publish 事件</li>
- *   <li>WakeupDispatcher 收到事件，调用 Agent 执行</li>
- *   <li>Agent 执行后回复到 Channel</li>
- * </ol>
+ * <p>{@code scheduler.schedule(agentConfig, scheduleConfig)} 注册一个定时任务，
+ * 到点 Quartz 会触发 Agent 运行。
  *
- * <p>适合定时任务、Webhook 触发、后台事件驱动的 Agent。
+ * <p>本例注册一个每分钟运行的定时 Agent（cron = "0 * * * * ?"）。
  */
 @Component
 public class SchedulerAgent {
@@ -34,11 +35,11 @@ public class SchedulerAgent {
     private final String modelName;
     private final String apiKey;
     private final String baseUrl;
-    private volatile HarnessAgent agent;
+    private AgentScheduler scheduler;
 
     public SchedulerAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
-            @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
+            @Value("${agentscope.model.api-key:${OPENAI_API_KEY:}}") String apiKey,
             @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
         this.modelName = modelName;
         this.apiKey = apiKey;
@@ -46,49 +47,55 @@ public class SchedulerAgent {
     }
 
     public String chat(String message) {
-        return agent().call(new UserMessage(message), runtimeContext()).block().getTextContent();
+        return "调度器已启动。定时任务列表：" + scheduledTasks();
     }
 
-    /** 模拟事件触发（实际通过 MessageBus）。 */
-    public String describeScheduling() {
-        return """
-                调度器架构：
-                1. MessageBus — 消息总线（queue/log/pub-sub）
-                   bus.publish("wakeup", Map.of("sessionId", "sess-1"))
-                2. WakeupDispatcher — 监听总线，唤醒 Agent
-                   new WakeupDispatcher(bus, gateway)
-                3. Agent 被唤醒后从上下文恢复，执行任务
-
-                触发方式：
-                - 定时任务（ScheduledExecutorService）
-                - Webhook 接收 → bus.publish
-                - 后台任务完成 → bus.publish
-                """;
+    public List<String> scheduledTasks() {
+        if (scheduler == null) return List.of();
+        return scheduler.getAllScheduleAgentTasks().stream()
+                .map(t -> {
+                    String cron = "";
+                    if (t instanceof io.agentscope.extensions.scheduler.BaseScheduleAgentTask base) {
+                        cron = base.getScheduleConfig().getCronExpression();
+                    }
+                    return t.getName() + " @ " + cron;
+                })
+                .collect(Collectors.toList());
     }
 
-    private HarnessAgent agent() {
-        HarnessAgent local = agent;
-        if (local == null) {
-            synchronized (this) {
-                local = agent;
-                if (local == null) {
-                    OpenAIChatModel model = OpenAIChatModel.builder()
-                            .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
-                    local = HarnessAgent.builder()
-                            .name("scheduler-agent")
-                            .sysPrompt("你是一个事件驱动的助手。你被事件唤醒后执行任务。")
-                            .model(model)
-                            .workspace(Paths.get(".agentscope/workspace-scheduler"))
-                            .build();
-                    agent = local;
-                }
+    @PostConstruct
+    void init() {
+        scheduler = QuartzAgentScheduler.builder()
+                .schedulerId("demo-scheduler")
+                .autoStart(true)
+                .build();
+        ModelConfig modelConfig = new ModelConfig() {
+            @Override
+            public String getModelName() {
+                return modelName;
             }
-        }
-        return local;
+
+            @Override
+            public OpenAIChatModel createModel() {
+                return OpenAIChatModel.builder()
+                        .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
+            }
+        };
+        AgentConfig agentCfg = AgentConfig.builder()
+                .name("scheduled-agent")
+                .sysPrompt("你是一个定时助手，每分钟被触发一次，简短报告当前时间。")
+                .modelConfig(modelConfig)
+                .build();
+        ScheduleConfig scheduleCfg = ScheduleConfig.builder()
+                .cron("0 * * * * ?")
+                .build();
+        scheduler.schedule(agentCfg, scheduleCfg);
     }
 
-    private RuntimeContext runtimeContext() {
-        return RuntimeContext.builder()
-                .sessionId("scheduler-demo").userId("alice").build();
+    @PreDestroy
+    void shutdown() {
+        if (scheduler != null) {
+            scheduler.shutdown();
+        }
     }
 }

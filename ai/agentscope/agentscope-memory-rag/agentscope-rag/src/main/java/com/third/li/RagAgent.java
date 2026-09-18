@@ -1,42 +1,42 @@
 package com.third.li;
 
 import io.agentscope.core.agent.RuntimeContext;
+import io.agentscope.core.message.TextBlock;
 import io.agentscope.core.message.UserMessage;
 import io.agentscope.core.rag.GenericRAGHook;
 import io.agentscope.core.rag.Knowledge;
-import io.agentscope.core.rag.KnowledgeRetrievalTools;
 import io.agentscope.core.rag.model.Document;
 import io.agentscope.core.rag.model.DocumentMetadata;
 import io.agentscope.core.rag.model.RetrieveConfig;
-import io.agentscope.core.tool.Toolkit;
 import io.agentscope.extensions.model.openai.OpenAIChatModel;
 import io.agentscope.harness.agent.HarnessAgent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * RAG 检索增强生成（Knowledge + KnowledgeRetrievalTools + GenericRAGHook）。
+ * RAG Agent：用 {@link Knowledge} + {@link GenericRAGHook} 实现检索增强生成。
  *
- * <p>AgentScope 的 RAG 系统分两种模式（{@code RAGMode}）：
- * <ul>
- *   <li>{@code GENERIC} — 通过 Hook 自动检索，注入到系统提示</li>
- *   <li>{@code AGENTIC} — 通过工具让 Agent 主动检索</li>
- * </ul>
+ * <p>RAG 流程：
+ * <ol>
+ *   <li>对话前（{@code PreCall}），{@link GenericRAGHook} 用用户问题检索 {@link Knowledge}</li>
+ *   <li>把检索到的文档拼成上下文，注入到系统提示</li>
+ *   <li>模型基于"问题 + 检索上下文"生成回答</li>
+ * </ol>
  *
- * <p>核心组件：
- * <ul>
- *   <li>{@link Knowledge} — 知识库接口：addDocuments / retrieve</li>
- *   <li>{@link KnowledgeRetrievalTools} — 工具：retrieveKnowledge</li>
- *   <li>{@link GenericRAGHook} — Hook：自动检索并注入</li>
- * </ul>
+ * <p>{@link Knowledge} 是接口（{@code addDocuments} / {@code retrieve}），需要提供具体实现——
+ * 生产环境通常接向量库（Milvus/Qdrant/Pinecone）。本例用内存关键词匹配实现演示 API。
  *
- * <p>本模块演示 AGENTIC 模式：Agent 通过工具主动检索知识库。
+ * <p>预先灌入几条"知识库文档"，Agent 回答时会自动检索相关内容。
  */
 @Component
 public class RagAgent {
+
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-rag";
 
     private final String modelName;
     private final String apiKey;
@@ -45,7 +45,7 @@ public class RagAgent {
 
     public RagAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
-            @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
+            @Value("${agentscope.model.api-key:${OPENAI_API_KEY:}}") String apiKey,
             @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
         this.modelName = modelName;
         this.apiKey = apiKey;
@@ -62,21 +62,24 @@ public class RagAgent {
             synchronized (this) {
                 local = agent;
                 if (local == null) {
+                    InMemoryKnowledge knowledge = new InMemoryKnowledge();
+                    knowledge.addDocuments(List.of(
+                            doc("kb-1", "AgentScope 是阿里巴巴开源的 Agent 框架，支持 ReAct 循环和 Middleware 链。"),
+                            doc("kb-2", "AgentScope 的权限引擎支持 bypass/confirm/strict 三种模式。"),
+                            doc("kb-3", "AgentScope 的技能系统由 SkillBox 和 SkillRegistry 组成。")
+                    )).block();
+
+                    GenericRAGHook ragHook = new GenericRAGHook(knowledge,
+                            RetrieveConfig.builder().limit(2).scoreThreshold(0.0).build());
+
                     OpenAIChatModel model = OpenAIChatModel.builder()
                             .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
-
-                    Knowledge knowledge = new InMemoryKnowledge();
-                    KnowledgeRetrievalTools ragTools = new KnowledgeRetrievalTools(knowledge);
-                    Toolkit toolkit = new Toolkit();
-                    toolkit.registerTool(ragTools);
-
                     local = HarnessAgent.builder()
                             .name("rag-agent")
-                            .sysPrompt("你是一个知识问答助手。你可以使用 retrieveKnowledge 工具" +
-                                    "检索知识库获取相关信息，然后基于检索结果回答问题。")
+                            .sysPrompt("你是一个知识库助手，回时会参考检索到的知识文档。")
                             .model(model)
-                            .toolkit(toolkit)
-                            .workspace(Paths.get(".agentscope/workspace-rag"))
+                            .hook(ragHook)
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
                     agent = local;
                 }
@@ -90,42 +93,32 @@ public class RagAgent {
                 .sessionId("rag-demo").userId("alice").build();
     }
 
+    private static Document doc(String id, String text) {
+        return new Document(new DocumentMetadata(io.agentscope.core.message.TextBlock.builder().text(text).build(), id, "chunk-0"));
+    }
+
     /**
-     * 简单的内存 Knowledge 实现——关键词匹配。
-     * 生产环境应替换为向量数据库（Qdrant、Milvus 等）。
+     * 内存版 {@link Knowledge}：按关键词匹配检索。
+     * 生产环境应替换为向量库实现（Milvus/Qdrant/Pinecone）。
      */
     static class InMemoryKnowledge implements Knowledge {
-        private final List<Document> docs = new java.util.ArrayList<>();
-
-        InMemoryKnowledge() {
-            docs.add(createDoc("doc1", "Spring Boot 自动配置原理"));
-            docs.add(createDoc("doc2", "AgentScope 中间件设计"));
-            docs.add(createDoc("doc3", "RAG 检索增强生成最佳实践"));
-        }
-
-        private Document createDoc(String id, String title) {
-            var content = io.agentscope.core.message.TextBlock.builder().text(title).build();
-            var meta = DocumentMetadata.builder()
-                    .docId(id).chunkId(id).content(content).build();
-            return new Document(meta);
-        }
+        private final List<Document> docs = new ArrayList<>();
 
         @Override
         public reactor.core.publisher.Mono<Void> addDocuments(List<Document> documents) {
-            docs.addAll(documents);
-            return reactor.core.publisher.Mono.empty();
+            return reactor.core.publisher.Mono.fromRunnable(() -> docs.addAll(documents));
         }
 
         @Override
         public reactor.core.publisher.Mono<List<Document>> retrieve(String query, RetrieveConfig config) {
-            List<Document> results = docs.stream()
+            return reactor.core.publisher.Mono.fromSupplier(() -> docs.stream()
                     .filter(d -> {
                         String text = d.getMetadata().getContentText();
-                        return text != null && text.contains(query);
+                        return text.contains(query) || query.contains(text.substring(0,
+                                Math.min(text.length(), 10)));
                     })
                     .limit(config.getLimit())
-                    .collect(java.util.stream.Collectors.toList());
-            return reactor.core.publisher.Mono.just(results);
+                    .collect(Collectors.toList()));
         }
     }
 }

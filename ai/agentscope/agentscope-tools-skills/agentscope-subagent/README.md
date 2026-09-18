@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9113/subagent/ask
 
 ## 代码结构
 
-- `agentscope-subagentAgent.java` — HarnessAgent + DeepSeek
+- `SubagentAgent.java` — HarnessAgent + DeepSeek + subagentFactory
 - `Controller` — `GET /subagent/ask`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `HarnessAgent.Builder.subagentFactory(name, factory)` 注册子 Agent 工厂。
+- 主 Agent 把子 Agent 当工具调用，子 Agent 独立运行后返回结果。
+- 本例注册"翻译子 Agent"。
 
 ## 运行
 

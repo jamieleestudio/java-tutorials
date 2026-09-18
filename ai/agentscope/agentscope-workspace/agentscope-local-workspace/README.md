@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9119/workspace/local
 
 ## 代码结构
 
-- `agentscope-local-workspaceAgent.java` — HarnessAgent + DeepSeek
+- `LocalWorkspaceAgent.java` — HarnessAgent + DeepSeek + LocalFilesystemSpec
 - `Controller` — `GET /workspace/local`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `LocalFilesystemSpec` 配置本地工作区：`project`（根目录）、`mode`（SANDBOXED/ROOTED/UNRESTRICTED）。
+- `filesystem(spec)` 注入，文件工具限制在工作区内。
+- `projectWritable` / `executeTimeoutSeconds` / `maxOutputBytes` 控制权限与资源。
 
 ## 运行
 

@@ -2,49 +2,41 @@ package com.third.li;
 
 import io.agentscope.core.agent.RuntimeContext;
 import io.agentscope.core.message.UserMessage;
-import io.agentscope.core.tool.Toolkit;
 import io.agentscope.extensions.model.openai.OpenAIChatModel;
 import io.agentscope.harness.agent.HarnessAgent;
-import io.agentscope.harness.agent.subagent.task.TaskRepository;
-import io.agentscope.harness.agent.subagent.task.WorkspaceTaskRepository;
-import io.agentscope.harness.agent.tool.TaskTool;
-import io.agentscope.harness.agent.tool.WaitAsyncResultsTool;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;
 
 /**
- * 后台任务（TaskTool + WaitAsyncResultsTool + TaskRepository）。
+ * 后台任务 Agent：通过 {@code HarnessAgent.Builder.enableTaskList()} 开启任务列表工具，
+ * 让 Agent 能把长任务移到后台、跟踪任务状态、在完成后唤醒自己。
  *
- * <p>AgentScope 支持把长任务移到后台执行，完成后通过 MessageBus 唤醒 Agent。
- * 涉及三个组件：
+ * <p>AgentScope 的后台任务能力由两层组成：
  * <ul>
- *   <li>{@link TaskRepository} — 任务存储（{@link WorkspaceTaskRepository} 基于文件系统）</li>
- *   <li>{@link TaskTool} — 让 Agent 查询/取消任务列表（taskOutput, taskCancel, taskList）</li>
- *   <li>{@link WaitAsyncResultsTool} — 让 Agent 等待异步结果</li>
+ *   <li>{@code enableTaskList()} —— 在 Toolkit 里注册内置的 TaskTool，
+ *       Agent 可创建/查询/取消任务（状态写入 {@link io.agentscope.core.state.AgentState}）</li>
+ *   <li>{@code asyncToolTimeout(Duration)} —— 异步工具的超时阈值，
+ *       超过则工具转入后台，Agent 不阻塞等待</li>
  * </ul>
  *
- * <p>工作流：
- * <ol>
- *   <li>Agent 启动子 Agent 执行长任务 → 子 Agent 异步运行</li>
- *   <li>Agent 调用 {@code waitForResults} 阻塞等待</li>
- *   <li>子 Agent 完成后结果写入 TaskRepository</li>
- *   <li>Agent 通过 {@code taskOutput} 获取结果</li>
- * </ol>
+ * <p>对应底层是 {@link io.agentscope.harness.agent.subagent.task.TaskRepository}
+ * （由 HarnessAgent 自动注入），持久化任务记录到工作区。
  */
 @Component
 public class BackgroundTaskAgent {
+
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-background-tasks";
 
     private final String modelName;
     private final String apiKey;
     private final String baseUrl;
     private volatile HarnessAgent agent;
-    private volatile TaskRepository taskRepo;
 
     public BackgroundTaskAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
-            @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
+            @Value("${agentscope.model.api-key:${OPENAI_API_KEY:}}") String apiKey,
             @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
         this.modelName = modelName;
         this.apiKey = apiKey;
@@ -63,23 +55,14 @@ public class BackgroundTaskAgent {
                 if (local == null) {
                     OpenAIChatModel model = OpenAIChatModel.builder()
                             .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
-                    var wsPath = Paths.get(".agentscope/workspace-background-tasks");
-                    wsPath.toFile().mkdirs();
-                    var fs = new io.agentscope.harness.agent.filesystem.local.LocalFilesystem(wsPath);
-                    var wsManager = new io.agentscope.harness.agent.workspace.WorkspaceManager(wsPath, fs);
-                    taskRepo = new WorkspaceTaskRepository(wsManager, "tasks");
-                    TaskTool taskTool = new TaskTool(taskRepo);
-                    var toolkit = new Toolkit();
-                    toolkit.registerTool(taskTool);
                     local = HarnessAgent.builder()
                             .name("background-tasks")
-                            .sysPrompt("你是一个任务管理助手。你可以启动后台任务，" +
-                                    "查看任务列表（taskList），获取任务输出（taskOutput），" +
-                                    "取消任务（taskCancel）。")
+                            .sysPrompt("你是一个任务管理助手，可以把耗时任务移到后台执行，"
+                                    + "用 task 工具创建/查询/取消任务，完成后唤醒自己汇报结果。")
                             .model(model)
-                            .toolkit(toolkit)
-                            .taskRepository(taskRepo)
-                            .workspace(wsPath)
+                            .enableTaskList()
+                            .asyncToolTimeout(java.time.Duration.ofSeconds(30))
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
                     agent = local;
                 }
@@ -90,6 +73,6 @@ public class BackgroundTaskAgent {
 
     private RuntimeContext runtimeContext() {
         return RuntimeContext.builder()
-                .sessionId("bg-demo").userId("alice").build();
+                .sessionId("background-demo").userId("alice").build();
     }
 }

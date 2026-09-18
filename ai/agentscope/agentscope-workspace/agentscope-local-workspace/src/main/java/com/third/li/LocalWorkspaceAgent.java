@@ -2,37 +2,33 @@ package com.third.li;
 
 import io.agentscope.core.agent.RuntimeContext;
 import io.agentscope.core.message.UserMessage;
-import io.agentscope.core.tool.Toolkit;
 import io.agentscope.extensions.model.openai.OpenAIChatModel;
 import io.agentscope.harness.agent.HarnessAgent;
-import io.agentscope.harness.agent.filesystem.local.LocalFilesystem;
 import io.agentscope.harness.agent.filesystem.spec.LocalFilesystemSpec;
-import io.agentscope.harness.agent.tool.FilesystemTool;
+import io.agentscope.harness.agent.workspace.LocalFsMode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;
 
 /**
- * 本地工作区（LocalFilesystem + FilesystemTool）。
+ * 本地工作区 Agent：用 {@link LocalFilesystemSpec} 配置本地文件系统工作区。
  *
- * <p>AgentScope 的本地工作区通过 {@link LocalFilesystem} 实现：
+ * <p>{@link LocalFilesystemSpec} 的关键参数：
  * <ul>
- *   <li>Agent 的文件操作限制在指定目录内</li>
- *   <li>支持 ls / read / write / edit / grep / glob</li>
- *   <li>通过 {@link LocalFilesystemSpec} 可配置 virtualMode / inheritEnv 等</li>
+ *   <li>{@code project(Path)} —— 工作区根目录</li>
+ *   <li>{@code mode(LocalFsMode)} —— 文件系统模式（读/写/虚拟）</li>
+ *   <li>{@code projectWritable(boolean)} —— 项目目录是否可写</li>
+ *   <li>{@code executeTimeoutSeconds(int)} —— shell 执行超时</li>
  * </ul>
  *
- * <p>两种配置方式：
- * <ol>
- *   <li>{@code .workspace(path)} — 使用默认 LocalFilesystem</li>
- *   <li>{@code .filesystem(LocalFilesystemSpec)} — 精细配置</li>
- * </ol>
- *
- * <p>本模块用方式 2 配置只读虚拟模式。
+ * <p>通过 {@code HarnessAgent.Builder.filesystem(LocalFilesystemSpec)} 注入，
+ * Agent 的文件工具（ReadFileTool/WriteFileTool/ShellCommandTool）会限制在该工作区内。
  */
 @Component
 public class LocalWorkspaceAgent {
+
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-local";
 
     private final String modelName;
     private final String apiKey;
@@ -41,7 +37,7 @@ public class LocalWorkspaceAgent {
 
     public LocalWorkspaceAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
-            @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
+            @Value("${agentscope.model.api-key:${OPENAI_API_KEY:}}") String apiKey,
             @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
         this.modelName = modelName;
         this.apiKey = apiKey;
@@ -58,21 +54,21 @@ public class LocalWorkspaceAgent {
             synchronized (this) {
                 local = agent;
                 if (local == null) {
+                    LocalFilesystemSpec fsSpec = new LocalFilesystemSpec()
+                            .project(Paths.get(WORKSPACE_DIR).toAbsolutePath())
+                            .projectWritable(true)
+                            .mode(LocalFsMode.SANDBOXED)
+                            .executeTimeoutSeconds(30)
+                            .maxOutputBytes(1 << 20);
+
                     OpenAIChatModel model = OpenAIChatModel.builder()
                             .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
-                    var wsPath = Paths.get(".agentscope/workspace-local-workspace").toAbsolutePath();
-                    wsPath.toFile().mkdirs();
-                    LocalFilesystemSpec spec = new LocalFilesystemSpec()
-                            .project(wsPath)
-                            .projectWritable(true)
-                            .executeTimeoutSeconds(10);
                     local = HarnessAgent.builder()
                             .name("local-workspace")
-                            .sysPrompt("你是一个文件管理助手。你工作在 " + wsPath + " 目录。" +
-                                    "你可以读写文件和列出目录内容。")
+                            .sysPrompt("你是一个工作区助手，可在本地工作区目录内读写文件、执行命令。")
                             .model(model)
-                            .filesystem(spec)
-                            .workspace(wsPath)
+                            .filesystem(fsSpec)
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
                     agent = local;
                 }

@@ -11,28 +11,23 @@ import org.springframework.stereotype.Component;
 import java.nio.file.Paths;
 
 /**
- * 对话记忆（Memory + MemoryConfig + MemoryFlushMiddleware）。
+ * 内存记忆 Agent：演示 AgentScope 的对话记忆配置。
  *
- * <p>AgentScope 的记忆系统分三层：
- * <ol>
- *   <li><b>短期记忆</b> — 当前对话的消息历史（在 AgentState 中）</li>
- *   <li><b>中期记忆</b> — 对话摘要（MemoryFlushMiddleware 自动写入 memory.md）</li>
- *   <li><b>长期记忆</b> — 跨会话的知识（LongTermMemory，见 longterm-memory 模块）</li>
- * </ol>
- *
- * <p>本模块演示短期+中期记忆：
+ * <p>AgentScope 的记忆层次：
  * <ul>
- *   <li>{@link MemoryConfig} — 配置 flush prompt / consolidation prompt / 保留天数</li>
- *   <li>通过 {@code .memory(config)} 注入 MemoryFlushMiddleware + MemoryMaintenanceMiddleware</li>
- *   <li>Agent 对话结束后自动把重要信息 flush 到 memory.md</li>
+ *   <li>{@link io.agentscope.core.memory.InMemoryMemory} —— 默认短期记忆，存当前对话消息列表</li>
+ *   <li>{@link io.agentscope.core.memory.StateBackedMemory} —— 状态背书的记忆，可持久化到 {@code AgentStateStore}</li>
+ *   <li>{@code MemoryConfig} —— 记忆管理配置：flush、consolidation、session retention</li>
  * </ul>
  *
- * <p>与 Embabel 的差异：Embabel 没有内置记忆系统——
- * 它的 process 是无状态的（每次调用独立）。
- * AgentScope 有完整的会话记忆+自动 flush。
+ * <p>本例通过 {@code HarnessAgent.Builder.memory(MemoryConfig)} 配置记忆管理策略，
+ * 同一会话内消息会累积在记忆里，Agent 能"记住"上下文。
+ * 对照组 {@link #chatNewSession} 用新 sessionId 演示记忆隔离。
  */
 @Component
 public class MemoryAgent {
+
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-memory";
 
     private final String modelName;
     private final String apiKey;
@@ -41,7 +36,7 @@ public class MemoryAgent {
 
     public MemoryAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
-            @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
+            @Value("${agentscope.model.api-key:${OPENAI_API_KEY:}}") String apiKey,
             @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
         this.modelName = modelName;
         this.apiKey = apiKey;
@@ -49,7 +44,12 @@ public class MemoryAgent {
     }
 
     public String chat(String message) {
-        return agent().call(new UserMessage(message), runtimeContext()).block().getTextContent();
+        return agent().call(new UserMessage(message), runtimeContext("memory-demo")).block().getTextContent();
+    }
+
+    /** 新会话——记忆隔离，不继承之前的上下文。 */
+    public String chatNewSession(String message, String sessionId) {
+        return agent().call(new UserMessage(message), runtimeContext(sessionId)).block().getTextContent();
     }
 
     private HarnessAgent agent() {
@@ -62,15 +62,14 @@ public class MemoryAgent {
                             .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
                     MemoryConfig memoryConfig = MemoryConfig.builder()
                             .model(model)
-                            .sessionRetentionDays(30)
-                            .dailyFileRetentionDays(7)
+                            .sessionRetentionDays(7)
                             .build();
                     local = HarnessAgent.builder()
-                            .name("memory")
-                            .sysPrompt("你是一个有记忆的助手。你会记住用户的偏好和之前对话的重要内容。")
+                            .name("memory-agent")
+                            .sysPrompt("你是一个有记忆的助手，能记住同一会话内的上下文。")
                             .model(model)
                             .memory(memoryConfig)
-                            .workspace(Paths.get(".agentscope/workspace-memory"))
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
                     agent = local;
                 }
@@ -79,8 +78,8 @@ public class MemoryAgent {
         return local;
     }
 
-    private RuntimeContext runtimeContext() {
+    private RuntimeContext runtimeContext(String sessionId) {
         return RuntimeContext.builder()
-                .sessionId("memory-demo").userId("alice").build();
+                .sessionId(sessionId).userId("alice").build();
     }
 }

@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9116/permission/rules
 
 ## 代码结构
 
-- `agentscope-permission-rulesAgent.java` — HarnessAgent + DeepSeek
+- `PermissionRuleAgent.java` — HarnessAgent + DeepSeek + PermissionRule
 - `Controller` — `GET /permission/rules`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `PermissionRule(toolName, ruleContent, behavior, source)` 定义规则。
+- 三种行为：ALLOW（放行）/ DENY（拒绝）/ ASK（确认）。
+- 规则装入 `PermissionContextState`，`PermissionEngine` 运行时自动匹配决策。
 
 ## 运行
 

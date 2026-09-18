@@ -12,31 +12,27 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;
-import java.util.List;
 
 /**
- * 权限规则（PermissionRule + PermissionEngine）。
+ * 权限规则 Agent：用 {@link PermissionRule} 定义 allow / deny / ask 规则，
+ * 装进 {@link PermissionContextState} 注入 Agent。
  *
- * <p>AgentScope 的权限规则是<b>细粒度</b>的——按工具名定义 allow/deny/ask 规则：
+ * <p>{@link PermissionRule} 是一个 record：{@code (toolName, ruleContent, behavior, source)}。
+ * {@code ruleContent} 是自然语言描述的匹配条件（如"删除任意文件"），
+ * {@link io.agentscope.core.permission.PermissionEngine} 会在运行时把工具调用与规则匹配，
+ * 按行为（ALLOW/DENY/ASK）做决策。
+ *
+ * <p>本例定义：
  * <ul>
- *   <li>{@code allow} — 允许执行，不询问</li>
- *   <li>{@code deny} — 拒绝执行</li>
- *   <li>{@code ask} — 需要户确认</li>
- *   <li>{@code passthrough} — 传递给下一条规则</li>
- * </ul>
- *
- * <p>{@link PermissionRule} 是 record：(toolName, ruleContent, behavior, source)。
- * 规则按工具名分组（Map<String, List<PermissionRule>>）。
- *
- * <p>本模块演示：
- * <ul>
- *   <li>允许 readFile / listFiles（read-only 工具）</li>
- *   <li>拒绝 deleteFile（危险操作）</li>
- *   <li>询问 createFile（需要确认）</li>
+ *   <li>allow 规则：查询类工具直接放行</li>
+ *   <li>deny 规则：删除文件工具一律拒绝</li>
+ *   <li>ask 规则：写文件工具需用户确认</li>
  * </ul>
  */
 @Component
 public class PermissionRuleAgent {
+
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-permission-rules";
 
     private final String modelName;
     private final String apiKey;
@@ -45,7 +41,7 @@ public class PermissionRuleAgent {
 
     public PermissionRuleAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
-            @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
+            @Value("${agentscope.model.api-key:${OPENAI_API_KEY:}}") String apiKey,
             @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
         this.modelName = modelName;
         this.apiKey = apiKey;
@@ -62,33 +58,30 @@ public class PermissionRuleAgent {
             synchronized (this) {
                 local = agent;
                 if (local == null) {
-                    OpenAIChatModel model = OpenAIChatModel.builder()
-                            .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
-
-                    PermissionRule allowRead = new PermissionRule(
-                            "readFile", "**", PermissionBehavior.ALLOW, "tutorial");
-                    PermissionRule allowList = new PermissionRule(
-                            "listFiles", "**", PermissionBehavior.ALLOW, "tutorial");
+                    PermissionRule allowQuery = new PermissionRule(
+                            "*", "读取或查询类操作", PermissionBehavior.ALLOW, "demo");
                     PermissionRule denyDelete = new PermissionRule(
-                            "deleteFile", "**", PermissionBehavior.DENY, "tutorial");
-                    PermissionRule askCreate = new PermissionRule(
-                            "createFile", "**", PermissionBehavior.ASK, "tutorial");
+                            "ShellCommandTool", "执行 rm 或删除文件", PermissionBehavior.DENY, "demo");
+                    PermissionRule askWrite = new PermissionRule(
+                            "WriteFileTool", "写入或修改文件", PermissionBehavior.ASK, "demo");
 
                     PermissionContextState permCtx = PermissionContextState.builder()
-                            .mode(PermissionMode.DONT_ASK)
-                            .addAllowRule("readFile", allowRead)
-                            .addAllowRule("listFiles", allowList)
-                            .addDenyRule("deleteFile", denyDelete)
-                            .addAskRule("createFile", askCreate)
+                            .mode(PermissionMode.DEFAULT)
+                            .addAllowRule("*", allowQuery)
+                            .addDenyRule("ShellCommandTool", denyDelete)
+                            .addAskRule("WriteFileTool", askWrite)
                             .build();
 
+                    OpenAIChatModel model = OpenAIChatModel.builder()
+                            .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
                     local = HarnessAgent.builder()
                             .name("permission-rules")
-                            .sysPrompt("你是一个文件管理助手。你有 readFile, listFiles, " +
-                                    "createFile, deleteFile 四个工具。请根据用户请求选择工具。")
+                            .sysPrompt("你是一个智能助手，可执行 shell 和文件工具。"
+                                    + "系统会按权限规则自动放行/拒绝/弹确认。")
                             .model(model)
                             .permissionContext(permCtx)
-                            .workspace(Paths.get(".agentscope/workspace-permission-rules"))
+                            .stopOnReject(true)
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
                     agent = local;
                 }
@@ -99,6 +92,6 @@ public class PermissionRuleAgent {
 
     private RuntimeContext runtimeContext() {
         return RuntimeContext.builder()
-                .sessionId("rules-demo").userId("alice").build();
+                .sessionId("perm-rule-demo").userId("alice").build();
     }
 }

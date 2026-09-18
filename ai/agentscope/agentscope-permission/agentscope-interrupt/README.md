@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9118/interrupt/ask
 
 ## 代码结构
 
-- `agentscope-interruptAgent.java` — HarnessAgent + DeepSeek
+- `InterruptAgent.java` — HarnessAgent + DeepSeek + interrupt
 - `Controller` — `GET /interrupt/ask`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `Agent.interrupt()` / `interrupt(Msg)` 运行时中止 ReAct 循环。
+- 用流式调用 `stream(...)` 演示：收到首个事件后立即 interrupt。
+- `InterruptControl` / `InterruptSource` 记录打断来源与待执行工具。
 
 ## 运行
 

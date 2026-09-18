@@ -10,26 +10,26 @@ import org.springframework.stereotype.Component;
 import java.nio.file.Paths;
 
 /**
- * 计划模式（enterPlanMode / exitPlanMode / isPlanModeActive）。
+ * 计划模式 Agent：通过 {@code HarnessAgent.Builder.enablePlanMode()} 开启计划模式——
+ * Agent 先输出计划（写入 plan 文件），用户确认后再执行。
  *
- * <p>AgentScope 的计划模式让 Agent 先<b>分析</b>再<b>执行</b>：
+ * <p>计划模式的关键 Builder 方法：
  * <ul>
- *   <li>{@code enterPlanMode(ctx)} — 进入计划模式，Agent 只分析不执行</li>
- *   <li>{@code exitPlanMode(ctx)} — 退出计划模式，开始执行</li>
- *   <li>{@code isPlanModeActive(ctx)} — 检查是否在计划模式</li>
+ *   <li>{@code enablePlanMode()} —— 开启计划模式，注入 {@code PlanModeMiddleware}</li>
+ *   <li>{@code planFileDirectory(String)} —— plan 文件存放目录</li>
+ *   <li>{@code allowShellInPlanMode()} —— 计划阶段是否允许执行 shell（默认禁止）</li>
  * </ul>
  *
- * <p>计划模式下，Agent 的 shell/写入工具被禁用（只读分析，
- * 退出后恢复全部能力。
+ * <p>运行时控制：{@link HarnessAgent#enterPlanMode(RuntimeContext)} / {@link HarnessAgent#exitPlanMode(RuntimeContext)} /
+ * {@link HarnessAgent#isPlanModeActive(RuntimeContext)}。
  *
- * <p>通过 {@link HarnessAgent.Builder#enablePlanMode()} 启用。
- * 还可配置 {@code .planFileDirectory("plans")} 指定计划文件存储目录。
- *
- * <p>与 Embabel 的差异：Embabel 的计划-执行分离通过 Process 的 goal 机制实现；
- * AgentScope 用模式切换——更灵活，可以在对话中动态切换。
+ * <p>计划阶段 Agent 只能读取和规划，不能修改文件或执行危险操作；
+ * 用户确认后退出计划模式，Agent 才开始执行。
  */
 @Component
 public class PlanModeAgent {
+
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-plan-mode";
 
     private final String modelName;
     private final String apiKey;
@@ -38,7 +38,7 @@ public class PlanModeAgent {
 
     public PlanModeAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
-            @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
+            @Value("${agentscope.model.api-key:${OPENAI_API_KEY:}}") String apiKey,
             @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
         this.modelName = modelName;
         this.apiKey = apiKey;
@@ -49,24 +49,18 @@ public class PlanModeAgent {
         return agent().call(new UserMessage(message), runtimeContext()).block().getTextContent();
     }
 
-    /** 进入计划模式。 */
-    public String enterPlanMode() {
+    public String chatInPlanMode(String message) {
         RuntimeContext ctx = runtimeContext();
         agent().enterPlanMode(ctx);
-        return "已进入计划模式（只读分析）";
+        try {
+            return agent().call(new UserMessage(message), ctx).block().getTextContent();
+        } finally {
+            agent().exitPlanMode(ctx);
+        }
     }
 
-    /** 退出计划模式。 */
-    public String exitPlanMode() {
-        RuntimeContext ctx = runtimeContext();
-        agent().exitPlanMode(ctx);
-        return "已退出计划模式（恢复执行能力）";
-    }
-
-    /** 检查是否在计划模式。 */
-    public String checkPlanMode() {
-        boolean active = agent().isPlanModeActive(runtimeContext());
-        return active ? "当前在计划模式" : "当前不在计划模式";
+    public boolean isPlanActive() {
+        return agent().isPlanModeActive(runtimeContext());
     }
 
     private HarnessAgent agent() {
@@ -79,12 +73,11 @@ public class PlanModeAgent {
                             .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
                     local = HarnessAgent.builder()
                             .name("plan-mode")
-                            .sysPrompt("你是一个项目助手。在计划模式下，你分析需求并制定计划。" +
-                                    "在执行模式下，你执行操作。")
+                            .sysPrompt("你是一个规划型助手。先制定计划，确认后再执行。")
                             .model(model)
                             .enablePlanMode()
-                            .planFileDirectory("plans")
-                            .workspace(Paths.get(".agentscope/workspace-plan-mode"))
+                            .planFileDirectory(".agentscope/plans")
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
                     agent = local;
                 }

@@ -1,16 +1,12 @@
 package com.third.li;
 
-import io.agentscope.core.agent.RuntimeContext;
 import io.agentscope.core.message.Msg;
 import io.agentscope.core.message.UserMessage;
 import io.agentscope.extensions.model.openai.OpenAIChatModel;
 import io.agentscope.harness.agent.HarnessAgent;
 import io.agentscope.harness.agent.gateway.HarnessGateway;
 import io.agentscope.harness.agent.gateway.channel.ChannelConfig;
-import io.agentscope.harness.agent.gateway.channel.InboundMessage;
-import io.agentscope.harness.agent.gateway.channel.Peer;
 import io.agentscope.harness.agent.gateway.channel.chatui.ChatUiChannel;
-import io.agentscope.harness.agent.gateway.channel.chatui.OutboundEnvelope;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -18,94 +14,71 @@ import java.nio.file.Paths;
 import java.util.List;
 
 /**
- * ChatUI Channel（ChatUiChannel）。
+ * ChatUI 渠道 Agent：用内置的 {@link ChatUiChannel} 提供浏览器可点击的 Web UI 渠道。
  *
- * <p>AgentScope 的 {@link ChatUiChannel} 是一个内置的聊天 UI 渠道：
+ * <p>{@link ChatUiChannel} 是 AgentScope 内置渠道，特点：
  * <ul>
- *   <li>接收用户消息（inbound）→ 路由到 Agent</li>
- *   <li>Agent 回复（outbound）→ 排队等用户轮询</li>
+ *   <li>{@code ChatUiChannel.create(config)} —— 创建实例，绑定到 {@link HarnessGateway}</li>
+ *   <li>{@code channel.send(message)} —— 发消息给 Agent，返回回复</li>
+ *   <li>{@code channel.pollOutbound()} —— 轮询出站消息（供前端拉取展示）</li>
+ *   <li>{@code channel.sendStream(message)} —— 流式输出</li>
  * </ul>
  *
- * <p>工作流：
- * <ol>
- *   <li>{@code channel.send(text)} — 发送消息给 Agent</li>
- *   <li>{@code channel.pollOutbound()} — 轮询回复队列</li>
- * </ol>
- *
- * <p>适合构建 Web 聊天界面。本模块演示 send + poll 模式。
+ * <p>本例把 ChatUiChannel 注册到网关，绑定主 Agent，
+ * {@link #chat} 通过 channel.send 调用 Agent。
  */
 @Component
 public class ChatUiAgent {
 
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-chatui";
+
     private final String modelName;
     private final String apiKey;
     private final String baseUrl;
-    private volatile HarnessAgent agent;
-    private volatile ChatUiChannel channel;
+    private volatile HarnessGateway gateway;
+    private volatile ChatUiChannel chatUiChannel;
 
     public ChatUiAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
-            @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
+            @Value("${agentscope.model.api-key:${OPENAI_API_KEY:}}") String apiKey,
             @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
         this.modelName = modelName;
         this.apiKey = apiKey;
         this.baseUrl = baseUrl;
     }
 
-    /** 通过 ChatUI Channel 发送消息。 */
-    public String send(String message) {
-        return channel().send(message).block().getTextContent();
+    public String chat(String message) {
+        Msg reply = chatUiChannel().send(message).block();
+        return reply != null ? reply.getTextContent() : "（无回复）";
     }
 
-    /** 轮询出站消息（Agent 的回复）。 */
-    public String pollOutbound() {
-        List<OutboundEnvelope> envelopes = channel().pollOutbound();
-        if (envelopes.isEmpty()) {
-            return "(无新消息)";
-        }
-        StringBuilder sb = new StringBuilder();
-        for (OutboundEnvelope env : envelopes) {
-            sb.append(env.toString()).append("\n");
-        }
-        return sb.toString();
-    }
-
-    private ChatUiChannel channel() {
-        ChatUiChannel local = channel;
+    private ChatUiChannel chatUiChannel() {
+        ChatUiChannel local = chatUiChannel;
         if (local == null) {
             synchronized (this) {
-                local = channel;
+                local = chatUiChannel;
                 if (local == null) {
-                    local = ChatUiChannel.create();
-                    HarnessGateway gateway = HarnessGateway.create();
-                    gateway.bindMainAgent(agent());
-                    local.init(gateway);
-                    local.start();
-                    channel = local;
+                    HarnessGateway gw = HarnessGateway.create();
+                    gw.bindMainAgent(mainAgent());
+                    local = ChatUiChannel.create(ChannelConfig.of(ChatUiChannel.CHANNEL_ID, "chatui-agent"));
+                    gw.channelManager().register(local);
+                    gw.channelManager().initAll(gw);
+                    gateway = gw;
+                    chatUiChannel = local;
                 }
             }
         }
         return local;
     }
 
-    private HarnessAgent agent() {
-        HarnessAgent local = agent;
-        if (local == null) {
-            synchronized (this) {
-                local = agent;
-                if (local == null) {
-                    OpenAIChatModel model = OpenAIChatModel.builder()
-                            .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
-                    local = HarnessAgent.builder()
-                            .name("chatui-agent")
-                            .sysPrompt("你是一个聊天助手。通过 ChatUI Channel 与用户交互。")
-                            .model(model)
-                            .workspace(Paths.get(".agentscope/workspace-chatui"))
-                            .build();
-                    agent = local;
-                }
-            }
-        }
-        return local;
+    private HarnessAgent mainAgent() {
+        OpenAIChatModel model = OpenAIChatModel.builder()
+                .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
+        return HarnessAgent.builder()
+                .name("chatui-agent")
+                .sysPrompt("你是一个 ChatUI 助手，通过内置 Web UI 渠道与用户交互。")
+                .model(model)
+                .workspace(Paths.get(WORKSPACE_DIR))
+                .build();
     }
 }

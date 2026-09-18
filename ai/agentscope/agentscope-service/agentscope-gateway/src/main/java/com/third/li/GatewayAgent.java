@@ -1,14 +1,11 @@
 package com.third.li;
 
-import io.agentscope.core.agent.RuntimeContext;
 import io.agentscope.core.message.Msg;
 import io.agentscope.core.message.UserMessage;
 import io.agentscope.extensions.model.openai.OpenAIChatModel;
 import io.agentscope.harness.agent.HarnessAgent;
-import io.agentscope.harness.agent.gateway.ChannelManager;
-import io.agentscope.harness.agent.gateway.GatewayBootstrap;
 import io.agentscope.harness.agent.gateway.HarnessGateway;
-import io.agentscope.harness.agent.gateway.MsgContext;
+import io.agentscope.harness.agent.gateway.channel.ChannelConfig;
 import io.agentscope.harness.agent.gateway.channel.chatui.ChatUiChannel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -17,55 +14,46 @@ import java.nio.file.Paths;
 import java.util.List;
 
 /**
- * 网关服务（HarnessGateway + GatewayBootstrap）。
+ * 网关 Agent：用 {@link HarnessGateway} 把多个渠道（Channel）绑定到 Agent，
+ * 统一路由消息。
  *
- * <p>AgentScope 的 Gateway 是 Agent 的<b>统一入口</b>：
+ * <p>{@link HarnessGateway} 是 AgentScope 的消息网关：
  * <ul>
- *   <li>管理多个 Channel（ChatUI、Slack、Webhook 等）</li>
- *   <li>路由消息到正确的 Agent</li>
- *   <li>支持 Subagent 暴露和远程调用</li>
+ *   <li>{@code HarnessGateway.create()} 创建网关</li>
+ *   <li>{@code bindMainAgent(agent)} 绑定主 Agent</li>
+ *   <li>{@code channelManager.register(channel)} 注渠道</li>
+ *   <li>{@code run(msgContext, msgs)} 运行一轮对话</li>
  * </ul>
  *
- * <p>{@link GatewayBootstrap} 简化网关创建：
- * <pre>
- * GatewayBootstrap.builder()
- *     .agent(mainAgent)
- *     .build()
- *     .start();
- * </pre>
- *
- * <p>本模块演示 Gateway 的基本使用——通过 gateway.run() 而不是 agent.call()。
+ * <p>本例注册一个 {@link ChatUiChannel}（内置 Web UI 渠道），
+ * 消息从渠道进来后由网关路由给主 Agent 处理。
  */
 @Component
 public class GatewayAgent {
 
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-gateway";
+
     private final String modelName;
     private final String apiKey;
     private final String baseUrl;
-    private volatile HarnessAgent agent;
     private volatile HarnessGateway gateway;
+    private volatile HarnessAgent mainAgent;
 
     public GatewayAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
-            @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
+            @Value("${agentscope.model.api-key:${OPENAI_API_KEY:}}") String apiKey,
             @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
         this.modelName = modelName;
         this.apiKey = apiKey;
         this.baseUrl = baseUrl;
     }
 
-    /** 直接调用 Agent（不经过 Gateway）。 */
     public String chat(String message) {
-        return agent().call(new UserMessage(message), runtimeContext()).block().getTextContent();
-    }
-
-    /** 通过 Gateway 调用（模拟 Channel 入站）。 */
-    public String gatewayChat(String message) {
-        MsgContext ctx = MsgContext.defaultContext();
-        List<Msg> msgs = List.of(new UserMessage(message));
-        return gateway().run(ctx, msgs)
-                .map(Msg::getTextContent)
-                .block();
+        HarnessGateway gw = gateway();
+        io.agentscope.harness.agent.gateway.MsgContext ctx =
+                io.agentscope.harness.agent.gateway.MsgContext.defaultContext();
+        Msg reply = gw.run(ctx, List.of(new UserMessage(message))).block();
+        return reply != null ? reply.getTextContent() : "（无回复）";
     }
 
     private HarnessGateway gateway() {
@@ -74,8 +62,12 @@ public class GatewayAgent {
             synchronized (this) {
                 local = gateway;
                 if (local == null) {
-                    local = HarnessGateway.create(new ChannelManager());
-                    local.bindMainAgent(agent());
+                    local = HarnessGateway.create();
+                    local.bindMainAgent(mainAgent());
+                    ChatUiChannel chatUi = ChatUiChannel.create(
+                            ChannelConfig.of(ChatUiChannel.CHANNEL_ID, "gateway-agent"));
+                    local.channelManager().register(chatUi);
+                    local.channelManager().initAll(local);
                     gateway = local;
                 }
             }
@@ -83,29 +75,24 @@ public class GatewayAgent {
         return local;
     }
 
-    private HarnessAgent agent() {
-        HarnessAgent local = agent;
+    private HarnessAgent mainAgent() {
+        HarnessAgent local = mainAgent;
         if (local == null) {
             synchronized (this) {
-                local = agent;
+                local = mainAgent;
                 if (local == null) {
                     OpenAIChatModel model = OpenAIChatModel.builder()
                             .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
                     local = HarnessAgent.builder()
                             .name("gateway-agent")
-                            .sysPrompt("你是一个通过网关服务的助手。")
+                            .sysPrompt("你是一个网关助手，消息从多渠道汇聚后由你统一处理。")
                             .model(model)
-                            .workspace(Paths.get(".agentscope/workspace-gateway"))
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
-                    agent = local;
+                    mainAgent = local;
                 }
             }
         }
         return local;
-    }
-
-    private RuntimeContext runtimeContext() {
-        return RuntimeContext.builder()
-                .sessionId("gateway-demo").userId("alice").build();
     }
 }

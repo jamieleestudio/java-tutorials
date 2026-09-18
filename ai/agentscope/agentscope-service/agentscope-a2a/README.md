@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9133/a2a/ask
 
 ## 代码结构
 
-- `agentscope-a2aAgent.java` — HarnessAgent + DeepSeek
+- `A2aAgent.java` — AgentScopeA2aServer + HarnessAgentRunner
 - `Controller` — `GET /a2a/ask`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `AgentScopeA2aServer.builder(agentRunner).agentCard(card).build()` 创建 A2A 服务。
+- `AgentRunner` 适配本地 HarnessAgent 为 A2A 可调用形式。
+- 发布 AgentCard（name/description/skills），支持 JSON-RPC over HTTP/SSE 远程调用。
 
 ## 运行
 

@@ -7,28 +7,31 @@ import io.agentscope.harness.agent.HarnessAgent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Paths;
+
 /**
- * 带自定义预算熔断中间件的 Agent。
+ * 自定义预算熔断 Agent：注入 {@link BudgetGuardMiddleware}，
+ * 累计 LLM 调用的 token 用量，超过预算时短路返回"预算已耗尽"。
  *
- * <p>AgentScope Java 没有 Python 的 {@code BudgetControlMiddleware}，
- * 本模块通过 {@link BudgetControlMiddleware}（基于 {@code MiddlewareBase.onReasoning}）
- * 自行实现 token / 迭代次数双限。
+ * <p>AgentScope Java 版没有内置预算中间件（Python 版有 {@code BudgetMiddleware}），
+ * 这正好演示 {@link io.agentscope.core.middleware.MiddlewareBase} 洋葱模型的**短路能力**：
+ * 在 {@code onAgent} 钩子检查预算，超限时不调用 {@code next}，直接返回结果事件。
  *
- * <p>提供两组对比：
- * <ul>
- *   <li>{@code /budget/ask} — 带预算（maxTokens=500, maxIters=3），长对话会被短路</li>
- *   <li>{@code /budget/unlimited} — 不带预算（对照组）</li>
- * </ul>
+ * <p>token 用量来自 {@link io.agentscope.core.event.ModelCallEndEvent#getUsage()}。
+ *
+ * <p>对照组 {@link #chatWithoutBudget} 不带预算中间件，可对比长对话下两者的差异。
  */
 @Component
 public class BudgetAgent {
 
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-custom-budget";
+
     private final String modelName;
     private final String apiKey;
     private final String baseUrl;
-    private volatile HarnessAgent budgetedAgent;
-    private volatile HarnessAgent unlimitedAgent;
-    private final BudgetControlMiddleware budgetMiddleware = new BudgetControlMiddleware(500, 3);
+    private final BudgetGuardMiddleware budgetGuard = new BudgetGuardMiddleware(5000);
+    private volatile HarnessAgent agent;
+    private volatile HarnessAgent plainAgent;
 
     public BudgetAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
@@ -39,59 +42,59 @@ public class BudgetAgent {
         this.baseUrl = baseUrl;
     }
 
-    /** 带预算的 Agent：超限短路。 */
     public String chat(String message) {
-        return budgetedAgent().call(new UserMessage(message), runtimeContext()).block().getTextContent();
+        return agent().call(new UserMessage(message), runtimeContext()).block().getTextContent();
     }
 
-    /** 不带预算的 Agent（对照组）。 */
-    public String chatUnlimited(String message) {
-        return unlimitedAgent().call(new UserMessage(message), runtimeContext()).block().getTextContent();
+    public String chatWithoutBudget(String message) {
+        return plainAgent().call(new UserMessage(message), runtimeContext()).block().getTextContent();
     }
 
-    /** 预算报告。 */
-    public String report() {
-        return budgetMiddleware.getReport().block();
+    public int usedTokens() {
+        return budgetGuard.usedTokens();
     }
 
-    private HarnessAgent budgetedAgent() {
-        HarnessAgent local = budgetedAgent;
+    public int budget() {
+        return budgetGuard.budget();
+    }
+
+    private HarnessAgent agent() {
+        HarnessAgent local = agent;
         if (local == null) {
             synchronized (this) {
-                local = budgetedAgent;
+                local = agent;
                 if (local == null) {
                     OpenAIChatModel model = OpenAIChatModel.builder()
                             .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
                     local = HarnessAgent.builder()
                             .name("custom-budget")
-                            .sysPrompt("你是一个乐于助人的中文智能助手。请尽量详细回答。")
+                            .sysPrompt("你是一个乐于助人的中文智能助手。")
                             .model(model)
-                            .middleware(budgetMiddleware)
-                            .maxIters(5)
-                            .workspace(java.nio.file.Paths.get(".agentscope/workspace-custom-budget"))
+                            .middleware(budgetGuard)
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
-                    budgetedAgent = local;
+                    agent = local;
                 }
             }
         }
         return local;
     }
 
-    private HarnessAgent unlimitedAgent() {
-        HarnessAgent local = unlimitedAgent;
+    private HarnessAgent plainAgent() {
+        HarnessAgent local = plainAgent;
         if (local == null) {
             synchronized (this) {
-                local = unlimitedAgent;
+                local = plainAgent;
                 if (local == null) {
                     OpenAIChatModel model = OpenAIChatModel.builder()
                             .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
                     local = HarnessAgent.builder()
-                            .name("unlimited")
+                            .name("custom-budget-plain")
                             .sysPrompt("你是一个乐于助人的中文智能助手。")
                             .model(model)
-                            .workspace(java.nio.file.Paths.get(".agentscope/workspace-custom-budget"))
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
-                    unlimitedAgent = local;
+                    plainAgent = local;
                 }
             }
         }

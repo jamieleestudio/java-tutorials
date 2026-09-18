@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9130/chatui/ask
 
 ## 代码结构
 
-- `agentscope-chatuiAgent.java` — HarnessAgent + DeepSeek
+- `ChatUiAgent.java` — HarnessGateway + ChatUiChannel
 - `Controller` — `GET /chatui/ask`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `ChatUiChannel.create(config)` 创建内置 Web UI 渠道。
+- `channel.send(message)` 发消息给 Agent，`pollOutbound()` 供前端拉取。
+- 注册到 HarnessGateway，绑定主 Agent 处理消息。
 
 ## 运行
 

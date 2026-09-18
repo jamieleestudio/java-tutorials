@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9132/scheduler/ask
 
 ## 代码结构
 
-- `agentscope-schedulerAgent.java` — HarnessAgent + DeepSeek
+- `SchedulerAgent.java` — QuartzAgentScheduler + AgentConfig + ScheduleConfig
 - `Controller` — `GET /scheduler/ask`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `QuartzAgentScheduler.builder().autoStart(true).build()` 创建调度器。
+- `AgentConfig` 定义 Agent（name/sysPrompt/modelConfig），`ScheduleConfig` 定义调度（cron/fixedRate）。
+- `scheduler.schedule(agentCfg, scheduleCfg)` 注册定时任务，到点 Quartz 触发。
 
 ## 运行
 

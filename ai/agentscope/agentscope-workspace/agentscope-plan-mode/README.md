@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9123/workspace/plan
 
 ## 代码结构
 
-- `agentscope-plan-modeAgent.java` — HarnessAgent + DeepSeek
+- `PlanModeAgent.java` — HarnessAgent + DeepSeek + enablePlanMode
 - `Controller` — `GET /workspace/plan`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `enablePlanMode()` 开启计划模式，注入 `PlanModeMiddleware`。
+- `enterPlanMode(ctx)` / `exitPlanMode(ctx)` 运行时控制。
+- 计划阶段只读，用户确认后才执行；`planFileDirectory` 指定 plan 文件目录。
 
 ## 运行
 

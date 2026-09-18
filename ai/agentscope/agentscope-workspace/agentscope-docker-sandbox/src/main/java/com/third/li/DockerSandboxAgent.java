@@ -11,67 +11,45 @@ import org.springframework.stereotype.Component;
 import java.nio.file.Paths;
 
 /**
- * Docker 沙箱（DockerFilesystemSpec + DockerSandbox）。
+ * Docker 沙箱 Agent：用 {@link DockerFilesystemSpec}（一种 {@code SandboxFilesystemSpec}）
+ * 把 Agent 的工具执行隔离到 Docker 容器里。
  *
- * <p>AgentScope 的 Docker 沙箱把 Agent 的文件操作和 shell 命令限制在
- * Docker 容器内，提供隔离的执行环境：
+ * <p>Docker 沙箱提供强隔离：Agent 执行的 shell 命令和文件操作都在容器内，
+ * 不影响宿主机。{@link DockerFilesystemSpec} 关键参数：
  * <ul>
- *   <li>文件操作（read/write/edit）在容器内执行</li>
- *   <li>Shell 命令在容器内运行</li>
- *   <li>可配置镜像、内存、CPU、端口、网络</li>
+ *   <li>{@code image(String)} —— 容器镜像</li>
+ *   <li>{@code workspaceRoot(String)} —— 容内工作区路径</li>
+ *   <li>{@code memorySizeBytes / cpuCount} —— 资源限制</li>
+ *   <li>{@code network(String)} —— 网络策略（可设为 none 断网）</li>
  * </ul>
  *
- * <p>通过 {@link DockerFilesystemSpec} 配置：
- * <pre>
- * DockerFilesystemSpec spec = new DockerFilesystemSpec()
- *     .image("openjdk:21-slim")
- *     .workspaceRoot("/workspace")
- *     .memorySizeBytes(512L * 1024 * 1024)
- *     .cpuCount(2L)
- *     .network("none");
- * </pre>
- *
- * <p>需要本地安装 Docker。本模块构建 spec 但不启动（避免依赖 Docker 环境）。
- * 实际使用时通过 {@code .filesystem(spec)} 注入。
+ * <p>通过 {@code HarnessAgent.Builder.filesystem(SandboxFilesystemSpec)} 注入。
+ * 运行时需宿主机安装 Docker。
  */
 @Component
 public class DockerSandboxAgent {
 
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-docker-sandbox";
+
     private final String modelName;
     private final String apiKey;
     private final String baseUrl;
+    private final String dockerImage;
     private volatile HarnessAgent agent;
 
     public DockerSandboxAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
-            @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
-            @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
+            @Value("${agentscope.model.api-key:${OPENAI_API_KEY:}}") String apiKey,
+            @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl,
+            @Value("${agentscope.docker.image:openjdk:21-slim}") String dockerImage) {
         this.modelName = modelName;
         this.apiKey = apiKey;
         this.baseUrl = baseUrl;
+        this.dockerImage = dockerImage;
     }
 
     public String chat(String message) {
         return agent().call(new UserMessage(message), runtimeContext()).block().getTextContent();
-    }
-
-    /** 构建 Docker 沙箱 spec（不启动，仅展示配置）。 */
-    public String describeSandbox() {
-        DockerFilesystemSpec spec = new DockerFilesystemSpec()
-                .image("openjdk:21-slim")
-                .workspaceRoot("/workspace")
-                .memorySizeBytes(512L * 1024 * 1024)
-                .cpuCount(2L)
-                .network("none");
-        return """
-                Docker 沙箱配置：
-                镜像：openjdk:21-slim
-                工作区：/workspace
-                内存限制：512MB
-                CPU：2 核
-                网络：none（无网络访问）
-                使用方式：.filesystem(spec)
-                """;
     }
 
     private HarnessAgent agent() {
@@ -80,20 +58,21 @@ public class DockerSandboxAgent {
             synchronized (this) {
                 local = agent;
                 if (local == null) {
+                    DockerFilesystemSpec sandboxSpec = new DockerFilesystemSpec()
+                            .image(dockerImage)
+                            .workspaceRoot("/workspace")
+                            .memorySizeBytes(512L * 1024 * 1024)
+                            .cpuCount(1L)
+                            .network("none");
+
                     OpenAIChatModel model = OpenAIChatModel.builder()
                             .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
-                    // 实际使用 Docker 沙箱时取消注释：
-                    // DockerFilesystemSpec spec = new DockerFilesystemSpec()
-                    //         .image("openjdk:21-slim")
-                    //         .workspaceRoot("/workspace")
-                    //         .memorySizeBytes(512L * 1024 * 1024);
                     local = HarnessAgent.builder()
                             .name("docker-sandbox")
-                            .sysPrompt("你是一个代码执行助手。你在 Docker 沙箱中运行，" +
-                                    "可以安全地执行代码和命令。")
+                            .sysPrompt("你是一个沙箱助手，所有命令在 Docker 容器内隔离执行。")
                             .model(model)
-                            // .filesystem(spec)  // 需要 Docker 环境
-                            .workspace(Paths.get(".agentscope/workspace-docker-sandbox"))
+                            .filesystem(sandboxSpec)
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
                     agent = local;
                 }

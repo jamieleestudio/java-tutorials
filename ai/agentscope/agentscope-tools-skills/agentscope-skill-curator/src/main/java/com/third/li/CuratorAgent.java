@@ -4,45 +4,47 @@ import io.agentscope.core.agent.RuntimeContext;
 import io.agentscope.core.message.UserMessage;
 import io.agentscope.extensions.model.openai.OpenAIChatModel;
 import io.agentscope.harness.agent.HarnessAgent;
+import io.agentscope.harness.agent.filesystem.remote.store.InMemoryStore;
+import io.agentscope.harness.agent.skill.curator.EnvironmentFilter;
+import io.agentscope.harness.agent.skill.curator.LocalApprovalGate;
 import io.agentscope.harness.agent.skill.curator.SkillCuratorConfig;
+import io.agentscope.harness.agent.skill.curator.SkillPromotionGate;
+import io.agentscope.harness.agent.skill.curator.SkillUsageStore;
+import io.agentscope.harness.agent.skill.curator.SkillVisibilityFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;
 
 /**
- * 技能策展（SkillCurator + SkillPromoter 自动升）。
+ * 技能策展 Agent：开启 {@code SkillCurator}，让 Agent 自动管理技能生命周期——
+ * 根据使用频率自动晋升（promote）/归档（archive）技能。
  *
- * <p>AgentScope 的技能策展系统会<b>自动</b>评估技能使用情况：
+ * <p>关键 Builder 方法：
  * <ul>
- *   <li>{@code SkillCurator} — 定期扫描技能使用统计，自动晋升/归档</li>
- *   <li>{@code SkillPromoter} — 把 draft 技能晋升为正式技能</li>
- *   <li>{@code SkillUsageStore} — 记录每个技能的 view/use 次数</li>
+ *   <li>{@code enableSkillCurator(SkillCuratorConfig)} —— 开启策展，配置运行间隔、过期天数</li>
+ *   <li>{@code enableSkillPromotionGate(SkillPromotionGate, SkillVisibilityFilter)} ——
+ *       设置晋升审批门 + 可见性过滤器</li>
  * </ul>
  *
- * <p>通过 {@link HarnessAgent.Builder#enableSkillCurator(SkillCuratorConfig)} 启用。
- * 配置项包括：
- * <ul>
- *   <li>{@code intervalHours} — 策展间隔（小时）</li>
- *   <li>{@code minIdleHours} — 最小空闲时间（晋升前需要稳定使用多久）</li>
- *   <li>{@code staleAfterDays} — 多少天不用则标记过期</li>
- *   <li>{@code archiveAfterDays} — 多少天不用则归档</li>
- * </ul>
- *
- * <p>手动触发：{@code agent.runCuratorOnce()} 执行一轮策展，
- * {@code agent.promoteSkill(name, reason)} 手动晋升。
+ * <p>本例用 {@link LocalApprovalGate}（本地审批，默认超时 30s）作为晋升门，
+ * {@link EnvironmentFilter} 按环境过滤可见技能。技能用量存储用内存 {@link InMemoryStore}
+ * （生产环境应换成持久化的 store）。
  */
 @Component
 public class CuratorAgent {
 
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-skill-curator";
+
     private final String modelName;
     private final String apiKey;
     private final String baseUrl;
+    private final SkillUsageStore usageStore = SkillUsageStore.baseStore(new InMemoryStore());
     private volatile HarnessAgent agent;
 
     public CuratorAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
-            @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
+            @Value("${agentscope.model.api-key:${OPENAI_API_KEY:}}") String apiKey,
             @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
         this.modelName = modelName;
         this.apiKey = apiKey;
@@ -53,20 +55,10 @@ public class CuratorAgent {
         return agent().call(new UserMessage(message), runtimeContext()).block().getTextContent();
     }
 
-    /** 手动触发一轮策展。 */
-    public String runCurator() {
-        return agent().runCuratorOnce()
-                .map(report -> "策展完成：" + report.toString())
-                .onErrorReturn("策展执行出错")
-                .block();
-    }
-
-    /** 手动晋升指定技能。 */
-    public String promoteSkill(String skillName, String reason) {
-        return agent().promoteSkill(skillName, reason != null ? reason : "手动晋升")
-                .map(result -> "晋升结果：" + result.toString())
-                .onErrorReturn("晋升失败：技能不存在或已是正式技能")
-                .block();
+    /** 手动触发一次策展运行。 */
+    public String runCuratorOnce() {
+        var report = agent().runCuratorOnce().block();
+        return "策展运行完成：" + (report != null ? report.toString() : "无报告");
     }
 
     private HarnessAgent agent() {
@@ -75,21 +67,24 @@ public class CuratorAgent {
             synchronized (this) {
                 local = agent;
                 if (local == null) {
-                    OpenAIChatModel model = OpenAIChatModel.builder()
-                            .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
                     SkillCuratorConfig curatorConfig = SkillCuratorConfig.builder()
                             .enabled(true)
                             .intervalHours(1)
-                            .staleAfterDays(30)
-                            .archiveAfterDays(90)
+                            .staleAfterDays(7)
+                            .archiveAfterDays(30)
                             .build();
+                    SkillPromotionGate gate = new LocalApprovalGate(java.time.Duration.ofSeconds(30));
+                    SkillVisibilityFilter filter = new EnvironmentFilter("demo", usageStore);
+
+                    OpenAIChatModel model = OpenAIChatModel.builder()
+                            .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
                     local = HarnessAgent.builder()
                             .name("skill-curator")
-                            .sysPrompt("你是一个乐于助人的助手。你拥有技能策展能力。")
+                            .sysPrompt("你是一个智能助手，可使用技能。系统会自动策展技能生命周期。")
                             .model(model)
                             .enableSkillCurator(curatorConfig)
-                            .enableSkillManageTool(true)
-                            .workspace(Paths.get(".agentscope/workspace-skill-curator"))
+                            .enableSkillPromotionGate(gate, filter)
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
                     agent = local;
                 }

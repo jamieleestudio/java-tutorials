@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9127/rag/backends
 
 ## 代码结构
 
-- `agentscope-rag-backendsAgent.java` — HarnessAgent + DeepSeek
+- `RagBackendAgent.java` — HarnessAgent + DeepSeek + KnowledgeRetrievalTools
 - `Controller` — `GET /rag/backends`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- Agentic RAG：`KnowledgeRetrievalTools` 把检索包装成 @Tool，模型按需调用。
+- 与 Generic RAG 区别：不是每次自动检索，而是模型决定何时检索。
+- 本例用内存后端演示，可换 rag-simple / 向量库后端。
 
 ## 运行
 

@@ -2,27 +2,41 @@ package com.third.li;
 
 import io.agentscope.core.agent.RuntimeContext;
 import io.agentscope.core.message.UserMessage;
+import io.agentscope.core.tool.Tool;
+import io.agentscope.core.tool.ToolGroup;
+import io.agentscope.core.tool.ToolGroupScope;
 import io.agentscope.core.tool.Toolkit;
+import io.agentscope.core.tool.ToolParam;
 import io.agentscope.extensions.model.openai.OpenAIChatModel;
 import io.agentscope.harness.agent.HarnessAgent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
- * 工具分组（ToolGroup + group registration）。
+ * 工具分组 Agent：把工具按职责分成多个 {@link ToolGroup}，用
+ * {@link Toolkit#createToolGroup(String, String, boolean, ToolGroupScope)} 创建组、
+ * {@link Toolkit#addToolToGroup(String, String)} 把工具归入组，
+ * {@link Toolkit#setActiveGroups(java.util.List)} 切换当前激活的组。
  *
- * <p>AgentScope 的工具分组通过 {@link Toolkit.ToolRegistration#group(String)}
- * 把工具划入命名组，然后由 {@code SkillBox.syncToolGroupStates()} 根据激活的
- * 技能自动切换工具组的激活/停用。
+ * <p>只有属于"激活组"的工具才会暴露给模型——这样可以在一个 Toolkit 里放很多工具，
+ * 但每次只让模型看到与当前任务相关的那一子集，减少干扰、提升选工具准确率。
  *
- * <p>本模块演示两种用法：
+ * <p>本例定义两个组：
  * <ul>
- *   <li>只读工具组（read-only）：搜索、查询 —— 始终激活</li>
- *   <li>写入工具组（write）：创建、删除 —— 按需激活</li>
+ *   <li>{@code time-group} —— 时间相关工具（默认激活）</li>
+ *   <li>{@code order-group} —— 订单相关工具（按需激活）</li>
  * </ul>
  */
 @Component
 public class ToolGroupAgent {
+
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-toolkit-groups";
 
     private final String modelName;
     private final String apiKey;
@@ -31,7 +45,7 @@ public class ToolGroupAgent {
 
     public ToolGroupAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
-            @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
+            @Value("${agentscope.model.api-key:${OPENAI_API_KEY:}}") String apiKey,
             @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
         this.modelName = modelName;
         this.apiKey = apiKey;
@@ -42,29 +56,48 @@ public class ToolGroupAgent {
         return agent().call(new UserMessage(message), runtimeContext()).block().getTextContent();
     }
 
+    public String chatWithOrderGroup(String message) {
+        agent().getDelegate().getToolkit().setActiveGroups(java.util.List.of("order-group"));
+        try {
+            return agent().call(new UserMessage(message), runtimeContext()).block().getTextContent();
+        } finally {
+            agent().getDelegate().getToolkit().setActiveGroups(java.util.List.of("time-group"));
+        }
+    }
+
     private HarnessAgent agent() {
         HarnessAgent local = agent;
         if (local == null) {
             synchronized (this) {
                 local = agent;
                 if (local == null) {
+                    Toolkit toolkit = new Toolkit();
+                    toolkit.registerTool(new TimeTools());
+                    toolkit.registerTool(new OrderTools());
+
+                    toolkit.registerToolGroup(ToolGroup.builder()
+                            .name("time-group")
+                            .description("时间相关工具")
+                            .active(true)
+                            .scope(ToolGroupScope.META)
+                            .tools(java.util.Set.of("getCurrentTime"))
+                            .build());
+                    toolkit.registerToolGroup(ToolGroup.builder()
+                            .name("order-group")
+                            .description("订单相关工具")
+                            .active(false)
+                            .scope(ToolGroupScope.META)
+                            .tools(java.util.Set.of("queryOrder", "calculateDiscount"))
+                            .build());
+
                     OpenAIChatModel model = OpenAIChatModel.builder()
                             .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
-                    Toolkit toolkit = new Toolkit();
-                    toolkit.registration()
-                            .tool(new ReadOnlyTools())
-                            .group("read-only")
-                            .apply();
-                    toolkit.registration()
-                            .tool(new WriteTools())
-                            .group("write")
-                            .apply();
                     local = HarnessAgent.builder()
                             .name("toolkit-groups")
-                            .sysPrompt("你是一个文件管理助手。你有只读工具和写入工具。只读工具始终可用，写入工具按需使用。")
+                            .sysPrompt("你是一个智能助手，能使用工具分组。默认可查询时间；按需可切换到订单查询。")
                             .model(model)
                             .toolkit(toolkit)
-                            .workspace(java.nio.file.Paths.get(".agentscope/workspace-toolkit-groups"))
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
                     agent = local;
                 }
@@ -78,40 +111,33 @@ public class ToolGroupAgent {
                 .sessionId("toolgroup-demo").userId("alice").build();
     }
 
-    /** 只读工具：搜索和查询。 */
-    public static class ReadOnlyTools {
-        @io.agentscope.core.tool.Tool(name = "search_files",
-                description = "搜索文件内容，返回匹配的文件名和行号",
-                readOnly = true)
-        public String searchFiles(
-                @io.agentscope.core.tool.ToolParam(name = "pattern", description = "搜索关键词") String pattern) {
-            return "找到 3 个匹配文件：README.md, pom.xml, Application.java";
-        }
+    public static class TimeTools {
 
-        @io.agentscope.core.tool.Tool(name = "list_files",
-                description = "列出目录下的文件",
-                readOnly = true)
-        public String listFiles(
-                @io.agentscope.core.tool.ToolParam(name = "directory", description = "目录路径") String directory) {
-            return directory + "/ 下有：file1.txt, file2.txt, file3.txt";
+        @Tool(name = "getCurrentTime", description = "获取当前时间")
+        public String getCurrentTime() {
+            return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         }
     }
 
-    /** 写入工具：创建和删除。 */
-    public static class WriteTools {
-        @io.agentscope.core.tool.Tool(name = "create_file",
-                description = "创建一个新文件")
-        public String createFile(
-                @io.agentscope.core.tool.ToolParam(name = "path", description = "文件路径") String path,
-                @io.agentscope.core.tool.ToolParam(name = "content", description = "文件内容") String content) {
-            return "已创建文件：" + path + "（" + content.length() + " 字节）";
+    public static class OrderTools {
+
+        private final Map<String, String> orders = new HashMap<>();
+
+        public OrderTools() {
+            orders.put("A1001", "已支付，金额 ¥299");
+            orders.put("A1002", "已发货，金额 ¥899");
         }
 
-        @io.agentscope.core.tool.Tool(name = "delete_file",
-                description = "删除一个文件")
-        public String deleteFile(
-                @io.agentscope.core.tool.ToolParam(name = "path", description = "文件路径") String path) {
-            return "已删除文件：" + path;
+        @Tool(name = "queryOrder", description = "按订单号查询订单状态")
+        public String queryOrder(@ToolParam(name = "orderId", description = "订单号") String orderId) {
+            return orders.getOrDefault(orderId, "未找到订单 " + orderId);
+        }
+
+        @Tool(name = "calculateDiscount", description = "计算折后价")
+        public String calculateDiscount(
+                @ToolParam(name = "originalPrice", description = "原价") double originalPrice,
+                @ToolParam(name = "discountRate", description = "折扣率 0~1") double discountRate) {
+            return "折后价：" + (originalPrice * discountRate);
         }
     }
 }

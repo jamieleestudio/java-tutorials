@@ -2,45 +2,42 @@ package com.third.li;
 
 import io.agentscope.core.agent.RuntimeContext;
 import io.agentscope.core.message.UserMessage;
+import io.agentscope.core.permission.PermissionBehavior;
 import io.agentscope.core.permission.PermissionContextState;
 import io.agentscope.core.permission.PermissionMode;
+import io.agentscope.core.permission.PermissionRule;
+import io.agentscope.core.tool.Toolkit;
+import io.agentscope.core.tool.builtin.TodoTools;
+import io.agentscope.core.tool.coding.ShellCommandTool;
+import io.agentscope.core.tool.file.ReadFileTool;
+import io.agentscope.core.tool.file.WriteFileTool;
 import io.agentscope.extensions.model.openai.OpenAIChatModel;
 import io.agentscope.harness.agent.HarnessAgent;
-import io.agentscope.harness.agent.filesystem.local.LocalFilesystemWithShell;
-import io.agentscope.harness.agent.memory.MemoryConfig;
-import io.agentscope.harness.agent.memory.compaction.CompactionConfig;
-import io.agentscope.harness.agent.tool.FilesystemTool;
-import io.agentscope.harness.agent.tool.ShellExecuteTool;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;
+import java.util.Set;
 
 /**
- * 总结项目 1：编码 Agent。
+ * 编码 Agent（Claude Code 式）—— 综合演示：编码工具 + 计划模式 + 任务列表 + 权限规则。
  *
- * <p>整合前 7 个分类的 API：
+ * <p>把前面模块的能力合成一个完整的编码 Agent：
  * <ul>
- *   <li>basics — HarnessAgent builder + OpenAIChatModel</li>
- *   <li>middleware — CompactionMiddleware（通过 .compaction()）</li>
- *   <li>tools-skills — ShellExecuteTool + FilesystemTool（内置编码工具）</li>
- *   <li>permission — PermissionMode.ACCEPT_EDITS（自动接受编辑）</li>
- *   <li>workspace — LocalFilesystemWithShell（本地工作区 + shell）</li>
- *   <li>memory — MemoryConfig（对话记忆 + flush）</li>
- *   <li>service — 通过 REST controller 调用</li>
+ *   <li><b>编码工具</b>：ShellCommandTool + ReadFileTool + WriteFileTool + TodoTools</li>
+ *   <li><b>计划模式</b>：{@code enablePlanMode()} —— 先规划再执行</li>
+ *   <li><b>任务列表</b>：{@code enableTaskList()} —— 跟踪后台任务</li>
+ *   <li><b>权限规则</b>：删除操作 DENY、写操作 ASK —— 危险操作需确认</li>
+ *   <li><b>上下文压缩</b>：长对话自动压缩</li>
  * </ul>
  *
- * <p>这个 Agent 可以：
- * <ol>
- *   <li>读写文件（FilesystemTool）</li>
- *   <li>执行命令（ShellExecuteTool）</li>
- *   <li>自动压缩长对话（CompactionMiddleware）</li>
- *   <li>记忆跨会话信息（MemoryFlush）</li>
- *   <li>自动接受编辑操作（ACCEPT_EDITS 模式）</li>
- * </ol>
+ * <p>这是 AgentScope 工程化能力的综合展示：一个 Agent 同时具备工具调用、
+ * 权限管控、任务编排、计划规划、记忆管理——类似 Claude Code 的工作方式。
  */
 @Component
 public class CodingCapstoneAgent {
+
+    private static final String WORKSPACE_DIR = ".agentscope/workspace-coding-agent";
 
     private final String modelName;
     private final String apiKey;
@@ -49,7 +46,7 @@ public class CodingCapstoneAgent {
 
     public CodingCapstoneAgent(
             @Value("${agentscope.model.name:deepseek-v4-flash}") String modelName,
-            @Value("${agentscope.model.api-key:${OPENI_API_KEY:}}") String apiKey,
+            @Value("${agentscope.model.api-key:${OPENAI_API_KEY:}}") String apiKey,
             @Value("${agentscope.model.base-url:https://api.deepseek.com}") String baseUrl) {
         this.modelName = modelName;
         this.apiKey = apiKey;
@@ -66,48 +63,44 @@ public class CodingCapstoneAgent {
             synchronized (this) {
                 local = agent;
                 if (local == null) {
+                    Toolkit toolkit = new Toolkit();
+                    toolkit.registerAgentTool(new ShellCommandTool(
+                            WORKSPACE_DIR,
+                            Set.of("ls", "cat", "echo", "pwd", "grep", "find", "wc", "head", "tail", "mkdir", "git", "javac", "java"),
+                            cmd -> true));
+                    toolkit.registerTool(new ReadFileTool(WORKSPACE_DIR));
+                    toolkit.registerTool(new WriteFileTool(WORKSPACE_DIR));
+                    toolkit.registerTool(new TodoTools());
+
+                    PermissionRule denyDelete = new PermissionRule(
+                            "ShellCommandTool", "执行 rm 或删除文件", PermissionBehavior.DENY, "coding-agent");
+                    PermissionRule askWrite = new PermissionRule(
+                            "WriteFileTool", "写入或覆盖文件", PermissionBehavior.ASK, "coding-agent");
+                    PermissionContextState permCtx = PermissionContextState.builder()
+                            .mode(PermissionMode.DEFAULT)
+                            .addDenyRule("ShellCommandTool", denyDelete)
+                            .addAskRule("WriteFileTool", askWrite)
+                            .build();
+
                     OpenAIChatModel model = OpenAIChatModel.builder()
                             .apiKey(apiKey).modelName(modelName).baseUrl(baseUrl).build();
-
-                    var wsPath = Paths.get(".agentscope/workspace-coding-agent").toAbsolutePath();
-                    wsPath.toFile().mkdirs();
-                    LocalFilesystemWithShell fs = new LocalFilesystemWithShell(wsPath);
-                    ShellExecuteTool shellTool = new ShellExecuteTool(fs);
-                    FilesystemTool fileTool = new FilesystemTool(fs);
-                    var toolkit = new io.agentscope.core.tool.Toolkit();
-                    toolkit.registerTool(shellTool);
-                    toolkit.registerTool(fileTool);
-
-                    CompactionConfig compaction = CompactionConfig.builder()
-                            .triggerMessages(10)
-                            .triggerTokens(4000)
-                            .keepMessages(5)
-                            .keepTokensRatio(0.3)
-                            .build();
-
-                    MemoryConfig memory = MemoryConfig.builder()
-                            .model(model)
-                            .sessionRetentionDays(30)
-                            .build();
-
-                    PermissionContextState perm = PermissionContextState.builder()
-                            .mode(PermissionMode.ACCEPT_EDITS)
-                            .build();
-
                     local = HarnessAgent.builder()
-                            .name("coding-capstone")
-                            .sysPrompt("你是一个全功能编码 Agent。你可以：\n" +
-                                    "1. 读写文件（readFile, writeFile, editFile）\n" +
-                                    "2. 执行 shell 命令（shellExecute）\n" +
-                                    "3. 搜索文件（grep, glob）\n" +
-                                    "请根据用户需求完成编码任务。")
+                            .name("coding-agent")
+                            .sysPrompt("你是一个 Claude Code 式编码助手。"
+                                    + "先制定计划，再执行；可读写文件、执行安全命令、管理 TODO。"
+                                    + "删除操作被禁止，写文件需确认。")
                             .model(model)
                             .toolkit(toolkit)
-                            .compaction(compaction)
-                            .memory(memory)
-                            .permissionContext(perm)
-                            .maxIters(20)
-                            .workspace(wsPath)
+                            .permissionContext(permCtx)
+                            .stopOnReject(true)
+                            .enablePlanMode()
+                            .planFileDirectory(".agentscope/coding-agent-plans")
+                            .enableTaskList()
+                            .compaction(io.agentscope.harness.agent.memory.compaction.CompactionConfig.builder()
+                                    .triggerTokens(4000)
+                                    .keepMessages(6)
+                                    .build())
+                            .workspace(Paths.get(WORKSPACE_DIR))
                             .build();
                     agent = local;
                 }
@@ -118,6 +111,6 @@ public class CodingCapstoneAgent {
 
     private RuntimeContext runtimeContext() {
         return RuntimeContext.builder()
-                .sessionId("capstone-coding").userId("alice").build();
+                .sessionId("coding-capstone-demo").userId("alice").build();
     }
 }

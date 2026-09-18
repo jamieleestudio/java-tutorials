@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9115/permission/modes
 
 ## 代码结构
 
-- `agentscope-permission-modesAgent.java` — HarnessAgent + DeepSeek
+- `PermissionModeAgent.java` — HarnessAgent + DeepSeek + PermissionContextState
 - `Controller` — `GET /permission/modes`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `permissionContext(PermissionContextState)` 注入权限模式（BYPASS/DONT_ASK/DEFAULT）。
+- `agent.setPermissionMode(ctx, mode)` 运行时动态切换。
+- `stopOnReject(true)` 表示权限拒绝时立即终止 Agent。
 
 ## 运行
 

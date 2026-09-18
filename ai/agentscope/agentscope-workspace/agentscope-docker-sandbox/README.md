@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9120/workspace/docker
 
 ## 代码结构
 
-- `agentscope-docker-sandboxAgent.java` — HarnessAgent + DeepSeek
+- `DockerSandboxAgent.java` — HarnessAgent + DeepSeek + DockerFilesystemSpec
 - `Controller` — `GET /workspace/docker`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `DockerFilesystemSpec`（继承 SandboxFilesystemSpec）配置 Docker 沙箱。
+- `image` / `workspaceRoot` / `memorySizeBytes` / `cpuCount` / `network` 控制容器。
+- `network("none")` 断网隔离。运行需宿主机安装 Docker。
 
 ## 运行
 

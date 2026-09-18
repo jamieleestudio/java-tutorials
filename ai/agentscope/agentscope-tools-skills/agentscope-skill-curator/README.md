@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9112/curator/ask
 
 ## 代码结构
 
-- `agentscope-skill-curatorAgent.java` — HarnessAgent + DeepSeek
+- `CuratorAgent.java` — HarnessAgent + DeepSeek + SkillCurator
 - `Controller` — `GET /curator/ask`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `enableSkillCurator(SkillCuratorConfig)` 开启自动策展（晋升/归档）。
+- `enableSkillPromotionGate(LocalApprovalGate, EnvironmentFilter)` 设置晋升审批门 + 可见性过滤。
+- `agent.runCuratorOnce()` 手动触发一次策展运行。
 
 ## 运行
 

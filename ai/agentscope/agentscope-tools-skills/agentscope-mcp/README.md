@@ -13,14 +13,14 @@ curl -G --data-urlencode "message=你好" http://localhost:9110/mcp/ask
 
 ## 代码结构
 
-- `agentscope-mcpAgent.java` — HarnessAgent + DeepSeek
+- `McpAgent.java` — HarnessAgent + DeepSeek + McpClientBuilder
 - `Controller` — `GET /mcp/ask`
 
 ## 要点
 
-本模块是 AgentScope 教程的骨架阶段产物——后续会逐步填充该模块特有的 API 演
-（如 Permission/Workspace/Skill 等独有能力）。当前版本确保编译通过、端口不冲突、
-结构一致，便于后续迭代。
+- `McpClientBuilder.create(name).sseTransport(url).buildSync()` 构建 SSE MCP 客户端。
+- `Toolkit.registerMcpClient(wrapper)` 把 MCP 工具注册进 Toolkit。
+- 支持 stdio / SSE / streamableHttp 三种传输。运行需启动外部 MCP Server。
 
 ## 运行
 
