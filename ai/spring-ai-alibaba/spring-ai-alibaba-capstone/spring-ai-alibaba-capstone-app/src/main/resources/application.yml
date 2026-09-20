@@ -1,0 +1,20 @@
+server:
+  port: 8530
+
+spring:
+  application:
+    name: spring-ai-alibaba-capstone-app
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      base-url: https://api.deepseek.com
+      chat:
+        options:
+          model: deepseek-chat
+          temperature: 0.7
+      embedding:
+        # FAQ 向量检索走独立嵌入端点（OpenAI 兼容，默认 DashScope 兼容模式）
+        api-key: ${DASHSCOPE_API_KEY:${OPENAI_API_KEY:}}
+        base-url: ${EMBEDDING_BASE_URL:https://dashscope.aliyuncs.com/compatible-mode/v1}
+        options:
+          model: ${EMBEDDING_MODEL:text-embedding-v3}

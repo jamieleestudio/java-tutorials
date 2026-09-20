@@ -1,51 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <groupId>com.third.li</groupId>
-        <artifactId>ai</artifactId>
-        <version>1.0</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.0.3</version>
+        <relativePath/> <!-- 直接从仓库取 Boot 4，不走根 pom 的 Boot 3.3.3 -->
     </parent>
 
+    <!-- Spring AI Alibaba 教程的根聚合器。各叶子模块的 parent 指向这里，
+         共用 Boot 4.0.3 + Spring AI 2.0.0 + Spring AI Alibaba 2.0.0-M1.1 的版本管理。 -->
+    <groupId>com.third.li</groupId>
     <artifactId>spring-ai-alibaba</artifactId>
-    <packaging>jar</packaging>
-
+    <version>1.0</version>
+    <packaging>pom</packaging>
     <name>spring-ai-alibaba</name>
-    <url>http://maven.apache.org</url>
+    <description>Spring AI Alibaba 2.0.0-M1.1 教程：Graph 编排 + Agent Framework + RAG + MCP + Patterns</description>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>21</java.version>
+        <spring-ai.version>2.0.0</spring-ai.version>
+        <spring-ai-alibaba.version>2.0.0-M1.1</spring-ai-alibaba.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Spring AI Alibaba BOM：统一管理所有 com.alibaba.cloud.ai:* 的版本。
+                 注意：SAA 2.0.0-M1.1 官方配对 Spring AI 2.0.0-M1（里程碑版），
+                 其 ChatClient 内部 API 与 GA 2.0.0 不兼容。
+                 因此这里【不】导入 GA 的 spring-ai-bom —— 纯 Spring AI 模块的
+                 GA BOM 下沉到 basics/rag/mcp 分类 POM 中，SAA 模块用 M1 传递依赖。 -->
+            <dependency>
+                <groupId>com.alibaba.cloud.ai</groupId>
+                <artifactId>spring-ai-alibaba-bom</artifactId>
+                <version>${spring-ai-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-    <dependencies>
+    <modules>
+        <module>spring-ai-alibaba-basics</module>
+        <module>spring-ai-alibaba-graph</module>
+        <module>spring-ai-alibaba-agent</module>
+        <module>spring-ai-alibaba-rag</module>
+        <module>spring-ai-alibaba-mcp</module>
+        <module>spring-ai-alibaba-observability</module>
+        <module>spring-ai-alibaba-patterns</module>
+        <module>spring-ai-alibaba-capstone</module>
+    </modules>
 
-        <dependency>
-            <groupId>com.alibaba.cloud.ai</groupId>
-            <artifactId>spring-ai-alibaba-starter</artifactId>
-            <version>1.0.0-M5.1</version>
-        </dependency>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <release>${java.version}</release>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>
-
-    </dependencies>
 </project>

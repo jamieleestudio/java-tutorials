@@ -1,0 +1,14 @@
+server:
+  port: 8523
+
+spring:
+  application:
+    name: spring-ai-alibaba-pattern-capstone
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      base-url: https://api.deepseek.com
+      chat:
+        options:
+          model: deepseek-chat
+          temperature: 0.7

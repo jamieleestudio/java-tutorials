@@ -1,7 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-basics/agentscope-chat/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-basics/agentscope-model-providers/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-basics/agentscope-streaming/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-basics/agentscope-structured-output/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-basics/agentscope-tools/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-basics/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-basics/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-capstone/agentscope-capstone-e2e/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-capstone/agentscope-coding-agent/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-capstone/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-capstone/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-memory-rag/agentscope-longterm-memory/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-memory-rag/agentscope-memory/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-memory-rag/agentscope-persistence/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-memory-rag/agentscope-rag-backends/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-memory-rag/agentscope-rag/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-memory-rag/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-memory-rag/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-middleware/agentscope-context-compaction/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-middleware/agentscope-custom-budget/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-middleware/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-middleware/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-autonomous-agent/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-capstone-patterns/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-debate/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-multi-goal/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-orchestrator-workers/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-parallelization/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-playbook/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-programmatic-dsl/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-prompt-chaining/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-refinement/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-replanning/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-routing/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-state-machine/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-subagent-handoff/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-supervisor/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-tool-chaining/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-tools-advanced/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-tree-of-thoughts/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/agentscope-trigger/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-patterns/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-permission/agentscope-hitl-confirm/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-permission/agentscope-interrupt/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-permission/agentscope-permission-modes/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-permission/agentscope-permission-rules/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-permission/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-permission/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-service/agentscope-a2a/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-service/agentscope-channels/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-service/agentscope-chatui/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-service/agentscope-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-service/agentscope-scheduler/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-tools-skills/agentscope-background-tasks/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-tools-skills/agentscope-coding-tools/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-tools-skills/agentscope-mcp/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-tools-skills/agentscope-skill-curator/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-tools-skills/agentscope-skills/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-tools-skills/agentscope-subagent/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-tools-skills/agentscope-toolkit-groups/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-tools-skills/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-tools-skills/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-workspace/agentscope-docker-sandbox/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-workspace/agentscope-local-workspace/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-workspace/agentscope-plan-mode/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-workspace/agentscope-remote-filesystem/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-workspace/agentscope-workspace-snapshot/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-workspace/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/agentscope-workspace/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/agentscope/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/agentscope/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-basics/embabel-chat/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-basics/embabel-chat/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-basics/embabel-planning/src/main/java" charset="UTF-8" />
@@ -14,27 +87,27 @@
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-basics/embabel-tools/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-basics/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-basics/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-embeddings/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-embeddings/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-vector-store/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-vector-store/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-document-ingest/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-document-ingest/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-memory/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-memory/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-embeddings/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-embeddings/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-file-tools/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-file-tools/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-memory/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-memory/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-references/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-references/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-vector-store/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/embabel-vector-store/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-context/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-integration/embabel-a2a/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-integration/embabel-a2a/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-integration/embabel-byok/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-integration/embabel-byok/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-integration/embabel-mcp/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-integration/embabel-mcp-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-integration/embabel-mcp-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-integration/embabel-mcp/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-integration/embabel-mcp/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-integration/embabel-ollama/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-integration/embabel-ollama/src/main/resources" charset="UTF-8" />
@@ -42,32 +115,36 @@
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-integration/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-conversation/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-conversation/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-hitl/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-hitl/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-hitl-advanced/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-hitl-advanced/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-hitl/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-hitl/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-multimodal/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/embabel-multimodal/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-interaction/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-eval/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-eval/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-budget/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-budget/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-stuck-handler/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-stuck-handler/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-otel/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-otel/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-eval/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-eval/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-observability/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-observability/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-otel/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-otel/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-persistence/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-persistence/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-stuck-handler/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-stuck-handler/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-testing/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/embabel-testing/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-ops/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-autonomous-agent/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-autonomous-agent/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-capstone/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-capstone/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-debate/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-debate/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-multi-goal/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-multi-goal/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-orchestrator-workers/src/main/java" charset="UTF-8" />
@@ -75,6 +152,10 @@
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-parallelization/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-parallelization/src/main/kotlin" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-parallelization/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-playbook/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-playbook/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-programmatic-dsl/src/main/kotlin" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-programmatic-dsl/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-prompt-chaining/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-prompt-chaining/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-refinement/src/main/java" charset="UTF-8" />
@@ -83,26 +164,18 @@
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-replanning/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-routing/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-routing/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-state-machine/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-state-machine/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-subagent/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-subagent/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-supervisor/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-supervisor/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tools-advanced/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tools-advanced/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tool-chaining/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tool-chaining/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-playbook/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-playbook/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-capstone/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-capstone/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-debate/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-debate/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tools-advanced/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tools-advanced/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tree-of-thoughts/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-tree-of-thoughts/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-state-machine/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-state-machine/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-programmatic-dsl/src/main/kotlin" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-programmatic-dsl/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-trigger/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/embabel-trigger/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-patterns/src/main/java" charset="UTF-8" />
@@ -117,16 +190,106 @@
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-reasoning/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-safety/embabel-guardrails/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-safety/embabel-guardrails/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-safety/embabel-secure-tools/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-safety/embabel-secure-tools/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-safety/embabel-identity/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-safety/embabel-identity/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-safety/embabel-secure-tools/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/embabel/embabel-safety/embabel-secure-tools/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-safety/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-safety/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-agent/spring-ai-alibaba-agent-a2a/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-agent/spring-ai-alibaba-agent-filesystem/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-agent/spring-ai-alibaba-agent-hooks/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-agent/spring-ai-alibaba-agent-memory/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-agent/spring-ai-alibaba-agent-multi-agent/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-agent/spring-ai-alibaba-agent-scheduling/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-agent/spring-ai-alibaba-agent-shell/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-agent/spring-ai-alibaba-agent-skills/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-agent/spring-ai-alibaba-agent-todos/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-agent/spring-ai-alibaba-agent-tools/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-agent/spring-ai-alibaba-react-agent/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-agent/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-agent/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-basics/spring-ai-alibaba-chat/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-basics/spring-ai-alibaba-multi-model/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-basics/spring-ai-alibaba-streaming/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-basics/spring-ai-alibaba-structured-output/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-basics/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-basics/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-capstone/spring-ai-alibaba-capstone-app/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-capstone/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-capstone/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-graph/spring-ai-alibaba-graph-basics/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-graph/spring-ai-alibaba-graph-checkpoint/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-graph/spring-ai-alibaba-graph-conditional/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-graph/spring-ai-alibaba-graph-file-saver/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-graph/spring-ai-alibaba-graph-human-feedback/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-graph/spring-ai-alibaba-graph-store/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-graph/spring-ai-alibaba-graph-streaming/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-graph/spring-ai-alibaba-graph-subgraph/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-graph/spring-ai-alibaba-graph-tool-hitl/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-graph/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-graph/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-mcp/spring-ai-alibaba-mcp-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-mcp/spring-ai-alibaba-mcp-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-mcp/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-mcp/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-observability/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-patterns/spring-ai-alibaba-pattern-capstone/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-patterns/spring-ai-alibaba-pattern-parallel/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-patterns/spring-ai-alibaba-pattern-routing/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-patterns/spring-ai-alibaba-pattern-supervisor/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-patterns/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-patterns/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-rag/spring-ai-alibaba-embedding/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-rag/spring-ai-alibaba-rag-basics/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-rag/spring-ai-alibaba-vector-store/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-rag/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-rag/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-advisors/spring-ai-advisor-basics/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-advisors/spring-ai-chat-memory-advisor/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-advisors/spring-ai-safeguard/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-advisors/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-advisors/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-basics/spring-ai-chat/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-basics/spring-ai-prompt-templates/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-basics/spring-ai-streaming/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-basics/spring-ai-structured-output/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-basics/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-basics/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-capstone/spring-ai-capstone-app/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-capstone/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-capstone/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-multimodal-etl/spring-ai-etl/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-multimodal-etl/spring-ai-multimodal/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-multimodal-etl/spring-ai-observability/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-multimodal-etl/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-multimodal-etl/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-patterns/spring-ai-capstone-patterns/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-patterns/spring-ai-multi-agent-debate/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-patterns/spring-ai-orchestrator-workers/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-patterns/spring-ai-parallelization/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-patterns/spring-ai-prompt-chaining/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-patterns/spring-ai-refinement/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-patterns/spring-ai-routing/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-patterns/spring-ai-self-reflection/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-patterns/spring-ai-state-machine/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-patterns/spring-ai-tree-of-thoughts/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-patterns/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-patterns/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-rag/spring-ai-embedding/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-rag/spring-ai-rag-basics/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-rag/spring-ai-vector-store/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-rag/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-rag/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-tools/spring-ai-function-calling/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-tools/spring-ai-mcp-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-tools/spring-ai-tool-context/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-tools/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/spring-ai/spring-ai-tools/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/spring-ai/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/spring-ai/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/src/main/java" charset="UTF-8" />
@@ -163,6 +326,45 @@
     <file url="file://$PROJECT_DIR$/architecture/distributed/dist-shared-kernel/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/distributed/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/distributed/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-app/erp-app-admin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-app/erp-app-boot/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-app/erp-app-mobile/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-app/erp-app-openapi/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-app/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-app/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-architecture-test/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-asset/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-attendance/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-dormitory/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-employment/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-enrollment/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-evaluation/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-exam/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-finance/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-grade/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-hr/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-integration/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-iot-terminal/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-message/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-moral-education/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-quality/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-student/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-system/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-teaching-plan/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/erp-workflow/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-module/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-platform/erp-platform-integration/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-platform/erp-platform-kernel/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-platform/erp-platform-messaging/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-platform/erp-platform-persistence/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-platform/erp-platform-security/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-platform/erp-platform-web/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-platform/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-platform/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/erp-shared-kernel/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/architecture/erp/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/event-driven/eda-order-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/event-driven/eda-payment-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/architecture/event-driven/eda-product-api/src/main/java" charset="UTF-8" />

@@ -1,0 +1,20 @@
+server:
+  port: 8519
+
+spring:
+  application:
+    name: spring-ai-alibaba-observability
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      base-url: https://api.deepseek.com
+      chat:
+        options:
+          model: deepseek-chat
+          temperature: 0.7
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

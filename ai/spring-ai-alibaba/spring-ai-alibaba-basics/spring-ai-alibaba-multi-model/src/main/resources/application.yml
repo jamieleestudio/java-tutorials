@@ -1,0 +1,18 @@
+server:
+  port: 8503
+
+spring:
+  application:
+    name: spring-ai-alibaba-multi-model
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      base-url: https://api.deepseek.com
+      chat:
+        options:
+          model: deepseek-chat
+          temperature: 0.7
+
+dashscope:
+  # 通义千问（DashScope OpenAI 兼容模式），可选：
+  api-key: ${DASHSCOPE_API_KEY:}

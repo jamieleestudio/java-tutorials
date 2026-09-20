@@ -1,0 +1,13 @@
+server:
+  port: 8518
+
+spring:
+  application:
+    name: spring-ai-alibaba-mcp-server
+  ai:
+    mcp:
+      server:
+        name: saa-mcp-server
+        version: 1.0.0
+        # Spring AI 2.0 默认应为 STREAMABLE，但需显式声明才会注册 Streamable HTTP 端点
+        protocol: streamable

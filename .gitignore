@@ -43,3 +43,7 @@ build/
 ### Local docker env (may contain secrets) ###
 .env
 **/docker/.env
+
+### SAA demo artifacts
+demo-workspace/
+demo-checkpoints/

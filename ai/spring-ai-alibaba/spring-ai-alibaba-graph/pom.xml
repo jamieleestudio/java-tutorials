@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.third.li</groupId>
+        <artifactId>spring-ai-alibaba</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>spring-ai-alibaba-graph</artifactId>
+    <packaging>pom</packaging>
+    <name>spring-ai-alibaba-graph</name>
+    <description>Graph 图编排：StateGraph + 节点/边 + 条件路由 + checkpoint + HITL + 子图</description>
+
+    <modules>
+        <module>spring-ai-alibaba-graph-basics</module>
+        <module>spring-ai-alibaba-graph-conditional</module>
+        <module>spring-ai-alibaba-graph-streaming</module>
+        <module>spring-ai-alibaba-graph-checkpoint</module>
+        <module>spring-ai-alibaba-graph-human-feedback</module>
+        <module>spring-ai-alibaba-graph-subgraph</module>
+        <module>spring-ai-alibaba-graph-tool-hitl</module>
+        <module>spring-ai-alibaba-graph-store</module>
+        <module>spring-ai-alibaba-graph-file-saver</module>
+    </modules>
+
+</project>

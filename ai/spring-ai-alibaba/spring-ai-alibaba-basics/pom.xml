@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.third.li</groupId>
+        <artifactId>spring-ai-alibaba</artifactId>
+        <version>1.0</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>spring-ai-alibaba-basics</artifactId>
+    <packaging>pom</packaging>
+    <name>spring-ai-alibaba-basics</name>
+    <description>基础：ChatClient + 流式 + 结构化输出 + 多模型接入</description>
+
+    <modules>
+        <module>spring-ai-alibaba-chat</module>
+        <module>spring-ai-alibaba-streaming</module>
+        <module>spring-ai-alibaba-structured-output</module>
+        <module>spring-ai-alibaba-multi-model</module>
+    </modules>
+
+    <!-- 纯 Spring AI 模块：本分类用 GA 2.0.0（multi-model 依赖 GA 才有的 OpenAiSetup） -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-bom</artifactId>
+                <version>${spring-ai.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
