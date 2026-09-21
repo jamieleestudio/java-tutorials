@@ -1,0 +1,6 @@
+server:
+  port: 8712
+
+spring:
+  application:
+    name: langchain4j-rag-advanced

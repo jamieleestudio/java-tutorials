@@ -1,0 +1,6 @@
+server:
+  port: 8717
+
+spring:
+  application:
+    name: langchain4j-agentic-loop

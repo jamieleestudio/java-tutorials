@@ -1,0 +1,6 @@
+server:
+  port: 8709
+
+spring:
+  application:
+    name: langchain4j-rag-embeddings

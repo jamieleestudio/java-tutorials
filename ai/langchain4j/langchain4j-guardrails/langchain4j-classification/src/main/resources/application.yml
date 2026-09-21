@@ -1,0 +1,6 @@
+server:
+  port: 8714
+
+spring:
+  application:
+    name: langchain4j-classification

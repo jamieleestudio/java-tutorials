@@ -1,0 +1,6 @@
+server:
+  port: 8719
+
+spring:
+  application:
+    name: langchain4j-agentic-supervisor

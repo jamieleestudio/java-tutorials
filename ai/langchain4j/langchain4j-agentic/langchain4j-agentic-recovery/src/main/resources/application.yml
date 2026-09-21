@@ -1,0 +1,6 @@
+server:
+  port: 8720
+
+spring:
+  application:
+    name: langchain4j-agentic-recovery

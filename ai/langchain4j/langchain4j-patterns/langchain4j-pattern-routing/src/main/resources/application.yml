@@ -1,0 +1,6 @@
+server:
+  port: 8724
+
+spring:
+  application:
+    name: langchain4j-pattern-routing

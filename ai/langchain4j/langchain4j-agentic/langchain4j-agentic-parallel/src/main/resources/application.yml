@@ -1,0 +1,6 @@
+server:
+  port: 8718
+
+spring:
+  application:
+    name: langchain4j-agentic-parallel

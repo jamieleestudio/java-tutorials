@@ -1,0 +1,6 @@
+server:
+  port: 8730
+
+spring:
+  application:
+    name: langchain4j-capstone-app

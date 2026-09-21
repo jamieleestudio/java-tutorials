@@ -1,0 +1,6 @@
+server:
+  port: 8723
+
+spring:
+  application:
+    name: langchain4j-mcp-ai-service

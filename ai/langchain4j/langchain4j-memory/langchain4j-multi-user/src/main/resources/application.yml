@@ -1,0 +1,6 @@
+server:
+  port: 8708
+
+spring:
+  application:
+    name: langchain4j-multi-user

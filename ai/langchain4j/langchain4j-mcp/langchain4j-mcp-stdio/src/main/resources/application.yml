@@ -1,0 +1,6 @@
+server:
+  port: 8722
+
+spring:
+  application:
+    name: langchain4j-mcp-stdio

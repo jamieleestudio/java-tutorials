@@ -1,0 +1,6 @@
+server:
+  port: 8726
+
+spring:
+  application:
+    name: langchain4j-pattern-supervisor

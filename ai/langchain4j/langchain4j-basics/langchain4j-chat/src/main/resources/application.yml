@@ -1,0 +1,6 @@
+server:
+  port: 8700
+
+spring:
+  application:
+    name: langchain4j-chat

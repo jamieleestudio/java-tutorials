@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.0.3</version>
+        <relativePath/> <!-- 直接从仓库取 Boot 4，不走根 pom 的版本管理 -->
+    </parent>
+
+    <!-- LangChain4j 教程的根聚合器。各叶子模块的 parent 指向这里，
+         共用 Boot 4.0.3 + LangChain4j 1.20.0 的版本管理。 -->
+    <groupId>com.third.li</groupId>
+    <artifactId>langchain4j</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+    <name>langchain4j</name>
+    <description>LangChain4j 1.20.0 教程：AiServices 声明式 + Agentic 模式框架 + RAG + MCP</description>
+
+    <properties>
+        <java.version>21</java.version>
+        <langchain4j.version>1.20.0</langchain4j.version>
+        <langchain4j-beta.version>1.20.0-beta30</langchain4j-beta.version>
+        <langchain4j-bge.version>1.9.0-beta16</langchain4j-bge.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>dev.langchain4j</groupId>
+                <artifactId>langchain4j-bom</artifactId>
+                <version>${langchain4j.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>langchain4j-basics</module>
+        <module>langchain4j-tools</module>
+        <module>langchain4j-memory</module>
+        <module>langchain4j-rag</module>
+        <module>langchain4j-guardrails</module>
+        <module>langchain4j-spring-boot</module>
+        <module>langchain4j-agentic</module>
+        <module>langchain4j-mcp</module>
+        <module>langchain4j-patterns</module>
+        <module>langchain4j-capstone</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <release>${java.version}</release>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

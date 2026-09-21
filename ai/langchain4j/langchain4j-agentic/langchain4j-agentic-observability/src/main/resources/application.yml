@@ -1,0 +1,6 @@
+server:
+  port: 8721
+
+spring:
+  application:
+    name: langchain4j-agentic-observability

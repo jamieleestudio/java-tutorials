@@ -1,0 +1,6 @@
+server:
+  port: 8706
+
+spring:
+  application:
+    name: langchain4j-chat-memory

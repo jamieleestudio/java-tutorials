@@ -1,0 +1,6 @@
+server:
+  port: 8715
+
+spring:
+  application:
+    name: langchain4j-spring-boot-starter

@@ -1,0 +1,6 @@
+server:
+  port: 8716
+
+spring:
+  application:
+    name: langchain4j-agentic-basics

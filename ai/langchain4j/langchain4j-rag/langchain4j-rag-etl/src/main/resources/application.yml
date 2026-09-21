@@ -1,0 +1,6 @@
+server:
+  port: 8710
+
+spring:
+  application:
+    name: langchain4j-rag-etl

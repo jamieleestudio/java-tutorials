@@ -1,0 +1,6 @@
+server:
+  port: 8713
+
+spring:
+  application:
+    name: langchain4j-guardrails
