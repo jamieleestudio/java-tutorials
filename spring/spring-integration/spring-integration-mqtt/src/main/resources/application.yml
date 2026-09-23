@@ -1,0 +1,12 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: spring-integration-mqtt
+
+mqtt:
+  broker-url: tcp://localhost:1883
+  client-id-prefix: spring-integration-demo
+  username: ""
+  password: ""
