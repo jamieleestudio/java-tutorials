@@ -1,0 +1,22 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: outbox-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: distributed_solutions
+      TZ: Asia/Shanghai
+    ports:
+      - "33061:3306"
+    volumes:
+      - mysql-outbox-data:/var/lib/mysql
+      - ./src/main/resources/db/mysql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    command: [ "mysqld", "--character-set-server=utf8mb4", "--collation-server=utf8mb4_0900_ai_ci" ]
+
+volumes:
+  mysql-outbox-data:
