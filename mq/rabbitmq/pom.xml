@@ -18,6 +18,10 @@
         <module>rabbitmq-springboot-amqp</module>
         <module>rabbitmq-springboot-demo</module>
         <module>rabbitmq-springboot-project</module>
+        <module>rabbitmq-springboot-confirm</module>
+        <module>rabbitmq-springboot-transaction</module>
+        <module>rabbitmq-springboot-reliable</module>
+        <module>rabbitmq-springboot-tx-message</module>
     </modules>
 
     <properties>

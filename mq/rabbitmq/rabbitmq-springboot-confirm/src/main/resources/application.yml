@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: rabbitmq-confirm-demo
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    template:
+      mandatory: true
+
+server:
+  port: 18081

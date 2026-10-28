@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: rabbitmq-tx-message-demo
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    template:
+      mandatory: true
+  datasource:
+    url: jdbc:mysql://localhost:33062/db_txmsg?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+tx-message:
+  check:
+    enabled: true
+    interval-seconds: 30
+    max-check-times: 15
+
+server:
+  port: 18084

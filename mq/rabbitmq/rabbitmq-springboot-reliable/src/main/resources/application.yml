@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: rabbitmq-reliable-demo
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+    publisher-confirm-type: correlated
+    publisher-returns: true
+    template:
+      mandatory: true
+  datasource:
+    url: jdbc:mysql://localhost:33062/db_reliable?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+reliable:
+  compensate:
+    enabled: true
+    batch-size: 100
+    max-retry: 5
+    backoff-seconds: 30
+
+server:
+  port: 18083
