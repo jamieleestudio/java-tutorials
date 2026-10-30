@@ -198,6 +198,56 @@
     <file url="file://$PROJECT_DIR$/ai/embabel/embabel-safety/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/embabel/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-agentic/langchain4j-agentic-basics/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-agentic/langchain4j-agentic-loop/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-agentic/langchain4j-agentic-observability/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-agentic/langchain4j-agentic-parallel/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-agentic/langchain4j-agentic-recovery/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-agentic/langchain4j-agentic-supervisor/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-agentic/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-agentic/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-basics/langchain4j-ai-services/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-basics/langchain4j-chat/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-basics/langchain4j-streaming/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-basics/langchain4j-structured-output/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-basics/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-basics/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-capstone/langchain4j-capstone-app/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-capstone/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-capstone/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-guardrails/langchain4j-classification/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-guardrails/langchain4j-guardrails-basics/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-guardrails/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-guardrails/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-mcp/langchain4j-mcp-ai-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-mcp/langchain4j-mcp-stdio/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-mcp/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-mcp/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-memory/langchain4j-chat-memory/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-memory/langchain4j-multi-user/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-memory/langchain4j-persistent-memory/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-memory/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-memory/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-patterns/langchain4j-pattern-parallel/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-patterns/langchain4j-pattern-routing/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-patterns/langchain4j-pattern-supervisor/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-patterns/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-patterns/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-rag/langchain4j-rag-advanced/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-rag/langchain4j-rag-basics/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-rag/langchain4j-rag-embeddings/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-rag/langchain4j-rag-etl/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-rag/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-rag/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-spring-boot/langchain4j-spring-boot-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-spring-boot/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-spring-boot/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-tools/langchain4j-tools-advanced/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-tools/langchain4j-tools-basics/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-tools/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/langchain4j-tools/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ai/langchain4j/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-agent/spring-ai-alibaba-agent-a2a/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-agent/spring-ai-alibaba-agent-filesystem/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ai/spring-ai-alibaba/spring-ai-alibaba-agent/spring-ai-alibaba-agent-hooks/src/main/java" charset="UTF-8" />
@@ -452,6 +502,9 @@
     <file url="file://$PROJECT_DIR$/distributed-infra/distributed-lock/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/distributed-infra/distributed-lock/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/distributed-infra/distributed-lock/zookeeper/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/distributed-infra/distributed-solutions/outbox/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/distributed-infra/distributed-solutions/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/distributed-infra/distributed-solutions/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/distributed-infra/distributed-transaction/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/distributed-infra/distributed-transaction/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/distributed-infra/src/main/java" charset="UTF-8" />
@@ -494,6 +547,7 @@
     <file url="file://$PROJECT_DIR$/mq/rabbitmq/rabbitmq-spring/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mq/rabbitmq/rabbitmq-springboot-amqp/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mq/rabbitmq/rabbitmq-springboot-amqp/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mq/rabbitmq/rabbitmq-springboot-confirm/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mq/rabbitmq/rabbitmq-springboot-demo/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mq/rabbitmq/rabbitmq-springboot-demo/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mq/rabbitmq/rabbitmq-springboot-project/rabbitmq-springboot-project-consumer/src/main/java" charset="UTF-8" />
@@ -502,6 +556,9 @@
     <file url="file://$PROJECT_DIR$/mq/rabbitmq/rabbitmq-springboot-project/rabbitmq-springboot-project-producer/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mq/rabbitmq/rabbitmq-springboot-project/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mq/rabbitmq/rabbitmq-springboot-project/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mq/rabbitmq/rabbitmq-springboot-reliable/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mq/rabbitmq/rabbitmq-springboot-transaction/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mq/rabbitmq/rabbitmq-springboot-tx-message/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mq/rabbitmq/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mq/rabbitmq/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mq/rocketmq/rocketmq-api/src/main/java" charset="UTF-8" />
@@ -548,6 +605,9 @@
     <file url="file://$PROJECT_DIR$/spring/spring-framework/spring-beans/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring/spring-framework/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring/spring-framework/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring/spring-integration/spring-integration-mqtt/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring/spring-integration/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring/spring-integration/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring/spring-mvc/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring/spring-mvc/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring/src/main/java" charset="UTF-8" />

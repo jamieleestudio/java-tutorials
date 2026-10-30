@@ -21,7 +21,7 @@
 
     <modules>
         <!-- Outbox 模式（本地消息表）+ 定时任务消费 -->
-        <module>outbox</module>
+        <module>distributed-solutions-outbox</module>
         <!-- TODO: 幂等消费 / 最大努力通知 / 数据对账 / 延迟任务 等解决方案 -->
     </modules>
 
