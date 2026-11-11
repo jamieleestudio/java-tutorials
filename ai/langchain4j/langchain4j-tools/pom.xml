@@ -17,6 +17,7 @@
     <modules>
         <module>langchain4j-tools-basics</module>
         <module>langchain4j-tools-advanced</module>
+        <module>langchain4j-tool-errors</module>
     </modules>
 
 </project>

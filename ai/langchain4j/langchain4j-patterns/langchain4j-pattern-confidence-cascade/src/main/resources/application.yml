@@ -1,0 +1,6 @@
+server:
+  port: 8727
+
+spring:
+  application:
+    name: langchain4j-pattern-confidence-cascade

@@ -118,10 +118,42 @@
 
 > 环境备注：编译依赖通过阿里云镜像下载正常；内网 Nexus（10.6.0.243）当前不可达，仅影响该私服特有的内部依赖，中央仓库 artifacts 不受影响。
 
-## 五、后续可跟进事项
+## 五、新特性实践落地（2026-11-11，P0 + P1）
+
+按规划落地 8 个新模块 + 2 个改造，覆盖 4 个框架的主要新特性（242 + 8 个模块全部编译通过）：
+
+### P0 新范式
+
+| 模块 | 演示特性 | 端口 | 前置条件 |
+|---|---|---|---|
+| `langchain4j/langchain4j-basics/langchain4j-decision-models` | `DecisionModel` 契约自适配（ChatModel → 决策模型）、`DecisionServices.create` + `@Decide`（boolean/枚举）、`DecisionModelChatModelRouter` 模型路由（1.21/1.22/1.23） | 8701 | DEEPSEEK_API_KEY |
+| `langchain4j/langchain4j-patterns/langchain4j-pattern-confidence-cascade` | Confidence Cascade：`decisionAgentBuilder` 决策智能体 + `threshold` + conditional 升级（1.23） | 8727 | DEEPSEEK_API_KEY |
+| `embabel/embabel-reasoning/embabel-decision-service` | `Ai.decisions()/classifications()` 类型安全决策/分类服务（1.5.4） | 8941 | DEEPSEEK_API_KEY |
+| `agentscope/agentscope-middleware/agentscope-run-control` | `prepareCall` → `AgentRun`（runId/status/cancel/interrupt）、`@Tool(returnDirect=true)` 短路、`fallbackModel + failoverListener`（2.0.4） | 9136 | OPENAI_API_KEY（DeepSeek 兼容） |
+
+### P1 重要增强
+
+| 模块 | 演示特性 | 端口 | 前置条件 |
+|---|---|---|---|
+| `embabel/embabel-ops/embabel-process-persistence` | `AgentProcessSnapshotStore` Bean 激活进程持久化 + checkpoint 快照观测（1.5.2/1.5.3） | 8943 | DEEPSEEK_API_KEY |
+| `embabel/embabel-integration/embabel-mcp-server`（改造） | SSE → **Streamable HTTP** 迁移（单端点 `/mcp`，SDK 2.0 `toolCall` API）（1.5.3） | 8927 | DEEPSEEK_API_KEY |
+| `langchain4j/langchain4j-tools/langchain4j-tool-errors` | `LlmVisibleToolExecutionException`：异常自行决定对 LLM 可见性（1.21） | 8702 | DEEPSEEK_API_KEY |
+| `langchain4j/langchain4j-agentic/langchain4j-agentic-observability`（扩展） | `AiServiceInvocationSummaryEvent` 一次 AI Service 调用全事件汇总（1.23） | 8721（复用） | DEEPSEEK_API_KEY |
+| `spring-ai/spring-ai-tools/spring-ai-tool-limits` | `spring.ai.tools.limits.*` 全局工具调用上限 + `ToolCallLimitBehavior`（2.0.1） | 8027 | OPENAI_API_KEY |
+| `agentscope/agentscope-basics/agentscope-responses-api` | `OpenAIResponsesChatModel`（official `/v1/responses` 端点 + 原生结构化输出）（2.0.4） | 9137 | OPENAI_API_KEY（官方） |
+
+### 实现要点（踩坑记录）
+
+- langchain4j 1.23 的 `@Tool` 描述已改为 `value` 属性（不再是 `description`）；`Confidence Cascade` 无独立类，用 `AgenticServices.decisionAgentBuilder(Class)` + `@Decide` + `threshold` 组合实现
+- embabel 决策/分类服务由 `LlmDecisionServicesAutoConfiguration` 自动注册，`ServiceSelector`（`defaultService()/named()/byRole()`）取用；答案按 `Proposition/Choice/Rating` 三种 `DecisionAnswer` 模式匹配解析
+- MCP Java SDK 2.0 的 server 工具注册从 `.tool(tool, (exchange, args) -> …)` 变为 `.toolCall(tool, (exchange, CallToolRequest) -> …)`，Streamable HTTP 单端点 + `Mcp-Session-Id` 会话
+- AgentScope 2.0.4 运行控制：`RuntimeContext` 必须显式传入（隐式 `activeRc` 已移除）；`Toolkit.registerTool(Object)` 注册 `@Tool` 注解工具
+
+## 六、后续可跟进事项
 
 1. **Spring AI 2.1.0 GA 后**再跟进：session memory（替代 ChatMemory）、DecisionModel API、MCP modern 协议、VectorStore.upsert
 2. **AgentScope 2.1.0 GA 后**评估 AgentScope Service（Docker/Compose/Helm 部署形态）
 3. langchain4j 可考虑将 `bge-small-zh` 迁移到持续维护的 **bge-small-zh-v15**（跟随 beta 线）
-4. embabel 教程可新增 Decision Service（1.5.4 类型安全决策）示例，与本仓库既有 decision/safety 主题呼应
-5. langchain4j Decision Models（1.21+）与 Confidence Cascade（1.23）可作为 agentic 模块的新教程候选
+4. langchain4j `langchain4j-test` 的 LLM judge（1.23）可作为 testing 专题的新模块（P2，暂缓）
+5. P2 清单（暂缓）：embabel DashScope 模块、embabel Claude 5.x thinking 扩展、agentscope MongoDB 存储、spring-ai 无状态 MCP server、langchain4j StreamingHandle 取消语义
+

@@ -5,7 +5,7 @@ import com.embabel.agent.core.AgentPlatform;
 import com.embabel.agent.domain.io.UserInput;
 import io.modelcontextprotocol.server.McpServer;
 import io.modelcontextprotocol.server.McpSyncServer;
-import io.modelcontextprotocol.server.transport.HttpServletSseServerTransportProvider;
+import io.modelcontextprotocol.server.transport.HttpServletStreamableServerTransportProvider;
 import io.modelcontextprotocol.spec.McpSchema;
 import jakarta.servlet.http.HttpServlet;
 import org.slf4j.Logger;
@@ -18,14 +18,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 把 Embabel Agent 暴露为 **MCP server**（SSE 传输）。
+ * 把 Embabel Agent 暴露为 **MCP server**（Streamable HTTP 传输）。
  *
  * <p>为什么自己搭：官方 {@code embabel-agent-starter-mcp-server} 在当前依赖仓库里不可用，
  * 而 MCP SDK 的 **server 端**类（{@code mcp-core}）在 classpath 上，因此这里手工装配——
  * 也正好看清 MCP server 的三个组成部分：
  * <ol>
- *   <li><b>传输</b>：{@link HttpServletSseServerTransportProvider}（SSE + POST 消息端点），
- *       注册成 Servlet</li>
+ *   <li><b>传输</b>：{@link HttpServletStreamableServerTransportProvider}。
+ *       1.5.3 起 Embabel 官方已把 MCP server 从**已废弃的 SSE** 迁移到
+ *       **Streamable HTTP**：单一端点 {@code /mcp} 上用 POST（JSON-RPC 请求/响应）、
+ *       GET（可选 SSE 服务器推送流）、DELETE（结束会话）完成全部交互，
+ *       不再需要 SSE 端点 + message 端点分离的旧协议</li>
  *   <li><b>服务</b>：{@code McpServer.sync(transport)} 声明 serverInfo 与工具</li>
  *   <li><b>工具实现</b>：工具被调用时，转成一次 Embabel Agent 调用（{@link AgentInvocation}）</li>
  * </ol>
@@ -38,16 +41,15 @@ public class McpServerConfig {
     private static final Logger log = LoggerFactory.getLogger(McpServerConfig.class);
 
     @Bean
-    public HttpServletSseServerTransportProvider sseTransportProvider() {
-        return HttpServletSseServerTransportProvider.builder()
-                .sseEndpoint("/sse")
-                .messageEndpoint("/mcp/message")
+    public HttpServletStreamableServerTransportProvider streamableTransportProvider() {
+        return HttpServletStreamableServerTransportProvider.builder()
+                .mcpEndpoint("/mcp")
                 .build();
     }
 
-    @Bean(destroyMethod = "close")
+    @Bean(destroyMethod = "closeGracefully")
     public McpSyncServer mcpServer(
-            HttpServletSseServerTransportProvider transportProvider,
+            HttpServletStreamableServerTransportProvider transportProvider,
             AgentPlatform agentPlatform) {
 
         McpSchema.Tool askTool = McpSchema.Tool.builder()
@@ -67,8 +69,8 @@ public class McpServerConfig {
         McpSyncServer server = McpServer.sync(transportProvider)
                 .serverInfo("embabel-mcp-server", "1.0.0")
                 .instructions("把 Embabel Agent 的能力通过 MCP 暴露给任意 MCP 客户端")
-                .tool(askTool, (exchange, arguments) -> {
-                    String question = String.valueOf(arguments.getOrDefault("question", ""));
+                .toolCall(askTool, (exchange, request) -> {
+                    String question = String.valueOf(request.arguments().getOrDefault("question", ""));
                     log.info("MCP tool 'ask_embabel' invoked with: {}", question);
                     try {
                         Reply reply = AgentInvocation.create(agentPlatform, Reply.class)
@@ -87,14 +89,14 @@ public class McpServerConfig {
                 })
                 .build();
 
-        log.info("MCP server started with tool: ask_embabel");
+        log.info("MCP server started (Streamable HTTP) with tool: ask_embabel");
         return server;
     }
 
-    /** 把 SSE 传输注册为 Servlet：/sse（事件流）与 /mcp/message（JSON-RPC 消息） */
+    /** 把 Streamable HTTP 传输注册为 Servlet：单一端点 /mcp（POST 请求、GET 推送流、DELETE 结束会话）。 */
     @Bean
     public ServletRegistrationBean<HttpServlet> mcpServlet(
-            HttpServletSseServerTransportProvider transportProvider) {
-        return new ServletRegistrationBean<>(transportProvider, "/sse", "/mcp/message");
+            HttpServletStreamableServerTransportProvider transportProvider) {
+        return new ServletRegistrationBean<>(transportProvider, "/mcp");
     }
 }

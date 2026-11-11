@@ -18,6 +18,7 @@
         <module>langchain4j-pattern-routing</module>
         <module>langchain4j-pattern-parallel</module>
         <module>langchain4j-pattern-supervisor</module>
+        <module>langchain4j-pattern-confidence-cascade</module>
     </modules>
 
 </project>

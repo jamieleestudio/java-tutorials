@@ -1,0 +1,6 @@
+server:
+  port: 8702
+
+spring:
+  application:
+    name: langchain4j-tool-errors

@@ -19,6 +19,7 @@
         <module>langchain4j-ai-services</module>
         <module>langchain4j-streaming</module>
         <module>langchain4j-structured-output</module>
+        <module>langchain4j-decision-models</module>
     </modules>
 
 </project>

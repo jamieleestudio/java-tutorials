@@ -1,0 +1,6 @@
+server:
+  port: 8701
+
+spring:
+  application:
+    name: langchain4j-decision-models

@@ -12,7 +12,7 @@
 
     <artifactId>embabel-mcp-server</artifactId>
     <name>embabel-mcp-server</name>
-    <description>Embabel Agent Framework: expose an agent as an MCP server (SSE transport)</description>
+    <description>Embabel Agent Framework: expose an agent as an MCP server (Streamable HTTP transport, migrated from deprecated SSE per Embabel 1.5.3)</description>
 
     <dependencies>
         <dependency>

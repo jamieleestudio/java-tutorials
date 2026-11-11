@@ -18,6 +18,7 @@
     <modules>
         <module>agentscope-context-compaction</module>
         <module>agentscope-custom-budget</module>
+        <module>agentscope-run-control</module>
     </modules>
 
 </project>

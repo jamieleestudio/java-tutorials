@@ -6,15 +6,25 @@ import dev.langchain4j.agentic.AgenticServices;
 import dev.langchain4j.agentic.UntypedAgent;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.observability.api.event.AiServiceInvocationSummaryEvent;
+import dev.langchain4j.observability.api.listener.AiServiceInvocationSummaryListener;
+import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.UserMessage;
 import dev.langchain4j.service.V;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 /**
  * Agentic 可观测：{@code AgentMonitor} 记录整棵调用树（含耗时/token），
  * {@code HtmlReportGenerator} 可导出 HTML 执行报告 —— 与 SAA 的 AgentMonitor
  * 同名工具，Java 两大框架的可观测设计趋同。
+ *
+ * <p>1.23 新增：AI Service 侧的 {@link AiServiceInvocationSummaryEvent} ——
+ * 一次 AI Service 调用的**全部事件汇总**（请求/工具调用/token/完成或失败），
+ * 通过 {@code AiServices.registerListeners} 注册
+ * {@link AiServiceInvocationSummaryListener} 即可拿到。
  */
 @Configuration
 public class AgenticObservabilityConfig {
@@ -31,6 +41,28 @@ public class AgenticObservabilityConfig {
         @UserMessage("润色下面的故事，只输出润色结果：\n{{story}}")
         @Agent("Polishes a story")
         String polish(@V("story") String story);
+    }
+
+    /** 普通AI Service：演示 1.23 的调用汇总事件。 */
+    public interface Assistant {
+
+        @UserMessage("用一句话回答：{{question}}")
+        String answer(@V("question") String question);
+    }
+
+    /** 捕获最近一次 {@link AiServiceInvocationSummaryEvent}。 */
+    public static class CapturingSummaryListener implements AiServiceInvocationSummaryListener {
+
+        private final AtomicReference<AiServiceInvocationSummaryEvent> last = new AtomicReference<>();
+
+        @Override
+        public void onEvent(AiServiceInvocationSummaryEvent event) {
+            last.set(event);
+        }
+
+        public AiServiceInvocationSummaryEvent last() {
+            return last.get();
+        }
     }
 
     @Bean
@@ -63,6 +95,19 @@ public class AgenticObservabilityConfig {
                 .subAgents(writer, polisher)
                 .listener(monitor)
                 .outputKey("story")
+                .build();
+    }
+
+    @Bean
+    public CapturingSummaryListener capturingSummaryListener() {
+        return new CapturingSummaryListener();
+    }
+
+    @Bean
+    public Assistant summarizableAssistant(ChatModel chatModel, CapturingSummaryListener listener) {
+        return AiServices.builder(Assistant.class)
+                .chatModel(chatModel)
+                .registerListeners(listener)
                 .build();
     }
 }

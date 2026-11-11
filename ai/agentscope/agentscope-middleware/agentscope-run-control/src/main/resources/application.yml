@@ -1,0 +1,12 @@
+server:
+  port: 9136
+
+spring:
+  application:
+    name: agentscope-run-control
+
+agentscope:
+  model:
+    name: deepseek-v4-flash
+    api-key: ${OPENAI_API_KEY:}
+    base-url: https://api.deepseek.com

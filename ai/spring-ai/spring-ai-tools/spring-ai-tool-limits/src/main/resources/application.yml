@@ -1,0 +1,20 @@
+server:
+  port: 8027
+
+spring:
+  application:
+    name: spring-ai-tool-limits
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      base-url: https://api.deepseek.com
+      chat:
+        options:
+          model: deepseek-chat
+          temperature: 0.7
+    # 2.0.1 新特性：工具调用上限（全局）。超限默认优雅降级：把错误作为工具结果回给模型。
+    tools:
+      limits:
+        max-calls-per-tool-default: 2
+        max-total-tool-calls: 8
+        on-limit-exceeded: RETURN_ERROR_RESPONSE

@@ -1,0 +1,12 @@
+server:
+  port: 9137
+
+spring:
+  application:
+    name: agentscope-responses-api
+
+# OpenAI 官方 Responses API：需要真实的 OPENAI_API_KEY（DeepSeek 不支持 Responses 端点）。
+# 模型可用 AGENTSCOPE_RESPONSES_MODEL 覆盖（默认 gpt-4.1-mini）。
+agentscope:
+  responses:
+    model: gpt-4.1-mini

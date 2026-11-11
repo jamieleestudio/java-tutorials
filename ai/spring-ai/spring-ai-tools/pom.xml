@@ -19,6 +19,7 @@
         <module>spring-ai-function-calling</module>
         <module>spring-ai-tool-context</module>
         <module>spring-ai-mcp-client</module>
+        <module>spring-ai-tool-limits</module>
     </modules>
 
 </project>
