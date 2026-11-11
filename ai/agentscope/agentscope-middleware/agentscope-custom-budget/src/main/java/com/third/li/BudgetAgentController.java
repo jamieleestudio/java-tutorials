@@ -25,12 +25,12 @@ public class BudgetAgentController {
     @GetMapping("/budget/unlimited")
     public String unlimited(
             @RequestParam(value = "message", defaultValue = "请详细介绍 Spring Boot 的自动注入原理") String message) {
-        return agent.chatUnlimited(message);
+        return agent.chatWithoutBudget(message);
     }
 
     /** 查看预算报告。 */
     @GetMapping("/budget/report")
     public String report() {
-        return agent.report();
+        return "已用 token：" + agent.usedTokens() + " / 预算：" + agent.budget();
     }
 }

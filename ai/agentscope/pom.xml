@@ -11,17 +11,17 @@
     </parent>
 
     <!-- AgentScope 教程的根聚合器。各叶子模块的 parent 指向这里，
-         这样它们共用 Boot 4.0.3 + AgentScope BOM 2.0.3 的版本管理。 -->
+         这样它们共用 Boot 4.0.3 + AgentScope BOM 2.0.4 的版本管理。 -->
     <groupId>com.third.li</groupId>
     <artifactId>agentscope</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
     <name>agentscope</name>
-    <description>AgentScope Java 教程：用 io.agentscope 2.0.3 + Spring Boot 4.0.3 演示 AgentScope 的核心能力与独有特性</description>
+    <description>AgentScope Java 教程：用 io.agentscope 2.0.4 + Spring Boot 4.0.3 演示 AgentScope 的核心能力与独有特性</description>
 
     <properties>
         <java.version>21</java.version>
-        <agentscope.version>2.0.3</agentscope.version>
+        <agentscope.version>2.0.4</agentscope.version>
     </properties>
 
     <dependencyManagement>

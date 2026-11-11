@@ -15,9 +15,9 @@
     <description>Embabel Agent Framework: programmatic agent construction with the Kotlin DSL (agent/promptedTransformer/transformation/goal/flow/aggregate)</description>
 
     <properties>
-        <!-- 必须 >= Embabel 1.0.0 的编译版本（其 Kotlin metadata 为 2.1.0）；
-             Spring Boot 3.5 默认把 kotlin.version 管到 1.9.25，这里显式覆盖。 -->
-        <kotlin.version>2.1.0</kotlin.version>
+        <!-- 必须匹配 Embabel 1.5.4 的编译版本（其 Kotlin metadata 为 2.2.21，
+             旧编译器无法读取新 metadata）；Boot 4.1 默认管理的 Kotlin 版本可能略低，这里显式对齐。 -->
+        <kotlin.version>2.2.21</kotlin.version>
     </properties>
 
     <dependencies>

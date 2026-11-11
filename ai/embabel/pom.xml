@@ -6,8 +6,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>4.1.1</version>
+        <relativePath/> <!-- Embabel 1.5.x 官方基于 Boot 4.1.1 + Spring AI 2.0.x 构建，parent 必须对齐 -->
     </parent>
 
     <groupId>com.third.li</groupId>
@@ -30,7 +30,7 @@
 
     <properties>
         <java.version>21</java.version>
-        <embabel-agent.version>1.0.0</embabel-agent.version>
+        <embabel-agent.version>1.5.4</embabel-agent.version>
     </properties>
 
     <dependencyManagement>

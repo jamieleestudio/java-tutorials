@@ -11,17 +11,17 @@
     </parent>
 
     <!-- Spring AI 教程的根聚合器。各叶子模块的 parent 指向这里，
-         这样它们共用 Boot 4.0.3 + Spring AI BOM 2.0.0 的版本管理。 -->
+         这样它们共用 Boot 4.0.3 + Spring AI BOM 2.0.2 的版本管理。 -->
     <groupId>com.third.li</groupId>
     <artifactId>spring-ai</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
     <name>spring-ai</name>
-    <description>Spring AI 2.0.0 教程：ChatClient + Advisor + RAG + Tools + Patterns</description>
+    <description>Spring AI 2.0.2 教程：ChatClient + Advisor + RAG + Tools + Patterns</description>
 
     <properties>
         <java.version>21</java.version>
-        <spring-ai.version>2.0.0</spring-ai.version>
+        <spring-ai.version>2.0.2</spring-ai.version>
     </properties>
 
     <dependencyManagement>

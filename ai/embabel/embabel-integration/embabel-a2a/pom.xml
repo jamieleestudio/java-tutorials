@@ -15,7 +15,7 @@
     <description>Embabel Agent Framework: A2A (Agent2Agent) server exposure and client call</description>
 
     <properties>
-        <!-- A2A 协议 SDK（与 Embabel 1.0.0 内部使用的 0.3.x 保持一致） -->
+        <!-- A2A 协议 SDK（与 Embabel 1.5.4 内部使用的 0.3.2.Final 保持一致） -->
         <a2a-sdk.version>0.3.2.Final</a2a-sdk.version>
     </properties>
 
